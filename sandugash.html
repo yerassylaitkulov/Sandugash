@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English with Sandugash</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f6f4ef;--surface:#fff;--border:#e5e1d8;--text:#1c1a16;--muted:#7b7568;
+  --accent:#2d5a3d;--accent-l:#e8f0eb;--accent2:#7c4f2a;--accent2-l:#f5ece3;
+  --danger:#bc3a2e;--danger-l:#fdf0ef;--warn:#a06b1a;--warn-l:#fef8ec;
+  --purple:#5548c8;--purple-l:#eeedfc;--teal:#1a6b6b;--teal-l:#e5f5f5;
+  --r:12px;--rs:8px;--sw:230px;--tr:0.17s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);font-size:15px;line-height:1.65;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sb{width:var(--sw);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:1.4rem 1.25rem 1.1rem;border-bottom:1px solid var(--border)}
+.sb-logo h1{font-family:'DM Serif Display',serif;font-size:17px;font-weight:400;letter-spacing:-0.3px;line-height:1.3}
+.sb-logo p{font-size:12px;color:var(--muted);margin-top:3px}
+.nav-sec{padding:.9rem 0 .3rem}
+.nav-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:0 1.25rem .35rem}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 1.25rem;cursor:pointer;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:all var(--tr);user-select:none}
+.ni:hover{background:var(--bg);color:var(--text)}
+.ni.active{background:var(--accent-l);color:var(--accent);border-left-color:var(--accent);font-weight:500}
+.ni.locked{opacity:.38;cursor:not-allowed;pointer-events:none}
+.ni.done .nd{background:var(--accent)}
+.nd{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background var(--tr)}
+.ni.active .nd{background:var(--accent)}
+.nbadge{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+
+/* MAIN */
+.main{flex:1;overflow-y:auto}
+.page{display:none;padding:2.25rem 2rem;max-width:860px}
+.page.active{display:block;animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:1.75rem}
+.ph h2{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;letter-spacing:-.4px}
+.ph p{font-size:13.5px;color:var(--muted);margin-top:3px}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1rem}
+.ctitle{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.9rem}
+
+/* PROGRESS */
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:1.1rem}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:.9rem 1.1rem}
+.mval{font-family:'DM Serif Display',serif;font-size:30px;font-weight:400;line-height:1}
+.mlbl{font-size:12px;color:var(--muted);margin-top:3px}
+.bar-row{margin-bottom:10px}
+.bar-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:4px}
+.bar-meta span:last-child{font-weight:500;color:var(--text)}
+.bar-track{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.hw-journey{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.hw-tile{border:1px solid var(--border);border-radius:var(--rs);padding:.75rem 1rem;text-align:center;cursor:pointer;transition:border-color var(--tr),background var(--tr)}
+.hw-tile:hover:not(.hw-locked){border-color:#aaa}
+.hw-tile.hw-done{border-color:#9fc4ad;background:#f3faf6}
+.hw-tile.hw-open{border-color:var(--accent2);background:var(--accent2-l)}
+.hw-tile.hw-locked{opacity:.4;cursor:default}
+.hw-tile.hw-mid{grid-column:span 3;border-color:#b0a8e8;background:var(--purple-l);cursor:default}
+.ht-num{font-size:13px;font-weight:500}
+.ht-sc{font-size:12px;margin-top:2px}
+
+/* DICTIONARY */
+.dict-top{display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
+.dsearch{flex:1;min-width:180px;padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color var(--tr)}
+.dsearch:focus{border-color:var(--accent)}
+.dfilter{padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer}
+.dtable{width:100%;border-collapse:collapse}
+.dtable th{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:0 0 8px;text-align:left;border-bottom:1px solid var(--border)}
+.dtable td{padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:middle}
+.dtable tr:last-child td{border-bottom:none}
+.dword{font-weight:500}
+.dpos{font-size:11px;padding:2px 7px;border-radius:10px;display:inline-block;white-space:nowrap}
+.stars{cursor:pointer;letter-spacing:1px;font-size:14px;user-select:none}
+.s5{color:var(--accent)}.s4{color:var(--accent)}.s3{color:var(--warn)}.s2{color:var(--danger)}.s1{color:var(--danger)}
+
+/* GRAMMAR */
+.grule{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.4rem;margin-bottom:.85rem}
+.gtag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;margin-bottom:.6rem}
+.grule h3{font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;margin-bottom:.4rem}
+.grule p{font-size:13.5px;color:var(--muted);line-height:1.7}
+.gex{background:var(--bg);padding:9px 13px;margin-top:9px;border-left:2.5px solid var(--accent);font-size:13.5px;line-height:1.7}
+.gex em{color:var(--muted);font-style:normal}.gex strong{color:var(--accent);font-weight:500}
+.gtable{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+.gtable th{background:var(--bg);padding:7px 10px;text-align:left;font-weight:500;border:1px solid var(--border)}
+.gtable td{padding:7px 10px;border:1px solid var(--border)}
+
+/* PRONUNCIATION */
+.prow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.prow:last-child{border-bottom:none}
+.pw{font-weight:500;min-width:160px;font-size:14.5px}
+.pipa{font-size:13.5px;color:var(--muted);flex:1;font-family:Georgia,serif}
+.pbtn{padding:5px 13px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer;transition:all var(--tr);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.pbtn:hover{background:var(--accent-l);border-color:var(--accent);color:var(--accent)}
+.pico{width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:7px solid currentColor;display:inline-block}
+
+/* HOMEWORK */
+.ex{margin-bottom:1.15rem;padding-bottom:1.15rem;border-bottom:1px solid var(--border)}
+.ex:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.exnum{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.exq{font-size:15px;margin-bottom:9px}
+.exrow{display:flex;gap:7px;align-items:center}
+.exinput{flex:1;padding:8px 13px;border:1px solid var(--border);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:var(--bg);outline:none;transition:border-color var(--tr),background var(--tr)}
+.exinput:focus{border-color:var(--accent);background:var(--surface)}
+.exinput.ok{border-color:var(--accent);background:var(--accent-l);color:var(--accent)}
+.exinput.err{border-color:var(--danger);background:var(--danger-l);color:var(--danger)}
+.exinput[readonly]{cursor:default}
+.cbtn{padding:8px 15px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);cursor:pointer;transition:all var(--tr);white-space:nowrap}
+.cbtn:hover{background:var(--accent-l);border-color:var(--accent);color:var(--accent)}
+.fb{font-size:12.5px;margin-top:5px}
+.fb.ok{color:var(--accent)}.fb.err{color:var(--danger)}
+.mcopts{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.mcbtn{padding:6px 15px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--text);transition:all var(--tr)}
+.mcbtn:hover:not(:disabled){background:var(--bg)}
+.mcbtn.mc-ok{background:var(--accent-l);border-color:var(--accent);color:var(--accent);font-weight:500}
+.mcbtn.mc-err{background:var(--danger-l);border-color:var(--danger);color:var(--danger)}
+.subhw{padding:10px 26px;background:var(--accent);color:#fff;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity var(--tr);margin-top:1.25rem}
+.subhw:hover{opacity:.85}
+.hw-result{display:inline-block;font-size:14px;font-weight:400;margin-left:10px}
+
+/* MIDTERM LOCK */
+.mtlock{text-align:center;padding:2.5rem 1.5rem}
+.mtlock-ico{font-size:44px;margin-bottom:.75rem}
+.mtlock h3{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--purple);margin-bottom:.4rem}
+.mtlock p{color:var(--muted);font-size:13.5px}
+.mt-dots{display:flex;gap:7px;justify-content:center;margin-top:1.1rem;flex-wrap:wrap}
+.mtd{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:1.5px solid var(--border)}
+.mtd.done{background:var(--accent-l);border-color:var(--accent);color:var(--accent)}
+.mtd.pend{background:var(--bg);color:var(--muted)}
+
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+@media(max-width:640px){
+  .sb{width:56px}.sb-logo p,.nav-lbl,.nbadge,.ni span:not(.nd){display:none}
+  .ni{padding:9px;justify-content:center}.page{padding:1.1rem}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.hw-journey{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hw-tile.hw-mid{grid-column:span 2}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sb">
+  <div class="sb-logo">
+    <h1>English<br>with me</h1>
+    <p>Sandugash's portal</p>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Overview</div>
+    <div class="ni active" data-page="progress"><span class="nd"></span>My progress<span class="nbadge" style="background:var(--accent-l);color:var(--accent)">live</span></div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Study</div>
+    <div class="ni" data-page="dictionary"><span class="nd"></span>Dictionary</div>
+    <div class="ni" data-page="grammar"><span class="nd"></span>Grammar</div>
+    <div class="ni" data-page="pronunciation"><span class="nd"></span>Pronunciation</div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">Homework</div>
+    <div class="ni" data-page="hw1"><span class="nd"></span>HW 1<span class="nbadge" style="background:var(--warn-l);color:var(--warn)">open</span></div>
+    <div class="ni locked" data-page="hw2"><span class="nd"></span>HW 2</div>
+    <div class="ni locked" data-page="hw3"><span class="nd"></span>HW 3</div>
+    <div class="ni locked" data-page="hw4"><span class="nd"></span>HW 4</div>
+    <div class="ni locked" data-page="hw5"><span class="nd"></span>HW 5</div>
+    <div class="ni locked" data-page="hw6"><span class="nd"></span>HW 6</div>
+    <div class="ni locked" data-page="midterm" style="color:var(--purple)"><span class="nd" style="background:#b0a8e8"></span>Midterm</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- PROGRESS PAGE -->
+<div class="page active" id="page-progress">
+  <div class="ph"><h2>My progress</h2><p>Track your vocabulary mastery and homework journey</p></div>
+  <div class="metrics">
+    <div class="metric"><div class="mval" style="color:var(--purple)" id="pm-total">112</div><div class="mlbl">Words in dictionary</div></div>
+    <div class="metric"><div class="mval" style="color:var(--accent)" id="pm-hw">0 / 6</div><div class="mlbl">Homework done</div></div>
+    <div class="metric"><div class="mval" style="color:var(--accent2)" id="pm-avg">—</div><div class="mlbl">Average score</div></div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Vocabulary mastery</div>
+    <div class="bar-row"><div class="bar-meta"><span>Mastered (★★★★★)</span><span id="bv5">0 words</span></div><div class="bar-track"><div class="bar-fill" id="bf5" style="background:var(--accent);width:0%"></div></div></div>
+    <div class="bar-row"><div class="bar-meta"><span>Practicing (★★★☆☆)</span><span id="bv3">0 words</span></div><div class="bar-track"><div class="bar-fill" id="bf3" style="background:var(--warn);width:0%"></div></div></div>
+    <div class="bar-row"><div class="bar-meta"><span>Needs review (★☆☆☆☆)</span><span id="bv1">0 words</span></div><div class="bar-track"><div class="bar-fill" id="bf1" style="background:var(--danger);width:0%"></div></div></div>
+    <div style="font-size:12px;color:var(--muted);margin-top:6px">Go to Dictionary → click the stars to update your level for each word</div>
+  </div>
+  <div class="card">
+    <div class="ctitle">Homework journey</div>
+    <div class="hw-journey">
+      <div class="hw-tile hw-open" onclick="goPage('hw1')"><div class="ht-num">HW 1</div><div class="ht-sc" style="color:var(--accent2)">open now</div></div>
+      <div class="hw-tile hw-locked"><div class="ht-num">HW 2</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked"><div class="ht-num">HW 3</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked"><div class="ht-num">HW 4</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked"><div class="ht-num">HW 5</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked"><div class="ht-num">HW 6</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-mid"><div class="ht-num" style="color:var(--purple)">Midterm — unlocks after completing all 6 homeworks</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DICTIONARY PAGE -->
+<div class="page" id="page-dictionary">
+  <div class="ph"><h2>Dictionary</h2><p>All 112 words and phrases — click the stars to rate how well you know each one</p></div>
+  <div class="dict-top">
+    <input class="dsearch" id="dsearch" placeholder="Search words or translation…" oninput="filterDict()">
+    <select class="dfilter" id="dfilter" onchange="filterDict()">
+      <option value="">All categories</option>
+      <option value="noun">Noun</option>
+      <option value="verb">Verb</option>
+      <option value="phrase">Phrase</option>
+      <option value="adj">Adjective</option>
+      <option value="adverb">Adverb</option>
+      <option value="irreg.">Irregular verb</option>
+      <option value="gram.">Grammar</option>
+      <option value="body">Body</option>
+      <option value="clothes">Clothes</option>
+    </select>
+  </div>
+  <div class="card" style="padding:1rem 1.5rem">
+    <table class="dtable">
+      <thead><tr><th style="width:36%">Word / phrase</th><th style="width:13%">Type</th><th style="width:36%">Translation</th><th style="width:15%">Level</th></tr></thead>
+      <tbody id="dtbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- GRAMMAR PAGE -->
+<div class="page" id="page-grammar">
+  <div class="ph"><h2>Grammar rules</h2><p>All grammar topics from your lessons with explanations and examples</p></div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#eeedfc;color:#5548c8">Comparison</span>
+    <h3>Comparative & superlative adjectives</h3>
+    <p>Use <strong>comparative</strong> to compare two things; <strong>superlative</strong> for the most/least in a group. Also use <strong>as…as</strong> for equality.</p>
+    <table class="gtable">
+      <tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
+      <tr><td>tall</td><td>taller <em>than</em></td><td>the tallest</td></tr>
+      <tr><td>beautiful</td><td>more beautiful <em>than</em></td><td>the most beautiful</td></tr>
+      <tr><td>good</td><td>better <em>than</em></td><td>the best</td></tr>
+      <tr><td>bad</td><td>worse <em>than</em></td><td>the worst</td></tr>
+    </table>
+    <div class="gex">She is <strong>taller than</strong> her sister. / He is <strong>the most competitive</strong> player.<br><em>As…as:</em> She is <strong>as slim as</strong> her mother.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#e8f0eb;color:#2d5a3d">Modals</span>
+    <h3>Have to / must / should</h3>
+    <p><strong>Must</strong> = strong personal obligation. <strong>Have to</strong> = external obligation. <strong>Should</strong> = advice. Negatives change meaning completely.</p>
+    <div class="gex">You <strong>must</strong> take your medicine. (strong obligation)<br>I <strong>have to</strong> be at school by 8. (rule/external)<br>You <strong>should</strong> take notes in class. (advice)<br>You <strong>don't have to</strong> come. (not necessary — it's optional)<br>I <strong>mustn't</strong> forget. (prohibition)</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#e5f5f5;color:#1a6b6b">Have got</span>
+    <h3>Haven't got</h3>
+    <p><strong>Have got</strong> = possession (British English). Negative: <strong>haven't got</strong>. Same meaning as "don't have".</p>
+    <div class="gex">I <strong>haven't got</strong> a sword. = I <strong>don't have</strong> a sword.<br>She <strong>has got</strong> sensitive skin. = She <strong>has</strong> sensitive skin.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#f5ece3;color:#7c4f2a">Past tenses</span>
+    <h3>Past Simple vs Past Continuous</h3>
+    <p><strong>Past Continuous</strong>: was/were + -ing → action in progress at a specific moment.<br><strong>Past Simple</strong> interrupts it.</p>
+    <div class="gex">I <strong>was reading</strong> when she <strong>arrived</strong>.<br>While he <strong>was sleeping</strong>, she <strong>left</strong>.<br>They <strong>were playing</strong> football all afternoon.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#f5ece3;color:#7c4f2a">Past tenses</span>
+    <h3>Past Perfect</h3>
+    <p>Use Past Perfect for the action that happened <em>first</em>, before another past action. Form: <strong>had + past participle</strong>.</p>
+    <div class="gex">She <strong>had already left</strong> when I arrived.<br>By the time the film started, we <strong>had found</strong> our seats.<br>He was tired because he <strong>had walked</strong> all day.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#eeedfc;color:#5548c8">Passive</span>
+    <h3>Passive voice</h3>
+    <p>Focus on the action, not who does it. Form: <strong>is/are/was/were + past participle</strong>.</p>
+    <div class="gex"><em>Active:</em> People consider this valuable.<br><strong>Passive:</strong> This <strong>is considered</strong> valuable.<br><strong>Passive past:</strong> The castle <strong>was built</strong> in 1200.<br>Refugees <strong>are being helped</strong> by volunteers.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#fef8ec;color:#a06b1a">Present Perfect</span>
+    <h3>Present Perfect — for, since, ever, never, always</h3>
+    <p>Form: <strong>have/has + past participle</strong>. Use for past actions with a connection to now.</p>
+    <div class="gex">I <strong>have lived</strong> here <strong>for</strong> 5 years. (duration up to now)<br>She <strong>has worked</strong> here <strong>since</strong> 2019. (from a point in time)<br>Have you <strong>ever</strong> visited London? / I have <strong>never</strong> eaten sushi.<br>I have <strong>always</strong> wanted to travel.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#fef8ec;color:#a06b1a">Present Perfect</span>
+    <h3>Present Perfect or Past Simple?</h3>
+    <p><strong>Past Simple</strong>: finished time (yesterday, in 2020, last week). <strong>Present Perfect</strong>: unfinished time or no specific time.</p>
+    <div class="gex">I <strong>went</strong> to Paris last year. ✓ (finished, specific time)<br>I <strong>have been</strong> to Paris. ✓ (experience, no specific time)<br>She <strong>has lost</strong> her keys. ✓ (still relevant now)<br>She <strong>lost</strong> her keys yesterday. ✓ (finished)</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#e8f0eb;color:#2d5a3d">Future</span>
+    <h3>Going to / will / Present Continuous for future</h3>
+    <table class="gtable">
+      <tr><th>Form</th><th>Use</th><th>Example</th></tr>
+      <tr><td><strong>going to</strong></td><td>plans & predictions with evidence</td><td>I'm going to study tonight.</td></tr>
+      <tr><td><strong>will</strong></td><td>spontaneous decisions, promises, offers</td><td>I'll help you carry that!</td></tr>
+      <tr><td><strong>Present Continuous</strong></td><td>fixed future arrangements</td><td>I'm meeting her at 6.</td></tr>
+    </table>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#e5f5f5;color:#1a6b6b">Articles</span>
+    <h3>Articles — a / an / the / Ø</h3>
+    <div class="gex"><strong>a/an</strong> = first mention, one of many: <em>I saw <strong>a</strong> refugee at the border.</em><br><strong>the</strong> = specific, both speakers know: <em><strong>The</strong> refugee I mentioned is safe.</em><br><strong>Ø (no article)</strong> = plural/uncountable general: <em><strong>Refugees</strong> need help. <strong>Water</strong> is essential.</em></div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#eeedfc;color:#5548c8">Intensifiers</span>
+    <h3>So / such / so much / so many</h3>
+    <p><strong>So</strong> + adjective/adverb. <strong>Such</strong> + (a/an) + noun. <strong>So much</strong> + uncountable. <strong>So many</strong> + countable plural.</p>
+    <div class="gex">It was <strong>so</strong> unusual. / She is <strong>such</strong> a brave person.<br>There was <strong>so much</strong> traffic. / There were <strong>so many</strong> people.</div>
+  </div>
+
+  <div class="grule">
+    <span class="gtag" style="background:#fdf0ef;color:#bc3a2e">Irregular verbs</span>
+    <h3>Key irregular verb forms</h3>
+    <table class="gtable">
+      <tr><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th></tr>
+      <tr><td>send</td><td>sent</td><td>sent</td></tr>
+      <tr><td>sell</td><td>sold</td><td>sold</td></tr>
+      <tr><td>bring</td><td>brought</td><td>brought</td></tr>
+      <tr><td>find</td><td>found</td><td>found</td></tr>
+      <tr><td>found (establish)</td><td>founded</td><td>founded</td></tr>
+      <tr><td>take</td><td>took</td><td>taken</td></tr>
+      <tr><td>bite</td><td>bit</td><td>bitten</td></tr>
+      <tr><td>carry</td><td>carried</td><td>carried</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- PRONUNCIATION PAGE -->
+<div class="page" id="page-pronunciation">
+  <div class="ph"><h2>Pronunciation</h2><p>Press play to hear the word spoken aloud in English</p></div>
+  <div class="card" style="padding:.9rem 1.5rem" id="pronlist"></div>
+</div>
+
+<!-- HW1 -->
+<div class="page" id="page-hw1">
+  <div class="ph">
+    <h2>Homework 1<span class="hw-result" id="hw1-result"></span></h2>
+    <p>Vocabulary &amp; phrases — type your answers and check each one</p>
+  </div>
+  <div class="card">
+    <div class="ex">
+      <div class="exnum">Exercise 1 — Translation</div>
+      <div class="exq">Translate into English: «Беженец»</div>
+      <div class="exrow"><input class="exinput" id="h1e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e1','refugee','h1f1')">Check</button></div>
+      <div class="fb" id="h1f1"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 2 — Translation</div>
+      <div class="exq">Translate into English: «Избегать»</div>
+      <div class="exrow"><input class="exinput" id="h1e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e2','avoid','h1f2')">Check</button></div>
+      <div class="fb" id="h1f2"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 3 — Translation</div>
+      <div class="exq">Translate: «Позволить себе (по деньгам)»</div>
+      <div class="exrow"><input class="exinput" id="h1e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e3','afford','h1f3')">Check</button></div>
+      <div class="fb" id="h1f3"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 4 — Fill in</div>
+      <div class="exq">Fill in: «The army decided to ___ the country.» (вторгнуться)</div>
+      <div class="exrow"><input class="exinput" id="h1e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e4','invade','h1f4')">Check</button></div>
+      <div class="fb" id="h1f4"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 5 — Multiple choice</div>
+      <div class="exq">Which sentence uses <em>as…as</em> correctly?</div>
+      <div class="mcopts">
+        <button class="mcbtn" onclick="mc(this,'err','h1m5')">She is as brave than her brother.</button>
+        <button class="mcbtn" onclick="mc(this,'ok','h1m5')">She is as brave as her brother.</button>
+        <button class="mcbtn" onclick="mc(this,'err','h1m5')">She is as more brave as her brother.</button>
+      </div>
+      <div class="fb" id="h1m5"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 6 — Translation</div>
+      <div class="exq">Translate: «Необычный»</div>
+      <div class="exrow"><input class="exinput" id="h1e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e6','unusual','h1f6')">Check</button></div>
+      <div class="fb" id="h1f6"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 7 — Fill in</div>
+      <div class="exq">Fill in: «I ___ seen that film before.» (Present Perfect, never)</div>
+      <div class="exrow"><input class="exinput" id="h1e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e7','have never','h1f7')">Check</button></div>
+      <div class="fb" id="h1f7"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 8 — Multiple choice</div>
+      <div class="exq">Which is correct?</div>
+      <div class="mcopts">
+        <button class="mcbtn" onclick="mc(this,'err','h1m8')">I must to study.</button>
+        <button class="mcbtn" onclick="mc(this,'ok','h1m8')">I must study.</button>
+        <button class="mcbtn" onclick="mc(this,'err','h1m8')">I must studying.</button>
+      </div>
+      <div class="fb" id="h1m8"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 9 — Translation</div>
+      <div class="exq">Translate: «Космополитичный»</div>
+      <div class="exrow"><input class="exinput" id="h1e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e9','cosmopolitan','h1f9')">Check</button></div>
+      <div class="fb" id="h1f9"></div>
+    </div>
+    <div class="ex">
+      <div class="exnum">Exercise 10 — Fill in</div>
+      <div class="exq">Fill in: «She ___ (experience) a lot since moving abroad.» (Present Perfect)</div>
+      <div class="exrow"><input class="exinput" id="h1e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e10','has experienced','h1f10')">Check</button></div>
+      <div class="fb" id="h1f10"></div>
+    </div>
+    <button class="subhw" onclick="submitHW(1,10,'hw1-result')">Submit homework 1</button>
+  </div>
+</div>
+
+<!-- HW2-6 locked placeholders -->
+<div class="page" id="page-hw2"><div class="ph"><h2>Homework 2</h2><p>Not available yet — complete HW 1 first.</p></div></div>
+<div class="page" id="page-hw3"><div class="ph"><h2>Homework 3</h2><p>Not available yet.</p></div></div>
+<div class="page" id="page-hw4"><div class="ph"><h2>Homework 4</h2><p>Not available yet.</p></div></div>
+<div class="page" id="page-hw5"><div class="ph"><h2>Homework 5</h2><p>Not available yet.</p></div></div>
+<div class="page" id="page-hw6"><div class="ph"><h2>Homework 6</h2><p>Not available yet.</p></div></div>
+
+<!-- MIDTERM -->
+<div class="page" id="page-midterm">
+  <div class="ph"><h2>Midterm</h2><p>Complete all 6 homeworks to unlock</p></div>
+  <div class="card">
+    <div class="mtlock">
+      <div class="mtlock-ico">🔒</div>
+      <h3>Midterm is locked</h3>
+      <p>Finish all 6 homeworks to unlock your midterm exam.</p>
+      <div class="mt-dots">
+        <div class="mtd pend">1</div><div class="mtd pend">2</div><div class="mtd pend">3</div>
+        <div class="mtd pend">4</div><div class="mtd pend">5</div><div class="mtd pend">6</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ── DICTIONARY DATA ──────────────────────────────────────────
+const words = [
+  // Lesson batch 1 — society/world
+  {w:"Captured",t:"Захваченный / пойманный",pos:"adj",s:3},
+  {w:"Execute",t:"Выполнять / казнить",pos:"verb",s:3},
+  {w:"Refugee",t:"Беженец",pos:"noun",s:3},
+  {w:"Tax",t:"Налог",pos:"noun",s:3},
+  {w:"Avoid",t:"Избегать",pos:"verb",s:3},
+  {w:"Afford",t:"Позволить себе",pos:"verb",s:3},
+  {w:"Let people in",t:"Впустить людей",pos:"phrase",s:3},
+  {w:"Invade",t:"Вторгаться",pos:"verb",s:3},
+  {w:"Ancient",t:"Древний",pos:"adj",s:3},
+  {w:"Unusual",t:"Необычный",pos:"adj",s:3},
+  {w:"Cosmopolitan",t:"Космополитичный",pos:"adj",s:3},
+  {w:"Associated",t:"Связанный (с чем-то)",pos:"adj",s:3},
+  {w:"Recently",t:"Недавно",pos:"adverb",s:3},
+  {w:"Experience",t:"Опыт / переживать",pos:"noun",s:3},
+  {w:"Get used to",t:"Привыкать к",pos:"phrase",s:3},
+  {w:"Little by little",t:"Понемногу / постепенно",pos:"phrase",s:3},
+  {w:"Keep track of",t:"Следить за",pos:"phrase",s:3},
+  // Lesson batch 2 — people & personality
+  {w:"Stunt",t:"Трюк / каскад",pos:"noun",s:3},
+  {w:"Credits",t:"Титры / заслуги",pos:"noun",s:3},
+  {w:"Alongside",t:"Рядом с / наряду с",pos:"prep",s:3},
+  {w:"Wheels",t:"Колёса / инвалидная коляска",pos:"noun",s:3},
+  {w:"Sensitive",t:"Чувствительный",pos:"adj",s:3},
+  {w:"Brave",t:"Храбрый",pos:"adj",s:3},
+  {w:"Competitive",t:"Конкурентоспособный",pos:"adj",s:3},
+  {w:"Slim",t:"Стройный / худощавый",pos:"adj",s:3},
+  {w:"Injured",t:"Травмированный",pos:"adj",s:3},
+  {w:"As long as",t:"При условии что / пока",pos:"phrase",s:3},
+  {w:"Sword",t:"Меч",pos:"noun",s:3},
+  {w:"Easy-going",t:"Лёгкий в общении",pos:"adj",s:3},
+  {w:"Bite",t:"Кусать / укус",pos:"verb",s:3},
+  // Body parts
+  {w:"Wrist",t:"Запястье",pos:"body",s:3},
+  {w:"Waist",t:"Талия",pos:"body",s:3},
+  // Clothes
+  {w:"Hoodie",t:"Толстовка с капюшоном",pos:"clothes",s:3},
+  {w:"Shirt",t:"Рубашка",pos:"clothes",s:3},
+  {w:"Feminine",t:"Женственный",pos:"adj",s:3},
+  {w:"Clothes",t:"Одежда",pos:"clothes",s:3},
+  {w:"Body parts",t:"Части тела",pos:"body",s:3},
+  // Adjectives
+  {w:"Slippery",t:"Скользкий",pos:"adj",s:3},
+  // Story phrases
+  {w:"Once upon a time",t:"Однажды / Жили-были",pos:"phrase",s:3},
+  {w:"Except",t:"Кроме / за исключением",pos:"prep",s:3},
+  {w:"Piece",t:"Кусок / произведение",pos:"noun",s:3},
+  {w:"Towards",t:"К / по направлению к",pos:"prep",s:3},
+  {w:"Shout",t:"Кричать / крик",pos:"verb",s:3},
+  {w:"Meanwhile",t:"Тем временем",pos:"adverb",s:3},
+  {w:"Possession",t:"Владение / собственность",pos:"noun",s:3},
+  {w:"Take care",t:"Заботиться / береги себя",pos:"phrase",s:3},
+  {w:"Carry",t:"Нести / носить",pos:"verb",s:3},
+  {w:"Swap",t:"Обменять / поменяться",pos:"verb",s:3},
+  {w:"Retired",t:"На пенсии",pos:"adj",s:3},
+  {w:"Naughty",t:"Непослушный / шаловливый",pos:"adj",s:3},
+  {w:"Look for",t:"Искать",pos:"phrase",s:3},
+  {w:"Look at",t:"Смотреть на",pos:"phrase",s:3},
+  {w:"Desired",t:"Желанный / желаемый",pos:"adj",s:3},
+  {w:"Disappointed",t:"Разочарованный",pos:"adj",s:3},
+  {w:"Upset",t:"Расстроенный",pos:"adj",s:3},
+  {w:"Amazed",t:"Изумлённый",pos:"adj",s:3},
+  {w:"Delighted",t:"Восхищённый / в восторге",pos:"adj",s:3},
+  // Lesson batch 3
+  {w:"Deal",t:"Сделка / соглашение",pos:"noun",s:3},
+  {w:"Take a pill",t:"Принять таблетку",pos:"phrase",s:3},
+  {w:"Take notes",t:"Делать заметки",pos:"phrase",s:3},
+  {w:"Come up with",t:"Придумать",pos:"phrase",s:3},
+  {w:"Well-",t:"Хорошо- (well-known)",pos:"gram.",s:3},
+  {w:"Badly-",t:"Плохо- (badly-managed)",pos:"gram.",s:3},
+  {w:"Bring",t:"Приносить",pos:"verb",s:3},
+  {w:"For myself",t:"Для себя",pos:"phrase",s:3},
+  {w:"Discovery",t:"Открытие",pos:"noun",s:3},
+  {w:"Fit",t:"Подходить / быть в форме",pos:"verb",s:3},
+  {w:"Differentiate",t:"Различать",pos:"verb",s:3},
+  {w:"Survey",t:"Опрос / исследование",pos:"noun",s:3},
+  {w:"Particularly",t:"В частности / особенно",pos:"adverb",s:3},
+  {w:"Throughout",t:"На протяжении",pos:"prep",s:3},
+  {w:"Eventually",t:"В конечном счёте",pos:"adverb",s:3},
+  {w:"Is considered",t:"Считается",pos:"gram.",s:3},
+  {w:"Valuable",t:"Ценный",pos:"adj",s:3},
+  {w:"Fairy tale",t:"Сказка",pos:"noun",s:3},
+  {w:"Glory",t:"Слава",pos:"noun",s:3},
+  {w:"Brought",t:"Принёс (past of bring)",pos:"irreg.",s:3},
+  {w:"Advertise oneself",t:"Рекламировать себя",pos:"phrase",s:3},
+  {w:"Business deal",t:"Деловое соглашение",pos:"phrase",s:3},
+  // Grammar / connectors
+  {w:"Passive",t:"Пассивный / страдательный залог",pos:"gram.",s:3},
+  {w:"So / such / so many",t:"Такой / столько",pos:"gram.",s:3},
+  {w:"Send → Sent",t:"Отправить → Отправил",pos:"irreg.",s:3},
+  {w:"Founded → Found",t:"Основал → Нашёл",pos:"irreg.",s:3},
+  {w:"Sell → Sold",t:"Продавать → Продал",pos:"irreg.",s:3},
+  {w:"Bite → Bit",t:"Кусать → Укусил",pos:"irreg.",s:3},
+  {w:"Carry → Carried",t:"Нести → Нёс",pos:"irreg.",s:3},
+  // Grammar labels
+  {w:"Comparative",t:"Сравнительная степень",pos:"gram.",s:3},
+  {w:"Superlative",t:"Превосходная степень",pos:"gram.",s:3},
+  {w:"As…as",t:"Такой же … как",pos:"gram.",s:3},
+  {w:"Have to / must / should",t:"Должен (обязанность/совет)",pos:"gram.",s:3},
+  {w:"Don't have to",t:"Не обязательно",pos:"gram.",s:3},
+  {w:"Haven't got",t:"У меня нет",pos:"gram.",s:3},
+  {w:"Past Perfect",t:"Прошедшее совершённое",pos:"gram.",s:3},
+  {w:"Past Continuous",t:"Прошедшее длительное",pos:"gram.",s:3},
+  {w:"Going to",t:"Собираться (планы)",pos:"gram.",s:3},
+  {w:"Will",t:"Будущее (спонтанные решения)",pos:"gram.",s:3},
+  {w:"Present Continuous future",t:"Договорённости в будущем",pos:"gram.",s:3},
+  {w:"Articles a/an/the",t:"Артикли",pos:"gram.",s:3},
+  {w:"For and since",t:"В теч. / с (Pres. Perfect)",pos:"gram.",s:3},
+  {w:"Always/ever/never",t:"Всегда/когда-либо/никогда",pos:"gram.",s:3},
+  {w:"Present Perfect",t:"Настоящее совершённое",pos:"gram.",s:3},
+  {w:"Past Simple",t:"Простое прошедшее",pos:"gram.",s:3},
+];
+
+const posColors = {
+  noun:"#eeedfc|#5548c8", verb:"#e8f0eb|#2d5a3d", phrase:"#f5ece3|#7c4f2a",
+  adj:"#fef8ec|#a06b1a", adverb:"#e8f0eb|#2d5a3d", irreg.:"#fdf0ef|#bc3a2e",
+  gram.:"#e5f5f5|#1a6b6b", body:"#fdf0ef|#bc3a2e", clothes:"#eeedfc|#5548c8",
+  prep:"#fef8ec|#a06b1a"
+};
+
+function starStr(s){return '★'.repeat(s)+'☆'.repeat(5-s)}
+function starCls(s){return s>=4?'stars s'+s:s>=3?'stars s3':'stars s'+s}
+
+function renderDict(q='',cat=''){
+  const qL=q.toLowerCase(), tbody=document.getElementById('dtbody');
+  tbody.innerHTML='';
+  words.forEach((w,i)=>{
+    if(qL&&!w.w.toLowerCase().includes(qL)&&!w.t.toLowerCase().includes(qL))return;
+    if(cat&&w.pos!==cat)return;
+    const [bg,col]=(posColors[w.pos]||'#f5f5f5|#555').split('|');
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td class="dword">${w.w}</td>
+      <td><span class="dpos" style="background:${bg};color:${col}">${w.pos}</span></td>
+      <td style="color:var(--muted);font-size:13px">${w.t}</td>
+      <td><span class="${starCls(w.s)}" onclick="cycleStar(${i},this)">${starStr(w.s)}</span></td>`;
+    tbody.appendChild(tr);
+  });
+  updateBars();
+}
+
+function filterDict(){renderDict(document.getElementById('dsearch').value,document.getElementById('dfilter').value)}
+
+function cycleStar(i,el){
+  words[i].s=words[i].s%5+1;
+  el.className=starCls(words[i].s);
+  el.textContent=starStr(words[i].s);
+  updateBars();
+}
+
+function updateBars(){
+  const t=words.length;
+  const m=words.filter(w=>w.s>=4).length;
+  const p=words.filter(w=>w.s===3).length;
+  const r=words.filter(w=>w.s<=2).length;
+  document.getElementById('bv5').textContent=m+' words';
+  document.getElementById('bv3').textContent=p+' words';
+  document.getElementById('bv1').textContent=r+' words';
+  document.getElementById('bf5').style.width=Math.round(m/t*100)+'%';
+  document.getElementById('bf3').style.width=Math.round(p/t*100)+'%';
+  document.getElementById('bf1').style.width=Math.round(r/t*100)+'%';
+  document.getElementById('pm-total').textContent=t;
+}
+
+// ── PRONUNCIATION ─────────────────────────────────────────────
+const pronList=[
+  {w:"Refugee",ipa:"/ˌrefjuˈdʒiː/"},
+  {w:"Cosmopolitan",ipa:"/ˌkɒzməˈpɒlɪtən/"},
+  {w:"Eventually",ipa:"/ɪˈventʃuəli/"},
+  {w:"Throughout",ipa:"/θruːˈaʊt/"},
+  {w:"Particularly",ipa:"/pəˈtɪkjələli/"},
+  {w:"Differentiate",ipa:"/ˌdɪfəˈrenʃieɪt/"},
+  {w:"Valuable",ipa:"/ˈvæljuəbl/"},
+  {w:"Discovery",ipa:"/dɪˈskʌvəri/"},
+  {w:"Associated",ipa:"/əˈsəʊʃieɪtɪd/"},
+  {w:"Competitive",ipa:"/kəmˈpetɪtɪv/"},
+  {w:"Disappointed",ipa:"/ˌdɪsəˈpɔɪntɪd/"},
+  {w:"Delighted",ipa:"/dɪˈlaɪtɪd/"},
+  {w:"Sensitive",ipa:"/ˈsensɪtɪv/"},
+  {w:"Slippery",ipa:"/ˈslɪpəri/"},
+  {w:"Towards",ipa:"/təˈwɔːdz/"},
+  {w:"Ancient",ipa:"/ˈeɪnʃənt/"},
+  {w:"Possession",ipa:"/pəˈzeʃən/"},
+  {w:"Meanwhile",ipa:"/ˈmiːnwaɪl/"},
+  {w:"Advertise",ipa:"/ˈædvətaɪz/"},
+  {w:"Unusual",ipa:"/ʌnˈjuːʒuəl/"},
+  {w:"Wrist",ipa:"/rɪst/"},
+  {w:"Waist",ipa:"/weɪst/"},
+  {w:"Sword",ipa:"/sɔːd/"},
+  {w:"Feminine",ipa:"/ˈfemɪnɪn/"},
+  {w:"Naughty",ipa:"/ˈnɔːti/"},
+];
+
+function renderPron(){
+  document.getElementById('pronlist').innerHTML=pronList.map(p=>`
+    <div class="prow">
+      <span class="pw">${p.w}</span>
+      <span class="pipa">${p.ipa}</span>
+      <button class="pbtn" onclick="speak('${p.w}')"><span class="pico"></span> Play</button>
+    </div>`).join('');
+}
+
+function speak(w){
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-GB';u.rate=0.8;
+  window.speechSynthesis.speak(u);
+}
+
+// ── EXERCISE CHECKING ─────────────────────────────────────────
+function chk(inpId,correct,fbId){
+  const inp=document.getElementById(inpId);
+  const fb=document.getElementById(fbId);
+  const val=inp.value.trim().toLowerCase();
+  if(!val)return;
+  const ok=val===correct.toLowerCase()||val.replace(/[^a-z ]/g,'')===correct.toLowerCase().replace(/[^a-z ]/g,'');
+  inp.classList.toggle('ok',ok);inp.classList.toggle('err',!ok);
+  fb.className='fb '+(ok?'ok':'err');
+  fb.textContent=ok?'✓ Correct!':'✗ Correct answer: '+correct;
+}
+
+function mc(btn,res,fbId){
+  const group=btn.parentElement.querySelectorAll('.mcbtn');
+  group.forEach(b=>{b.classList.remove('mc-ok','mc-err');b.disabled=true});
+  btn.classList.add(res==='ok'?'mc-ok':'mc-err');
+  const fb=document.getElementById(fbId);
+  fb.className='fb '+(res==='ok'?'ok':'err');
+  fb.textContent=res==='ok'?'✓ Correct!':'✗ Not quite — review the grammar rule!';
+}
+
+const hwScores={};
+function submitHW(num,total,resultId){
+  let correct=0;
+  // count green inputs
+  document.querySelectorAll(`#page-hw${num} .exinput.ok`).forEach(()=>correct++);
+  document.querySelectorAll(`#page-hw${num} .mcbtn.mc-ok`).forEach(()=>correct++);
+  const pct=Math.round(correct/total*100);
+  hwScores[num]=pct;
+  document.getElementById(resultId).textContent=` — ${pct}% submitted`;
+  document.getElementById(resultId).style.color=pct>=70?'var(--accent)':'var(--danger)';
+  // update progress
+  const done=Object.keys(hwScores).length;
+  document.getElementById('pm-hw').textContent=done+' / 6';
+  const avg=Math.round(Object.values(hwScores).reduce((a,b)=>a+b,0)/done);
+  document.getElementById('pm-avg').textContent=avg+'%';
+  alert('Homework '+num+' submitted! Score: '+pct+'%');
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('page-'+id);
+  if(pg)pg.classList.add('active');
+  const ni=document.querySelector(`[data-page="${id}"]`);
+  if(ni&&!ni.classList.contains('locked'))ni.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll('.ni').forEach(n=>{
+  n.addEventListener('click',()=>{
+    if(n.classList.contains('locked'))return;
+    goPage(n.getAttribute('data-page'));
+  });
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+renderDict();
+renderPron();
+updateBars();
+</script>
+</body>
+</html>
