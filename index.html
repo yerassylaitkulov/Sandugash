@@ -392,7 +392,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
   <div class="card" style="padding:.9rem 1.5rem" id="pronlist"></div>
 </div>
 
-<!-- HW 1 — Vocabulary + Passive + Well/Badly + So/Such -->
+<!-- HW PAGES — rendered dynamically from Supabase -->
 <div class="page" id="page-hw1">
   <div class="ph"><h2>Homework 1<span class="hw-result" id="hw1-result"></span></h2><p>Vocabulary · Passive voice · Well/Badly · So/Such — 25 exercises</p></div>
   <div class="card">
@@ -460,125 +460,12 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
   </div>
 </div>
 
-<!-- HW 2 — Personality & appearance -->
-<div class="page" id="page-hw2">
-  <div class="ph"><h2>Homework 2<span class="hw-result" id="hw2-result"></span></h2><p>Personality, appearance &amp; body — 15 exercises</p></div>
-  <div class="card">
-    <div class="ex"><div class="exnum">Ex 1 — Translation</div><div class="exq">Translate: «Храбрый»</div><div class="exrow"><input class="exinput" id="h2e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e1','brave','h2f1')">Check</button></div><div class="fb" id="h2f1"></div></div>
-    <div class="ex"><div class="exnum">Ex 2 — Translation</div><div class="exq">Translate: «Чувствительный»</div><div class="exrow"><input class="exinput" id="h2e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e2','sensitive','h2f2')">Check</button></div><div class="fb" id="h2f2"></div></div>
-    <div class="ex"><div class="exnum">Ex 3 — Translation</div><div class="exq">Translate: «Лёгкий в общении»</div><div class="exrow"><input class="exinput" id="h2e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e3','easy-going','h2f3')">Check</button></div><div class="fb" id="h2f3"></div></div>
-    <div class="ex"><div class="exnum">Ex 4 — Translation</div><div class="exq">Translate: «Конкурентоспособный»</div><div class="exrow"><input class="exinput" id="h2e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e4','competitive','h2f4')">Check</button></div><div class="fb" id="h2f4"></div></div>
-    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «She has a ___ waist — she looks very fit.» (стройный/тонкий)</div><div class="exrow"><input class="exinput" id="h2e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e5','slim','h2f5')">Check</button></div><div class="fb" id="h2f5"></div></div>
-    <div class="ex"><div class="exnum">Ex 6 — Body part</div><div class="exq">Translate: «Запястье»</div><div class="exrow"><input class="exinput" id="h2e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e6','wrist','h2f6')">Check</button></div><div class="fb" id="h2f6"></div></div>
-    <div class="ex"><div class="exnum">Ex 7 — Body part</div><div class="exq">Translate: «Талия»</div><div class="exrow"><input class="exinput" id="h2e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e7','waist','h2f7')">Check</button></div><div class="fb" id="h2f7"></div></div>
-    <div class="ex"><div class="exnum">Ex 8 — Clothes</div><div class="exq">Translate: «Толстовка с капюшоном»</div><div class="exrow"><input class="exinput" id="h2e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e8','hoodie','h2f8')">Check</button></div><div class="fb" id="h2f8"></div></div>
-    <div class="ex"><div class="exnum">Ex 9 — Multiple choice</div><div class="exq">He fell off his bike and got ___. Which word is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h2m9')">retired</button><button class="mcbtn" onclick="mc(this,'ok','h2m9')">injured</button><button class="mcbtn" onclick="mc(this,'err','h2m9')">captured</button></div><div class="fb" id="h2m9"></div></div>
-    <div class="ex"><div class="exnum">Ex 10 — Translation</div><div class="exq">Translate: «Меч»</div><div class="exrow"><input class="exinput" id="h2e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e10','sword','h2f10')">Check</button></div><div class="fb" id="h2f10"></div></div>
-    <div class="ex"><div class="exnum">Ex 11 — Fill in</div><div class="exq">Fill in: «You can stay ___ ___ ___ you behave well.» (при условии что)</div><div class="extip">Hint: 3 words meaning «при условии что»</div><div class="exrow"><input class="exinput" id="h2e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e11','as long as','h2f11')">Check</button></div><div class="fb" id="h2f11"></div></div>
-    <div class="ex"><div class="exnum">Ex 12 — Comparative</div><div class="exq">Write the comparative of "competitive".</div><div class="exrow"><input class="exinput" id="h2e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e12','more competitive','h2f12')">Check</button></div><div class="fb" id="h2f12"></div></div>
-    <div class="ex"><div class="exnum">Ex 13 — Comparative</div><div class="exq">Write the superlative of "brave".</div><div class="exrow"><input class="exinput" id="h2e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e13','the bravest','h2f13')">Check</button></div><div class="fb" id="h2f13"></div></div>
-    <div class="ex"><div class="exnum">Ex 14 — Multiple choice</div><div class="exq">«She is ___ competitive ___ her sister.» Choose the correct form.</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h2m14')">as … as</button><button class="mcbtn" onclick="mc(this,'err','h2m14')">so … as</button><button class="mcbtn" onclick="mc(this,'err','h2m14')">more … than</button></div><div class="fb" id="h2m14"></div></div>
-    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Describe yourself using TWO personality adjectives from this lesson.</div><div class="extip">E.g. "I am easy-going and sometimes competitive." — checked by teacher.</div><div class="exrow"><input class="exinput" id="h2e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h2e15','h2f15',4)">Check</button></div><div class="fb" id="h2f15"></div></div>
-    <button class="subhw" onclick="submitHW(2,15,'hw2-result','hw2-bar')">Submit HW 2</button>
-    <div class="hw-score-bar"><div class="hw-score-fill" id="hw2-bar" style="width:0%"></div></div>
-  </div>
-</div>
-
-<!-- HW 3 — Past Simple & Continuous -->
-<div class="page" id="page-hw3">
-  <div class="ph"><h2>Homework 3<span class="hw-result" id="hw3-result"></span></h2><p>Past Simple &amp; Past Continuous — 15 exercises</p></div>
-  <div class="card">
-    <div class="ex"><div class="exnum">Ex 1 — Fill in</div><div class="exq">Fill in: «She ___ (read) when I called her.» (Past Continuous)</div><div class="exrow"><input class="exinput" id="h3e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e1','was reading','h3f1')">Check</button></div><div class="fb" id="h3f1"></div></div>
-    <div class="ex"><div class="exnum">Ex 2 — Fill in</div><div class="exq">Fill in: «They ___ (play) football all afternoon.» (Past Continuous)</div><div class="exrow"><input class="exinput" id="h3e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e2','were playing','h3f2')">Check</button></div><div class="fb" id="h3f2"></div></div>
-    <div class="ex"><div class="exnum">Ex 3 — Fill in</div><div class="exq">Fill in: «While he ___ (sleep), the phone ___ (ring).»</div><div class="extip">Two answers separated by a comma: Past Continuous, Past Simple</div><div class="exrow"><input class="exinput" id="h3e3" placeholder="was sleeping, rang"><button class="cbtn" onclick="chk('h3e3','was sleeping, rang','h3f3')">Check</button></div><div class="fb" id="h3f3"></div></div>
-    <div class="ex"><div class="exnum">Ex 4 — Multiple choice</div><div class="exq">«I ___ dinner when she arrived.» Which tense is correct for the gap?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h3m4')">was making</button><button class="mcbtn" onclick="mc(this,'err','h3m4')">made</button><button class="mcbtn" onclick="mc(this,'err','h3m4')">make</button></div><div class="fb" id="h3m4"></div></div>
-    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «What ___ you ___ (do) at 9pm yesterday?»</div><div class="exrow"><input class="exinput" id="h3e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e5','were you doing','h3f5')">Check</button></div><div class="fb" id="h3f5"></div></div>
-    <div class="ex"><div class="exnum">Ex 6 — Irregular past</div><div class="exq">Past tense of "bring"?</div><div class="exrow"><input class="exinput" id="h3e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e6','brought','h3f6')">Check</button></div><div class="fb" id="h3f6"></div></div>
-    <div class="ex"><div class="exnum">Ex 7 — Irregular past</div><div class="exq">Past tense of "sell"?</div><div class="exrow"><input class="exinput" id="h3e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e7','sold','h3f7')">Check</button></div><div class="fb" id="h3f7"></div></div>
-    <div class="ex"><div class="exnum">Ex 8 — Irregular past</div><div class="exq">Past tense of "bite"?</div><div class="exrow"><input class="exinput" id="h3e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e8','bit','h3f8')">Check</button></div><div class="fb" id="h3f8"></div></div>
-    <div class="ex"><div class="exnum">Ex 9 — Multiple choice</div><div class="exq">«Founded» is the past of which verb?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h3m9')">to find</button><button class="mcbtn" onclick="mc(this,'ok','h3m9')">to found (establish)</button><button class="mcbtn" onclick="mc(this,'err','h3m9')">to feel</button></div><div class="fb" id="h3m9"></div></div>
-    <div class="ex"><div class="exnum">Ex 10 — Fill in</div><div class="exq">Fill in: «She ___ (carry) her sword ___ the ancient castle.» (Past Simple + towards)</div><div class="exrow"><input class="exinput" id="h3e10" placeholder="carried … towards"><button class="cbtn" onclick="chk('h3e10','carried her sword towards','h3f10')">Check</button></div><div class="fb" id="h3f10"></div></div>
-    <div class="ex"><div class="exnum">Ex 11 — Translation</div><div class="exq">Translate: «Они играли в футбол, когда начался дождь.»</div><div class="exrow"><input class="exinput" id="h3e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e11','they were playing football when it started to rain','h3f11')">Check</button></div><div class="fb" id="h3f11"></div></div>
-    <div class="ex"><div class="exnum">Ex 12 — Translation</div><div class="exq">Translate: «Тем временем»</div><div class="exrow"><input class="exinput" id="h3e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e12','meanwhile','h3f12')">Check</button></div><div class="fb" id="h3f12"></div></div>
-    <div class="ex"><div class="exnum">Ex 13 — Translation</div><div class="exq">Translate: «К / по направлению к»</div><div class="exrow"><input class="exinput" id="h3e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e13','towards','h3f13')">Check</button></div><div class="fb" id="h3f13"></div></div>
-    <div class="ex"><div class="exnum">Ex 14 — Sentence</div><div class="exq">Write one sentence using Past Continuous AND Past Simple together.</div><div class="extip">E.g. "I was eating when she shouted." — teacher will check.</div><div class="exrow"><input class="exinput" id="h3e14" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h3e14','h3f14',5)">Check</button></div><div class="fb" id="h3f14"></div></div>
-    <div class="ex"><div class="exnum">Ex 15 — Multiple choice</div><div class="exq">«She ___ her keys yesterday.» Correct form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h3m15')">was losing</button><button class="mcbtn" onclick="mc(this,'ok','h3m15')">lost</button><button class="mcbtn" onclick="mc(this,'err','h3m15')">has lost</button></div><div class="fb" id="h3m15"></div></div>
-    <button class="subhw" onclick="submitHW(3,15,'hw3-result','hw3-bar')">Submit HW 3</button>
-    <div class="hw-score-bar"><div class="hw-score-fill" id="hw3-bar" style="width:0%"></div></div>
-  </div>
-</div>
-
-<!-- HW 4 — Present Perfect -->
-<div class="page" id="page-hw4">
-  <div class="ph"><h2>Homework 4<span class="hw-result" id="hw4-result"></span></h2><p>Present Perfect — for, since, ever, never — 15 exercises</p></div>
-  <div class="card">
-    <div class="ex"><div class="exnum">Ex 1 — Fill in</div><div class="exq">Fill in: «I ___ (live) here for 10 years.» (Present Perfect)</div><div class="exrow"><input class="exinput" id="h4e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e1','have lived','h4f1')">Check</button></div><div class="fb" id="h4f1"></div></div>
-    <div class="ex"><div class="exnum">Ex 2 — Fill in</div><div class="exq">Fill in: «She ___ (work) here since 2020.»</div><div class="exrow"><input class="exinput" id="h4e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e2','has worked','h4f2')">Check</button></div><div class="fb" id="h4f2"></div></div>
-    <div class="ex"><div class="exnum">Ex 3 — For or since?</div><div class="exq">«I have studied English ___ three years.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h4m3')">for</button><button class="mcbtn" onclick="mc(this,'err','h4m3')">since</button></div><div class="fb" id="h4m3"></div></div>
-    <div class="ex"><div class="exnum">Ex 4 — For or since?</div><div class="exq">«She has lived here ___ 2018.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m4')">for</button><button class="mcbtn" onclick="mc(this,'ok','h4m4')">since</button></div><div class="fb" id="h4m4"></div></div>
-    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «Have you ___ visited an ancient city?» (когда-либо)</div><div class="exrow"><input class="exinput" id="h4e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e5','ever','h4f5')">Check</button></div><div class="fb" id="h4f5"></div></div>
-    <div class="ex"><div class="exnum">Ex 6 — Fill in</div><div class="exq">Fill in: «I have ___ eaten sushi. I don't like it.» (никогда)</div><div class="exrow"><input class="exinput" id="h4e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e6','never','h4f6')">Check</button></div><div class="fb" id="h4f6"></div></div>
-    <div class="ex"><div class="exnum">Ex 7 — PP or Past Simple?</div><div class="exq">«I ___ to London last year.» Which is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h4m7')">went</button><button class="mcbtn" onclick="mc(this,'err','h4m7')">have gone</button></div><div class="fb" id="h4m7"></div></div>
-    <div class="ex"><div class="exnum">Ex 8 — PP or Past Simple?</div><div class="exq">«She ___ her keys — she can't get in!» Which is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m8')">lost</button><button class="mcbtn" onclick="mc(this,'ok','h4m8')">has lost</button></div><div class="fb" id="h4m8"></div></div>
-    <div class="ex"><div class="exnum">Ex 9 — Translation</div><div class="exq">Translate: «Я никогда не видела беженца.» (Present Perfect)</div><div class="exrow"><input class="exinput" id="h4e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e9','i have never seen a refugee','h4f9')">Check</button></div><div class="fb" id="h4f9"></div></div>
-    <div class="ex"><div class="exnum">Ex 10 — Translation</div><div class="exq">Translate: «Ты когда-нибудь пробовала суши?»</div><div class="exrow"><input class="exinput" id="h4e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e10','have you ever tried sushi','h4f10')">Check</button></div><div class="fb" id="h4f10"></div></div>
-    <div class="ex"><div class="exnum">Ex 11 — Fill in</div><div class="exq">Fill in: «I ___ (always / want) to travel to Japan.»</div><div class="exrow"><input class="exinput" id="h4e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e11','have always wanted','h4f11')">Check</button></div><div class="fb" id="h4f11"></div></div>
-    <div class="ex"><div class="exnum">Ex 12 — Vocabulary</div><div class="exq">Translate: «Следить за» (phrase)</div><div class="exrow"><input class="exinput" id="h4e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e12','keep track of','h4f12')">Check</button></div><div class="fb" id="h4f12"></div></div>
-    <div class="ex"><div class="exnum">Ex 13 — Vocabulary</div><div class="exq">Translate: «Привыкать к»</div><div class="exrow"><input class="exinput" id="h4e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e13','get used to','h4f13')">Check</button></div><div class="fb" id="h4f13"></div></div>
-    <div class="ex"><div class="exnum">Ex 14 — Multiple choice</div><div class="exq">Which sentence is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m14')">I have seen her yesterday.</button><button class="mcbtn" onclick="mc(this,'ok','h4m14')">I saw her yesterday.</button><button class="mcbtn" onclick="mc(this,'err','h4m14')">I have saw her.</button></div><div class="fb" id="h4m14"></div></div>
-    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Write a sentence about your life using Present Perfect + "since" or "for".</div><div class="extip">E.g. "I have studied English for two years." — teacher will check.</div><div class="exrow"><input class="exinput" id="h4e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h4e15','h4f15',5)">Check</button></div><div class="fb" id="h4f15"></div></div>
-    <button class="subhw" onclick="submitHW(4,15,'hw4-result','hw4-bar')">Submit HW 4</button>
-    <div class="hw-score-bar"><div class="hw-score-fill" id="hw4-bar" style="width:0%"></div></div>
-  </div>
-</div>
-
-<!-- HW 5 — Modals & Passive -->
-<div class="page" id="page-hw5">
-  <div class="ph"><h2>Homework 5<span class="hw-result" id="hw5-result"></span></h2><p>Modals (must/should/have to) &amp; Passive voice — 15 exercises</p></div>
-  <div class="card">
-    <div class="ex"><div class="exnum">Ex 1 — Multiple choice</div><div class="exq">«You ___ take your passport — it's the law.» Which word fits best?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m1')">have to</button><button class="mcbtn" onclick="mc(this,'err','h5m1')">should</button><button class="mcbtn" onclick="mc(this,'err','h5m1')">don't have to</button></div><div class="fb" id="h5m1"></div></div>
-    <div class="ex"><div class="exnum">Ex 2 — Multiple choice</div><div class="exq">«You ___ come if you don't want to — it's optional.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h5m2')">mustn't</button><button class="mcbtn" onclick="mc(this,'ok','h5m2')">don't have to</button><button class="mcbtn" onclick="mc(this,'err','h5m2')">must</button></div><div class="fb" id="h5m2"></div></div>
-    <div class="ex"><div class="exnum">Ex 3 — Fill in</div><div class="exq">Fill in: «You ___ (should) take notes in every lesson.»</div><div class="exrow"><input class="exinput" id="h5e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e3','should','h5f3')">Check</button></div><div class="fb" id="h5f3"></div></div>
-    <div class="ex"><div class="exnum">Ex 4 — Passive</div><div class="exq">Rewrite in passive: «People consider this discovery valuable.»</div><div class="exrow"><input class="exinput" id="h5e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e4','this discovery is considered valuable','h5f4')">Check</button></div><div class="fb" id="h5f4"></div></div>
-    <div class="ex"><div class="exnum">Ex 5 — Passive</div><div class="exq">Rewrite in passive: «They built the castle in 1200.»</div><div class="exrow"><input class="exinput" id="h5e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e5','the castle was built in 1200','h5f5')">Check</button></div><div class="fb" id="h5f5"></div></div>
-    <div class="ex"><div class="exnum">Ex 6 — Translation</div><div class="exq">Translate to passive: «Беженцам помогают волонтёры.»</div><div class="exrow"><input class="exinput" id="h5e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e6','refugees are being helped by volunteers','h5f6')">Check</button></div><div class="fb" id="h5f6"></div></div>
-    <div class="ex"><div class="exnum">Ex 7 — Multiple choice</div><div class="exq">«Taxes ___ (collect) by the government every year.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h5m7')">collect</button><button class="mcbtn" onclick="mc(this,'ok','h5m7')">are collected</button><button class="mcbtn" onclick="mc(this,'err','h5m7')">were collected</button></div><div class="fb" id="h5m7"></div></div>
-    <div class="ex"><div class="exnum">Ex 8 — Translation</div><div class="exq">Translate: «Это считается лучшим решением.»</div><div class="exrow"><input class="exinput" id="h5e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e8','this is considered the best solution','h5f8')">Check</button></div><div class="fb" id="h5f8"></div></div>
-    <div class="ex"><div class="exnum">Ex 9 — Vocabulary</div><div class="exq">Translate: «Деловая сделка»</div><div class="exrow"><input class="exinput" id="h5e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e9','business deal','h5f9')">Check</button></div><div class="fb" id="h5f9"></div></div>
-    <div class="ex"><div class="exnum">Ex 10 — Vocabulary</div><div class="exq">Translate: «Рекламировать себя»</div><div class="exrow"><input class="exinput" id="h5e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e10','advertise oneself','h5f10')">Check</button></div><div class="fb" id="h5f10"></div></div>
-    <div class="ex"><div class="exnum">Ex 11 — Vocabulary</div><div class="exq">Translate: «Различать»</div><div class="exrow"><input class="exinput" id="h5e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e11','differentiate','h5f11')">Check</button></div><div class="fb" id="h5f11"></div></div>
-    <div class="ex"><div class="exnum">Ex 12 — Well / Badly</div><div class="exq">Fill in: «It was a ___ managed project — nothing went right.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m12')">badly-managed</button><button class="mcbtn" onclick="mc(this,'err','h5m12')">well-managed</button><button class="mcbtn" onclick="mc(this,'err','h5m12')">bad-managed</button></div><div class="fb" id="h5m12"></div></div>
-    <div class="ex"><div class="exnum">Ex 13 — Multiple choice</div><div class="exq">«I ___ have to go — it's optional.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m13')">don't</button><button class="mcbtn" onclick="mc(this,'err','h5m13')">mustn't</button><button class="mcbtn" onclick="mc(this,'err','h5m13')">shouldn't</button></div><div class="fb" id="h5m13"></div></div>
-    <div class="ex"><div class="exnum">Ex 14 — Translation</div><div class="exq">Translate: «Ценный»</div><div class="exrow"><input class="exinput" id="h5e14" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e14','valuable','h5f14')">Check</button></div><div class="fb" id="h5f14"></div></div>
-    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Write a sentence using the passive voice about a famous discovery.</div><div class="extip">E.g. "Penicillin was discovered by Alexander Fleming." — teacher will check.</div><div class="exrow"><input class="exinput" id="h5e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h5e15','h5f15',5)">Check</button></div><div class="fb" id="h5f15"></div></div>
-    <button class="subhw" onclick="submitHW(5,15,'hw5-result','hw5-bar')">Submit HW 5</button>
-    <div class="hw-score-bar"><div class="hw-score-fill" id="hw5-bar" style="width:0%"></div></div>
-  </div>
-</div>
-
-<!-- HW 6 — Future, Articles, So/Such, Mixed vocab -->
-<div class="page" id="page-hw6">
-  <div class="ph"><h2>Homework 6<span class="hw-result" id="hw6-result"></span></h2><p>Future tenses, articles, so/such &amp; mixed vocabulary — 15 exercises</p></div>
-  <div class="card">
-    <div class="ex"><div class="exnum">Ex 1 — Future</div><div class="exq">«A: I'm cold! B: I ___ close the window for you.» Which future form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m1')">will</button><button class="mcbtn" onclick="mc(this,'err','h6m1')">am going to</button><button class="mcbtn" onclick="mc(this,'err','h6m1')">am closing</button></div><div class="fb" id="h6m1"></div></div>
-    <div class="ex"><div class="exnum">Ex 2 — Future</div><div class="exq">«Look at those clouds — it ___ rain!» Which future form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m2')">will</button><button class="mcbtn" onclick="mc(this,'ok','h6m2')">is going to</button><button class="mcbtn" onclick="mc(this,'err','h6m2')">rains</button></div><div class="fb" id="h6m2"></div></div>
-    <div class="ex"><div class="exnum">Ex 3 — Future</div><div class="exq">«I ___ meet my teacher on Tuesday at 3pm.» (fixed arrangement)</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m3')">will</button><button class="mcbtn" onclick="mc(this,'err','h6m3')">am going to</button><button class="mcbtn" onclick="mc(this,'ok','h6m3')">am meeting</button></div><div class="fb" id="h6m3"></div></div>
-    <div class="ex"><div class="exnum">Ex 4 — Articles</div><div class="exq">Fill in: «She is ___ brave soldier.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m4')">a</button><button class="mcbtn" onclick="mc(this,'err','h6m4')">the</button><button class="mcbtn" onclick="mc(this,'err','h6m4')">Ø (no article)</button></div><div class="fb" id="h6m4"></div></div>
-    <div class="ex"><div class="exnum">Ex 5 — Articles</div><div class="exq">Fill in: «___ refugees need our help.» (general statement)</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m5')">A</button><button class="mcbtn" onclick="mc(this,'err','h6m5')">The</button><button class="mcbtn" onclick="mc(this,'ok','h6m5')">Ø (no article)</button></div><div class="fb" id="h6m5"></div></div>
-    <div class="ex"><div class="exnum">Ex 6 — Articles</div><div class="exq">Fill in: «I saw ___ refugee at the border. ___ refugee looked exhausted.»</div><div class="exrow"><input class="exinput" id="h6e6" placeholder="a, The"><button class="cbtn" onclick="chk('h6e6','a, the','h6f6')">Check</button></div><div class="fb" id="h6f6"></div></div>
-    <div class="ex"><div class="exnum">Ex 7 — So / Such</div><div class="exq">Fill in: «It was ___ unusual experience.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m7')">so</button><button class="mcbtn" onclick="mc(this,'ok','h6m7')">such an</button><button class="mcbtn" onclick="mc(this,'err','h6m7')">so much</button></div><div class="fb" id="h6m7"></div></div>
-    <div class="ex"><div class="exnum">Ex 8 — So / Such</div><div class="exq">Fill in: «There were ___ many refugees at the border.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m8')">so</button><button class="mcbtn" onclick="mc(this,'err','h6m8')">such</button><button class="mcbtn" onclick="mc(this,'err','h6m8')">very</button></div><div class="fb" id="h6m8"></div></div>
-    <div class="ex"><div class="exnum">Ex 9 — Vocabulary</div><div class="exq">Translate: «Жили-были / Однажды»</div><div class="exrow"><input class="exinput" id="h6e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e9','once upon a time','h6f9')">Check</button></div><div class="fb" id="h6f9"></div></div>
-    <div class="ex"><div class="exnum">Ex 10 — Vocabulary</div><div class="exq">Translate: «Обменять / поменяться»</div><div class="exrow"><input class="exinput" id="h6e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e10','swap','h6f10')">Check</button></div><div class="fb" id="h6f10"></div></div>
-    <div class="ex"><div class="exnum">Ex 11 — Vocabulary</div><div class="exq">Translate: «Понемногу / постепенно»</div><div class="exrow"><input class="exinput" id="h6e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e11','little by little','h6f11')">Check</button></div><div class="fb" id="h6f11"></div></div>
-    <div class="ex"><div class="exnum">Ex 12 — Vocabulary</div><div class="exq">Translate: «Опыт» (noun)</div><div class="exrow"><input class="exinput" id="h6e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e12','experience','h6f12')">Check</button></div><div class="fb" id="h6f12"></div></div>
-    <div class="ex"><div class="exnum">Ex 13 — Mixed grammar</div><div class="exq">Make this active sentence passive: «Volunteers help refugees every day.»</div><div class="exrow"><input class="exinput" id="h6e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e13','refugees are helped by volunteers every day','h6f13')">Check</button></div><div class="fb" id="h6f13"></div></div>
-    <div class="ex"><div class="exnum">Ex 14 — Mixed grammar</div><div class="exq">Fill in: «I ___ (send) her a message yesterday. She ___ (not reply) yet.»</div><div class="exrow"><input class="exinput" id="h6e14" placeholder="sent, has not replied"><button class="cbtn" onclick="chk('h6e14','sent, has not replied','h6f14')">Check</button></div><div class="fb" id="h6f14"></div></div>
-    <div class="ex"><div class="exnum">Ex 15 — Free writing</div><div class="exq">Write 3 sentences about your plans for next week using "going to", "will", and Present Continuous.</div><div class="extip">Teacher will check this one personally.</div><div class="exrow"><input class="exinput" id="h6e15" placeholder="Write your sentences…"><button class="cbtn" onclick="chkLen('h6e15','h6f15',10)">Check</button></div><div class="fb" id="h6f15"></div></div>
-    <button class="subhw" onclick="submitHW(6,15,'hw6-result','hw6-bar')">Submit HW 6</button>
-    <div class="hw-score-bar"><div class="hw-score-fill" id="hw6-bar" style="width:0%"></div></div>
-  </div>
-</div>
+<!-- HW2-6 empty — content loaded dynamically from Supabase -->
+<div class="page" id="page-hw2"></div>
+<div class="page" id="page-hw3"></div>
+<div class="page" id="page-hw4"></div>
+<div class="page" id="page-hw5"></div>
+<div class="page" id="page-hw6"></div>
 
 <!-- MIDTERM -->
 <div class="page" id="page-midterm">
@@ -598,6 +485,90 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 
 </main>
 <script>
+// ── DYNAMIC HOMEWORK LOADER ───────────────────────────────────
+// Fetches questions from Supabase and renders HW pages dynamically
+// so the teacher can edit them from teacher.html without touching code
+
+const hwTitles = {1:'Vocabulary · Passive · Well/Badly · So/Such',2:'Personality · Body · Comparatives',3:'Past Simple & Past Continuous',4:'Present Perfect',5:'Modals & Passive voice',6:'Future · Articles · So/Such · Mixed'};
+
+async function loadHWFromSupabase() {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  try {
+    const [qs, statuses] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/hw_questions?order=hw_number.asc,ex_number.asc`, {headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}}).then(r=>r.json()),
+      fetch(`${SUPABASE_URL}/rest/v1/hw_status?order=hw_number.asc`, {headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}}).then(r=>r.json())
+    ]);
+    const statusMap = {};
+    statuses.forEach(s => statusMap[s.hw_number] = s);
+
+    for (let hw=1; hw<=6; hw++) {
+      const page = document.getElementById('page-hw'+hw);
+      if (!page) continue;
+      const st = statusMap[hw];
+      const locked = st ? st.is_locked : hw > 1;
+      const hwQs = qs.filter(q=>q.hw_number===hw);
+
+      // Update sidebar nav
+      const navItem = document.querySelector(`[data-page="hw${hw}"]`);
+      if (navItem) {
+        if (locked) navItem.classList.add('locked');
+        else navItem.classList.remove('locked');
+      }
+
+      if (locked) {
+        page.innerHTML = `<div class="ph"><h2>Homework ${hw}</h2><p>Not available yet — complete the previous homework first.</p></div>`;
+        continue;
+      }
+
+      if (!hwQs.length) {
+        page.innerHTML = `<div class="ph"><h2>Homework ${hw}</h2><p>${hwTitles[hw]||''}</p></div><div class="card" style="color:var(--muted)">No questions yet — your teacher will add them soon.</div>`;
+        continue;
+      }
+
+      // Group by section
+      const sections = [];
+      let curSec = null;
+      hwQs.forEach(q => {
+        const sec = q.section || '';
+        if (sec !== curSec) { sections.push({label:sec, qs:[]}); curSec = sec; }
+        sections[sections.length-1].qs.push(q);
+      });
+
+      let html = `<div class="ph"><h2>Homework ${hw}<span class="hw-result" id="hw${hw}-result"></span></h2><p>${hwTitles[hw]||''} — ${hwQs.length} exercises</p></div><div class="card">`;
+
+      sections.forEach(sec => {
+        if (sec.label) html += `<div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);padding-bottom:.6rem;border-bottom:1px solid var(--border);margin-bottom:1rem;margin-top:.5rem">${sec.label}</div>`;
+        sec.qs.forEach((q, idx) => {
+          const exId = `hw${hw}q${q.id}`;
+          const fbId = `fb${hw}q${q.id}`;
+          html += `<div class="ex"><div class="exnum">Ex ${q.ex_number}</div><div class="exq">${q.question}</div>`;
+          if (q.tip) html += `<div class="extip">${q.tip}</div>`;
+          if (q.type === 'multiple') {
+            const opts = Array.isArray(q.options) ? q.options : JSON.parse(q.options||'[]');
+            html += `<div class="mcopts">`;
+            opts.forEach(opt => {
+              const isCorrect = opt.toLowerCase().trim() === (q.answer||'').toLowerCase().trim();
+              html += `<button class="mcbtn" onclick="mc(this,'${isCorrect?'ok':'err'}','${fbId}')">${opt}</button>`;
+            });
+            html += `</div>`;
+          } else if (q.type === 'sentence') {
+            html += `<div class="exrow"><input class="exinput" id="${exId}" placeholder="Write your answer…"><button class="cbtn" onclick="chkLen('${exId}','${fbId}',${q.min_words||5})">Check</button></div>`;
+          } else {
+            html += `<div class="exrow"><input class="exinput" id="${exId}" placeholder="Your answer…"><button class="cbtn" onclick="chk('${exId}','${q.answer.replace(/'/g,"\\'")}','${fbId}')">Check</button></div>`;
+          }
+          html += `<div class="fb" id="${fbId}"></div></div>`;
+        });
+      });
+
+      html += `<button class="subhw" onclick="submitHW(${hw},${hwQs.length},'hw${hw}-result','hw${hw}-bar')">Submit HW ${hw}</button><div class="hw-score-bar"><div class="hw-score-fill" id="hw${hw}-bar" style="width:0%"></div></div></div>`;
+      page.innerHTML = html;
+    }
+  } catch(e) {
+    console.warn('HW load failed:', e);
+    // Fall back to static HW1 which is already in the page
+  }
+}
+
 // ── DICTIONARY ────────────────────────────────────────────────
 const words=[
   {w:"Captured",t:"Захваченный / пойманный",pos:"adj",s:3},
@@ -918,6 +889,7 @@ async function saveResultToSupabase(hwNum, pct, correct, total) {
 renderDict();
 renderPron();
 updateBars();
+loadHWFromSupabase();
 </script>
 </body>
 </html>
