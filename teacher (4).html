@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0f;
+  --surface: #12141a;
+  --surface2: #1a1d26;
+  --border: #1f2330;
+  --border2: #2a2f42;
+  --text: #e8eaf2;
+  --muted: #5a6078;
+  --muted2: #8890aa;
+  --green: #22d97a;
+  --green-l: #0a2018;
+  --blue: #4f9eff;
+  --blue-l: #0a1628;
+  --amber: #f5b642;
+  --amber-l: #1a1200;
+  --red: #f05252;
+  --red-l: #200a0a;
+  --purple: #9b6dff;
+  --purple-l: #130f22;
+  --r: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+body { background:var(--bg); font-family:'Instrument Sans',sans-serif; color:var(--text); font-size:14px; line-height:1.6; }
+
+/* TOPBAR */
+.topbar { height:56px; background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 2rem; gap:1.5rem; position:sticky; top:0; z-index:100; }
+.topbar-logo { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; letter-spacing:0.05em; color:var(--text); flex-shrink:0; }
+.topbar-logo span { color:var(--green); }
+.topbar-sep { width:1px; height:20px; background:var(--border2); }
+.topbar-subtitle { font-size:12px; color:var(--muted2); }
+.topbar-spacer { flex:1; }
+.topbar-badge { font-size:11px; padding:3px 10px; border-radius:20px; background:var(--green-l); color:var(--green); border:1px solid #1a4a2a; font-weight:500; }
+.topbar-btn { font-size:12px; padding:6px 14px; border:1px solid var(--border2); border-radius:var(--r); background:transparent; color:var(--muted2); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
+.topbar-btn:hover { border-color:var(--green); color:var(--green); }
+.topbar-btn.primary { background:var(--green); color:#000; border-color:var(--green); font-weight:500; }
+.topbar-btn.primary:hover { opacity:.85; }
+
+/* LAYOUT */
+.layout { display:flex; height:calc(100vh - 56px); }
+.sidebar { width:200px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); padding:1rem 0; overflow-y:auto; }
+.sidebar-section { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); padding:.6rem 1.25rem .3rem; }
+.sni { display:flex; align-items:center; gap:8px; padding:7px 1.25rem; cursor:pointer; font-size:13px; color:var(--muted2); border-left:2px solid transparent; transition:all .15s; }
+.sni:hover { color:var(--text); background:rgba(255,255,255,.03); }
+.sni.active { color:var(--green); border-left-color:var(--green); background:var(--green-l); font-weight:500; }
+.sni-dot { width:6px; height:6px; border-radius:50%; background:var(--border2); flex-shrink:0; }
+.sni.active .sni-dot { background:var(--green); }
+
+/* MAIN */
+.main { flex:1; overflow-y:auto; padding:2rem; }
+.page { display:none; }
+.page.active { display:block; animation:fadeUp .2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+/* PAGE HEADER */
+.ph { margin-bottom:1.75rem; }
+.ph h1 { font-family:'Syne',sans-serif; font-size:24px; font-weight:600; letter-spacing:-.3px; }
+.ph p { font-size:13px; color:var(--muted2); margin-top:3px; }
+
+/* STATS ROW */
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:1.5rem; }
+.stat { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:.9rem 1.1rem; }
+.stat-val { font-family:'Syne',sans-serif; font-size:28px; font-weight:600; line-height:1; }
+.stat-lbl { font-size:11px; color:var(--muted2); margin-top:4px; text-transform:uppercase; letter-spacing:.06em; }
+
+/* STUDENT CARDS */
+.students-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin-bottom:1.5rem; }
+.student-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:border-color .15s; }
+.student-card:hover { border-color:var(--border2); }
+.sc-header { padding:1rem 1.25rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+.sc-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:14px; font-weight:700; flex-shrink:0; }
+.sc-name { font-weight:500; font-size:14px; }
+.sc-meta { font-size:11px; color:var(--muted2); margin-top:1px; }
+.sc-status { margin-left:auto; font-size:11px; padding:3px 9px; border-radius:20px; font-weight:500; white-space:nowrap; }
+.sc-body { padding:1rem 1.25rem; }
+.sc-hw-row { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:.85rem; }
+.hw-pill { text-align:center; padding:5px 3px; border-radius:6px; font-size:10px; font-weight:600; border:1px solid var(--border); }
+.hw-pill.done-great { background:#0a2018; border-color:#1a4a2a; color:var(--green); }
+.hw-pill.done-ok { background:#1a1200; border-color:#3a2800; color:var(--amber); }
+.hw-pill.done-poor { background:#200a0a; border-color:#3a1010; color:var(--red); }
+.hw-pill.open { background:var(--surface2); border-color:var(--border2); color:var(--muted2); }
+.hw-pill.locked { background:var(--bg); border-color:var(--border); color:#333; }
+.hw-pill.midterm { background:var(--purple-l); border-color:#2a1f4a; color:var(--purple); font-size:9px; }
+.sc-progress-row { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
+.sc-progress-label { font-size:11px; color:var(--muted2); min-width:80px; }
+.sc-progress-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
+.sc-progress-fill { height:100%; border-radius:3px; }
+.sc-progress-val { font-size:11px; color:var(--muted2); min-width:32px; text-align:right; }
+.sc-footer { padding:.75rem 1.25rem; border-top:1px solid var(--border); display:flex; gap:8px; align-items:center; }
+.sc-last-active { font-size:11px; color:var(--muted); flex:1; }
+.sc-action-btn { font-size:11px; padding:5px 12px; border:1px solid var(--border2); border-radius:6px; background:transparent; color:var(--muted2); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
+.sc-action-btn:hover { border-color:var(--green); color:var(--green); }
+
+/* HW DETAIL TABLE */
+.table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:1.25rem; }
+.table-head { display:grid; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); padding:.65rem 1.25rem; border-bottom:1px solid var(--border); background:var(--surface2); }
+.table-row { display:grid; padding:.75rem 1.25rem; border-bottom:1px solid var(--border); align-items:center; transition:background .1s; }
+.table-row:last-child { border-bottom:none; }
+.table-row:hover { background:rgba(255,255,255,.015); }
+.table-head, .table-row { grid-template-columns: 2fr 1fr 1fr 1fr 1fr 100px; gap:12px; }
+.score-chip { display:inline-block; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; }
+
+/* SETUP PAGE */
+.setup-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:1.5rem; margin-bottom:1rem; }
+.setup-card h3 { font-family:'Syne',sans-serif; font-size:16px; font-weight:600; margin-bottom:.4rem; }
+.setup-card p { font-size:13px; color:var(--muted2); line-height:1.7; margin-bottom:1rem; }
+.setup-step { display:flex; gap:12px; margin-bottom:.85rem; }
+.step-num { width:24px; height:24px; border-radius:50%; background:var(--green-l); border:1px solid #1a4a2a; color:var(--green); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-text { font-size:13px; color:var(--muted2); line-height:1.6; }
+.step-text strong { color:var(--text); font-weight:500; }
+.code-block { background:var(--bg); border:1px solid var(--border2); border-radius:6px; padding:.75rem 1rem; font-family:monospace; font-size:12px; color:var(--green); margin:.5rem 0; overflow-x:auto; white-space:pre; }
+.input-row { display:flex; gap:8px; margin-bottom:.75rem; flex-wrap:wrap; }
+.setup-input { flex:1; min-width:200px; padding:8px 12px; border:1px solid var(--border2); border-radius:6px; background:var(--bg); font-family:'Instrument Sans',sans-serif; font-size:13px; color:var(--text); outline:none; transition:border-color .15s; }
+.setup-input:focus { border-color:var(--green); }
+.setup-save { padding:8px 18px; background:var(--green); color:#000; border:none; border-radius:6px; font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; }
+.setup-save:hover { opacity:.85; }
+.alert { padding:.75rem 1rem; border-radius:6px; font-size:13px; margin-bottom:1rem; }
+.alert-info { background:var(--blue-l); border:1px solid #152840; color:var(--blue); }
+.alert-warn { background:var(--amber-l); border:1px solid #3a2800; color:var(--amber); }
+
+/* ACTIVITY FEED */
+.feed-item { display:flex; gap:12px; padding:.85rem 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+.feed-item:last-child { border-bottom:none; }
+.feed-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.feed-content { flex:1; }
+.feed-title { font-size:13px; color:var(--text); }
+.feed-time { font-size:11px; color:var(--muted); margin-top:2px; }
+.feed-score { font-size:12px; font-weight:600; padding:2px 8px; border-radius:10px; margin-left:auto; flex-shrink:0; }
+
+/* SCORE COLORS */
+.great { color:var(--green); }
+.ok { color:var(--amber); }
+.poor { color:var(--red); }
+
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">MIND <span>·</span> TEACHER</div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-subtitle">English class dashboard</div>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-badge" id="conn-badge">⚪ Not connected</div>
+  <button class="topbar-btn" onclick="goPage('setup')">Setup</button>
+  <button class="topbar-btn primary" onclick="loadData()">↻ Refresh</button>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-section">Dashboard</div>
+    <div class="sni active" data-page="overview"><span class="sni-dot"></span>Overview</div>
+    <div class="sni" data-page="activity"><span class="sni-dot"></span>Activity feed</div>
+    <div class="sidebar-section">Students</div>
+    <div class="sni" data-page="sandugash"><span class="sni-dot"></span>Sandugash</div>
+    <div class="sni" data-page="students"><span class="sni-dot"></span>Add student</div>
+    <div class="sidebar-section">Settings</div>
+    <div class="sni" data-page="setup"><span class="sni-dot"></span>Connection setup</div>
+  </nav>
+
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <div class="page active" id="page-overview">
+      <div class="ph"><h1>Overview</h1><p>All students at a glance — scores, progress and activity</p></div>
+      <div class="stats">
+        <div class="stat"><div class="stat-val great" id="st-students">1</div><div class="stat-lbl">Students</div></div>
+        <div class="stat"><div class="stat-val" id="st-hw-done" style="color:var(--blue)">0</div><div class="stat-lbl">HW submitted</div></div>
+        <div class="stat"><div class="stat-val" id="st-avg" style="color:var(--amber)">—</div><div class="stat-lbl">Avg score</div></div>
+        <div class="stat"><div class="stat-val" id="st-words" style="color:var(--purple)">80</div><div class="stat-lbl">Words in dict.</div></div>
+      </div>
+      <div class="students-grid" id="students-grid">
+        <!-- rendered by JS -->
+      </div>
+      <div class="alert alert-info" id="no-data-msg">
+        No homework submitted yet. Once Sandugash submits a homework, it will appear here automatically. Make sure the Supabase connection is configured in Setup.
+      </div>
+    </div>
+
+    <!-- SANDUGASH DETAIL -->
+    <div class="page" id="page-sandugash">
+      <div class="ph"><h1>Sandugash</h1><p>Full homework history and progress breakdown</p></div>
+      <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div class="stat"><div class="stat-val great" id="sd-done">0 / 6</div><div class="stat-lbl">HW completed</div></div>
+        <div class="stat"><div class="stat-val" id="sd-avg" style="color:var(--amber)">—</div><div class="stat-lbl">Average score</div></div>
+        <div class="stat"><div class="stat-val" id="sd-best" style="color:var(--blue)">—</div><div class="stat-lbl">Best score</div></div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-head">
+          <span>Homework</span><span>Score</span><span>Correct</span><span>Total</span><span>Status</span><span>Submitted</span>
+        </div>
+        <div id="hw-table-body">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+      <div class="setup-card">
+        <h3>Vocabulary progress</h3>
+        <p style="margin-bottom:.5rem">Synced from student's dictionary star ratings</p>
+        <div class="sc-progress-row"><div class="sc-progress-label">Mastered ★★★★★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar5" style="background:var(--green);width:0%"></div></div><div class="sc-progress-val" id="vval5">0</div></div>
+        <div class="sc-progress-row"><div class="sc-progress-label">Practicing ★★★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar3" style="background:var(--amber);width:0%"></div></div><div class="sc-progress-val" id="vval3">0</div></div>
+        <div class="sc-progress-row"><div class="sc-progress-label">Needs review ★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar1" style="background:var(--red);width:0%"></div></div><div class="sc-progress-val" id="vval1">0</div></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY FEED -->
+    <div class="page" id="page-activity">
+      <div class="ph"><h1>Activity feed</h1><p>All homework submissions in chronological order</p></div>
+      <div class="setup-card">
+        <div id="feed-list"><div style="color:var(--muted2);font-size:13px">No activity yet. Submissions will appear here.</div></div>
+      </div>
+    </div>
+
+    <!-- ADD STUDENT -->
+    <div class="page" id="page-students">
+      <div class="ph"><h1>Add a student</h1><p>Each student gets their own HTML file in the repo</p></div>
+      <div class="setup-card">
+        <h3>How to add a new student</h3>
+        <p>Each student has their own <code style="background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--green)">studentname.html</code> file in the GitHub repo. Copy <code style="background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--green)">sandugash.html</code>, rename it, and update the student name and Supabase config at the top of the file.</p>
+        <div class="setup-step"><div class="step-num">1</div><div class="step-text">Duplicate <strong>sandugash.html</strong> in your repo and rename it to the student's name, e.g. <strong>aisha.html</strong></div></div>
+        <div class="setup-step"><div class="step-num">2</div><div class="step-text">Open the file and change <strong>STUDENT_NAME</strong> at the top of the script to the new student's name</div></div>
+        <div class="setup-step"><div class="step-num">3</div><div class="step-text">Push to GitHub — the student gets their own link: <strong>yoursite.github.io/aisha.html</strong></div></div>
+        <div class="setup-step"><div class="step-num">4</div><div class="step-text">Add the student's name to the sidebar of this teacher dashboard</div></div>
+      </div>
+    </div>
+
+    <!-- SETUP -->
+    <div class="page" id="page-setup">
+      <div class="ph"><h1>Connection setup</h1><p>Connect to Supabase so homework results sync automatically</p></div>
+
+      <div class="alert alert-warn">Without this setup, homework results only live in the student's browser and you can't see them. This takes about 5 minutes and is completely free.</div>
+
+      <div class="setup-card">
+        <h3>Step 1 — Create a free Supabase project</h3>
+        <p>Supabase is a free database that both the student site and this teacher dashboard connect to. No credit card needed.</p>
+        <div class="setup-step"><div class="step-num">1</div><div class="step-text">Go to <strong>supabase.com</strong> → click "Start your project" → sign in with GitHub</div></div>
+        <div class="setup-step"><div class="step-num">2</div><div class="step-text">Create a new project, name it anything (e.g. "english-class")</div></div>
+        <div class="setup-step"><div class="step-num">3</div><div class="step-text">Wait ~1 min for it to set up, then go to <strong>Settings → API</strong></div></div>
+        <div class="setup-step"><div class="step-num">4</div><div class="step-text">Copy your <strong>Project URL</strong> and <strong>anon public key</strong></div></div>
+      </div>
+
+      <div class="setup-card">
+        <h3>Step 2 — Create the results table</h3>
+        <p>In your Supabase project go to <strong>SQL Editor</strong> and run this query once:</p>
+        <div class="code-block">CREATE TABLE hw_results (
+  id SERIAL PRIMARY KEY,
+  student TEXT NOT NULL,
+  hw_number INTEGER NOT NULL,
+  score_pct INTEGER NOT NULL,
+  correct INTEGER NOT NULL,
+  total INTEGER NOT NULL,
+  vocab_mastered INTEGER DEFAULT 0,
+  vocab_practicing INTEGER DEFAULT 0,
+  vocab_review INTEGER DEFAULT 0,
+  submitted_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Allow public inserts and reads (student site is public)
+ALTER TABLE hw_results ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "allow_all" ON hw_results FOR ALL USING (true) WITH CHECK (true);</div>
+      </div>
+
+      <div class="setup-card">
+        <h3>Step 3 — Enter your Supabase credentials</h3>
+        <p>Paste your credentials below. They are saved in your browser and used to fetch results on this dashboard.</p>
+        <div class="input-row">
+          <input class="setup-input" id="sb-url" placeholder="https://xxxx.supabase.co" value="">
+          <input class="setup-input" id="sb-key" placeholder="eyJh... (anon public key)" value="">
+        </div>
+        <button class="setup-save" onclick="saveConfig()">Save & test connection</button>
+        <div class="fb" id="setup-fb" style="margin-top:.6rem;font-size:13px"></div>
+      </div>
+
+      <div class="setup-card">
+        <h3>Step 4 — Add credentials to the student file</h3>
+        <p>Open <strong>sandugash.html</strong> in your repo, find the CONFIG section near the bottom of the &lt;script&gt; tag, and paste your Supabase URL and key there. This allows the student's submissions to be saved.</p>
+        <div class="code-block">// ── SUPABASE CONFIG (add your credentials here) ──
+const SUPABASE_URL = 'https://xxxx.supabase.co';
+const SUPABASE_KEY = 'eyJh...your-anon-key...';
+const STUDENT_NAME = 'Sandugash';</div>
+        <p style="margin-top:.5rem">Once you add these and push to GitHub, every HW submission will automatically save to Supabase and appear on this dashboard.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────
+let SUPABASE_URL = localStorage.getItem('sb_url') || 'https://jjlzimjfnwywsmodobct.supabase.co';
+let SUPABASE_KEY = localStorage.getItem('sb_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
+
+// Load saved credentials into inputs
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sb-url').value = SUPABASE_URL;
+  document.getElementById('sb-key').value = SUPABASE_KEY;  renderStudentCard(DEMO_DATA);
+  renderHWTable(DEMO_DATA.homeworks);
+  renderFeed(DEMO_DATA.homeworks);
+  updateStats([DEMO_DATA]);
+  updateConnBadge();
+  if (SUPABASE_URL && SUPABASE_KEY) loadData();
+});
+
+// ── DEMO DATA (shown before real connection) ──────────────────
+const DEMO_DATA = {
+  name: 'Sandugash',
+  avatar_color: '#9b6dff',
+  avatar_bg: '#130f22',
+  homeworks: [
+    // replace with real data from Supabase once connected
+  ],
+  vocab: { mastered: 0, practicing: 80, review: 0, total: 80 }
+};
+
+// ── SUPABASE FETCH ────────────────────────────────────────────
+async function loadData() {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    document.getElementById('conn-badge').textContent = '⚪ Not connected';
+    document.getElementById('conn-badge').style.background = 'var(--surface2)';
+    document.getElementById('conn-badge').style.color = 'var(--muted2)';
+    return;
+  }
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/hw_results?order=submitted_at.desc`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = await res.json();
+    processResults(rows);
+    updateConnBadge(true);
+  } catch(e) {
+    updateConnBadge(false, e.message);
+  }
+}
+
+function updateConnBadge(ok, err) {
+  const el = document.getElementById('conn-badge');
+  if (ok === true) { el.textContent = '🟢 Connected'; el.style.background='var(--green-l)'; el.style.color='var(--green)'; el.style.borderColor='#1a4a2a'; }
+  else if (ok === false) { el.textContent = '🔴 Error: '+err; el.style.background='var(--red-l)'; el.style.color='var(--red)'; el.style.borderColor='#3a1010'; }
+  else { el.textContent = SUPABASE_URL ? '🟡 Credentials saved' : '⚪ Not connected'; el.style.background=''; el.style.color=''; }
+}
+
+function processResults(rows) {
+  // Group by student
+  const byStudent = {};
+  rows.forEach(r => {
+    if (!byStudent[r.student]) byStudent[r.student] = [];
+    byStudent[r.student].push(r);
+  });
+
+  // Build student objects
+  const students = Object.entries(byStudent).map(([name, hws]) => ({
+    name, homeworks: hws,
+    vocab: { mastered: hws[0]?.vocab_mastered||0, practicing: hws[0]?.vocab_practicing||0, review: hws[0]?.vocab_review||0, total: 80 },
+    avatar_color: '#9b6dff', avatar_bg: '#130f22'
+  }));
+
+  if (students.length) {
+    document.getElementById('no-data-msg').style.display = 'none';
+    document.getElementById('students-grid').innerHTML = '';
+    students.forEach(s => renderStudentCard(s));
+    const sandugashData = students.find(s => s.name === 'Sandugash') || students[0];
+    if (sandugashData) {
+      renderHWTable(sandugashData.homeworks);
+      renderVocab(sandugashData.vocab);
+      renderFeed(rows);
+    }
+    updateStats(students);
+  }
+}
+
+// ── RENDER STUDENT CARD ───────────────────────────────────────
+function renderStudentCard(student) {
+  const hws = student.homeworks || [];
+  const scores = hws.map(h => h.score_pct || 0);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const done = hws.length;
+
+  // HW pills (HW1–6 + Midterm)
+  let pillsHtml = '';
+  for (let i=1; i<=6; i++) {
+    const hw = hws.find(h => h.hw_number === i);
+    if (hw) {
+      const cls = hw.score_pct >= 80 ? 'done-great' : hw.score_pct >= 60 ? 'done-ok' : 'done-poor';
+      pillsHtml += `<div class="hw-pill ${cls}">HW${i}<br>${hw.score_pct}%</div>`;
+    } else {
+      pillsHtml += `<div class="hw-pill locked">HW${i}</div>`;
+    }
+  }
+  pillsHtml += `<div class="hw-pill midterm">Mid<br>term</div>`;
+
+  // Progress bars
+  const vocab = student.vocab || {};
+  const vtotal = vocab.total || 80;
+
+  const statusCls = avg === null ? '' : avg >= 80 ? 'great' : avg >= 60 ? 'ok' : 'poor';
+  const statusText = avg === null ? 'No submissions' : avg >= 80 ? 'On track' : avg >= 60 ? 'Needs attention' : 'Struggling';
+  const statusBg = avg === null ? 'background:var(--surface2);color:var(--muted2)' : avg >= 80 ? 'background:var(--green-l);color:var(--green)' : avg >= 60 ? 'background:var(--amber-l);color:var(--amber)' : 'background:var(--red-l);color:var(--red)';
+
+  const lastHw = hws[0];
+  const lastTime = lastHw ? new Date(lastHw.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'No submissions yet';
+
+  const card = document.createElement('div');
+  card.className = 'student-card';
+  card.innerHTML = `
+    <div class="sc-header">
+      <div class="sc-avatar" style="background:${student.avatar_bg};color:${student.avatar_color}">${student.name.slice(0,2).toUpperCase()}</div>
+      <div>
+        <div class="sc-name">${student.name}</div>
+        <div class="sc-meta">${done}/6 homeworks · avg ${avg !== null ? avg+'%' : '—'}</div>
+      </div>
+      <div class="sc-status" style="${statusBg}">${statusText}</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-hw-row">${pillsHtml}</div>
+      <div class="sc-progress-row">
+        <div class="sc-progress-label">Vocab mastered</div>
+        <div class="sc-progress-bar"><div class="sc-progress-fill" style="background:var(--green);width:${vtotal?Math.round((vocab.mastered||0)/vtotal*100):0}%"></div></div>
+        <div class="sc-progress-val">${vocab.mastered||0}</div>
+      </div>
+      <div class="sc-progress-row">
+        <div class="sc-progress-label">Practicing</div>
+        <div class="sc-progress-bar"><div class="sc-progress-fill" style="background:var(--amber);width:${vtotal?Math.round((vocab.practicing||0)/vtotal*100):0}%"></div></div>
+        <div class="sc-progress-val">${vocab.practicing||0}</div>
+      </div>
+    </div>
+    <div class="sc-footer">
+      <div class="sc-last-active">Last submission: ${lastTime}</div>
+      <button class="sc-action-btn" onclick="goPage('${student.name.toLowerCase()}')">View detail →</button>
+    </div>`;
+  document.getElementById('students-grid').appendChild(card);
+}
+
+function renderHWTable(hws) {
+  const tbody = document.getElementById('hw-table-body');
+  const labels = ['','Vocabulary & world','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
+  if (!hws || !hws.length) {
+    tbody.innerHTML = `<div class="table-row" style="grid-template-columns:1fr;color:var(--muted2)">No homework submitted yet</div>`;
+    return;
+  }
+  tbody.innerHTML = hws.map(h => {
+    const cls = h.score_pct >= 80 ? 'great' : h.score_pct >= 60 ? 'ok' : 'poor';
+    const chipStyle = h.score_pct >= 80 ? 'background:var(--green-l);color:var(--green)' : h.score_pct >= 60 ? 'background:var(--amber-l);color:var(--amber)' : 'background:var(--red-l);color:var(--red)';
+    const time = new Date(h.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<div class="table-row">
+      <span><strong>HW ${h.hw_number}</strong> <span style="color:var(--muted2);font-size:12px">— ${labels[h.hw_number]||''}</span></span>
+      <span class="score-chip" style="${chipStyle}">${h.score_pct}%</span>
+      <span class="${cls}">${h.correct}</span>
+      <span style="color:var(--muted2)">${h.total}</span>
+      <span class="${cls}">${h.score_pct>=80?'✓ Good':h.score_pct>=60?'△ Ok':'✗ Redo'}</span>
+      <span style="color:var(--muted2);font-size:12px">${time}</span>
+    </div>`;
+  }).join('');
+
+  // Update Sandugash detail stats
+  const scores = hws.map(h=>h.score_pct);
+  document.getElementById('sd-done').textContent = hws.length + ' / 6';
+  document.getElementById('sd-avg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%';
+  document.getElementById('sd-best').textContent = Math.max(...scores) + '%';
+}
+
+function renderVocab(vocab) {
+  const t = vocab.total || 80;
+  ['5','3','1'].forEach(k => {
+    const val = k==='5'?vocab.mastered:k==='3'?vocab.practicing:vocab.review;
+    document.getElementById('vbar'+k).style.width = (t?Math.round(val/t*100):0)+'%';
+    document.getElementById('vval'+k).textContent = val||0;
+  });
+}
+
+function renderFeed(rows) {
+  const list = document.getElementById('feed-list');
+  if (!rows || !rows.length) return;
+  const sorted = [...rows].sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
+  list.innerHTML = sorted.map(r => {
+    const cls = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
+    const chipStyle = r.score_pct>=80?'background:var(--green-l);color:var(--green)':r.score_pct>=60?'background:var(--amber-l);color:var(--amber)':'background:var(--red-l);color:var(--red)';
+    const time = new Date(r.submitted_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<div class="feed-item">
+      <div class="feed-dot" style="background:${cls}"></div>
+      <div class="feed-content">
+        <div class="feed-title"><strong>${r.student}</strong> submitted <strong>Homework ${r.hw_number}</strong></div>
+        <div class="feed-time">${time}</div>
+      </div>
+      <div class="feed-score" style="${chipStyle}">${r.score_pct}% · ${r.correct}/${r.total}</div>
+    </div>`;
+  }).join('');
+}
+
+function updateStats(students) {
+  let totalHW=0, scores=[];
+  students.forEach(s => {
+    totalHW += (s.homeworks||[]).length;
+    (s.homeworks||[]).forEach(h=>scores.push(h.score_pct));
+  });
+  document.getElementById('st-students').textContent = students.length;
+  document.getElementById('st-hw-done').textContent = totalHW;
+  document.getElementById('st-avg').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%' : '—';
+}
+
+// ── SETUP SAVE ────────────────────────────────────────────────
+async function saveConfig() {
+  SUPABASE_URL = document.getElementById('sb-url').value.trim().replace(/\/$/, '');
+  SUPABASE_KEY = document.getElementById('sb-key').value.trim();
+  localStorage.setItem('sb_url', SUPABASE_URL);
+  localStorage.setItem('sb_key', SUPABASE_KEY);
+  const fb = document.getElementById('setup-fb');
+  fb.style.color = 'var(--amber)';
+  fb.textContent = 'Testing connection…';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/hw_results?limit=1`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    if (res.ok) {
+      fb.style.color = 'var(--green)';
+      fb.textContent = '✓ Connected successfully! Loading data…';
+      updateConnBadge(true);
+      loadData();
+    } else {
+      throw new Error('Status ' + res.status + ' — check your URL and key');
+    }
+  } catch(e) {
+    fb.style.color = 'var(--red)';
+    fb.textContent = '✗ ' + e.message;
+    updateConnBadge(false, e.message);
+  }
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sni').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  if (pg) pg.classList.add('active');
+  const ni = document.querySelector(`[data-page="${id}"]`);
+  if (ni) ni.classList.add('active');
+  document.querySelector('.main').scrollTop = 0;
+}
+document.querySelectorAll('.sni').forEach(n => {
+  n.addEventListener('click', () => goPage(n.getAttribute('data-page')));
+});
+</script>
+</body>
+</html>
