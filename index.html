@@ -6,45 +6,38 @@
 <title>English with Sandugash</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#f6f4ef;--surface:#fff;--border:#e5e1d8;--text:#1c1a16;--muted:#7b7568;
-  --accent:#2d5a3d;--accent-l:#e8f0eb;--accent2:#7c4f2a;--accent2-l:#f5ece3;
-  --danger:#bc3a2e;--danger-l:#fdf0ef;--warn:#a06b1a;--warn-l:#fef8ec;
-  --purple:#5548c8;--purple-l:#eeedfc;--teal:#1a6b6b;--teal-l:#e5f5f5;
+:root{
+  --bg:#0f1117;--surface:#181c26;--border:#272d3d;--text:#e8eaf0;--muted:#6b7280;
+  --accent:#4ade80;--accent-l:#0d2818;--accent2:#f59e0b;--accent2-l:#1c1506;
+  --danger:#f87171;--danger-l:#1f0c0c;--warn:#fbbf24;--warn-l:#1a1200;
+  --purple:#a78bfa;--purple-l:#130f2a;--teal:#34d399;--teal-l:#051a12;
   --r:12px;--rs:8px;--sw:230px;--tr:0.17s ease;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);font-size:15px;line-height:1.65;display:flex;min-height:100vh}
-
-/* SIDEBAR */
-.sb{width:var(--sw);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow-y:auto}
+html,body{height:100%}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);font-size:15px;line-height:1.65;display:flex;height:100%;overflow:hidden}
+.sb{width:var(--sw);flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);height:100%;display:flex;flex-direction:column;overflow-y:auto}
 .sb-logo{padding:1.4rem 1.25rem 1.1rem;border-bottom:1px solid var(--border)}
 .sb-logo h1{font-family:'DM Serif Display',serif;font-size:17px;font-weight:400;letter-spacing:-0.3px;line-height:1.3}
 .sb-logo p{font-size:12px;color:var(--muted);margin-top:3px}
 .nav-sec{padding:.9rem 0 .3rem}
 .nav-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:0 1.25rem .35rem}
 .ni{display:flex;align-items:center;gap:8px;padding:7px 1.25rem;cursor:pointer;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:all var(--tr);user-select:none}
-.ni:hover{background:var(--bg);color:var(--text)}
+.ni:hover{background:rgba(255,255,255,0.05);color:var(--text)}
 .ni.active{background:var(--accent-l);color:var(--accent);border-left-color:var(--accent);font-weight:500}
 .ni.locked{opacity:.38;cursor:not-allowed;pointer-events:none}
-.ni.done .nd{background:var(--accent)}
 .nd{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background var(--tr)}
-.ni.active .nd{background:var(--accent)}
+.ni.active .nd,.ni.done .nd{background:var(--accent)}
 .nbadge{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
-
-/* MAIN */
-.main{flex:1;overflow-y:auto}
-.page{display:none;padding:2.25rem 2rem;max-width:860px}
+.main{flex:1;height:100%;overflow-y:auto}
+.page{display:none;padding:2.25rem 2rem;max-width:880px}
 .page.active{display:block;animation:fadeUp .22s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .ph{margin-bottom:1.75rem}
 .ph h2{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;letter-spacing:-.4px}
 .ph p{font-size:13.5px;color:var(--muted);margin-top:3px}
-
-/* CARDS */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1rem}
 .ctitle{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:.9rem}
-
 /* PROGRESS */
 .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:1.1rem}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:.9rem 1.1rem}
@@ -53,23 +46,31 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 .bar-row{margin-bottom:10px}
 .bar-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:4px}
 .bar-meta span:last-child{font-weight:500;color:var(--text)}
-.bar-track{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--border)}
+.bar-track{height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;border:1px solid var(--border)}
 .bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
 .hw-journey{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 .hw-tile{border:1px solid var(--border);border-radius:var(--rs);padding:.75rem 1rem;text-align:center;cursor:pointer;transition:border-color var(--tr),background var(--tr)}
-.hw-tile:hover:not(.hw-locked){border-color:#aaa}
-.hw-tile.hw-done{border-color:#9fc4ad;background:#f3faf6}
-.hw-tile.hw-open{border-color:var(--accent2);background:var(--accent2-l)}
-.hw-tile.hw-locked{opacity:.4;cursor:default}
-.hw-tile.hw-mid{grid-column:span 3;border-color:#b0a8e8;background:var(--purple-l);cursor:default}
+.hw-tile:hover:not(.hw-locked){border-color:#444}
+.hw-tile.hw-done{border-color:#1a4a2a;background:#0a1f12}
+.hw-tile.hw-open{border-color:#7c4f2a;background:var(--accent2-l)}
+.hw-tile.hw-locked{opacity:.35;cursor:default}
+.hw-tile.hw-mid{grid-column:span 3;border-color:#3b2f6e;background:var(--purple-l);cursor:default}
 .ht-num{font-size:13px;font-weight:500}
 .ht-sc{font-size:12px;margin-top:2px}
-
 /* DICTIONARY */
-.dict-top{display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
-.dsearch{flex:1;min-width:180px;padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color var(--tr)}
+.dict-top{display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.dsearch{flex:1;min-width:160px;padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color var(--tr)}
 .dsearch:focus{border-color:var(--accent)}
-.dfilter{padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer}
+.dfilter{padding:9px 13px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer}
+.dadd-btn{padding:9px 16px;border:1px solid var(--accent);border-radius:var(--rs);background:var(--accent-l);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;white-space:nowrap;transition:all var(--tr)}
+.dadd-btn:hover{background:var(--accent);color:#000}
+.add-form{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1rem;display:none}
+.add-form.open{display:block}
+.add-form-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.add-form input,.add-form select{flex:1;min-width:120px;padding:7px 11px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none}
+.add-form input:focus{border-color:var(--accent)}
+.add-save{padding:7px 18px;background:var(--accent);color:#000;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer}
+.add-cancel{padding:7px 14px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 .dtable{width:100%;border-collapse:collapse}
 .dtable th{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:0 0 8px;text-align:left;border-bottom:1px solid var(--border)}
 .dtable td{padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:middle}
@@ -77,36 +78,43 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 .dword{font-weight:500}
 .dpos{font-size:11px;padding:2px 7px;border-radius:10px;display:inline-block;white-space:nowrap}
 .stars{cursor:pointer;letter-spacing:1px;font-size:14px;user-select:none}
-.s5{color:var(--accent)}.s4{color:var(--accent)}.s3{color:var(--warn)}.s2{color:var(--danger)}.s1{color:var(--danger)}
-
+.s5,.s4{color:var(--accent)}.s3{color:var(--warn)}.s2,.s1{color:var(--danger)}
+.del-btn{padding:3px 9px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);font-size:12px;cursor:pointer;transition:all var(--tr)}
+.del-btn:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-l)}
 /* GRAMMAR */
+.gram-search-wrap{display:flex;gap:8px;margin-bottom:1.25rem}
+.gram-search{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--rs);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color var(--tr)}
+.gram-search:focus{border-color:var(--accent)}
+.gram-search-btn{padding:10px 18px;border:1px solid var(--accent);border-radius:var(--rs);background:var(--accent-l);color:var(--accent);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;white-space:nowrap;transition:all var(--tr)}
+.gram-search-btn:hover{background:var(--accent);color:#000}
+.gram-no-result{color:var(--muted);font-size:14px;padding:1rem 0}
 .grule{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.4rem;margin-bottom:.85rem}
+.grule.hidden{display:none}
 .gtag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500;margin-bottom:.6rem}
 .grule h3{font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;margin-bottom:.4rem}
 .grule p{font-size:13.5px;color:var(--muted);line-height:1.7}
-.gex{background:var(--bg);padding:9px 13px;margin-top:9px;border-left:2.5px solid var(--accent);font-size:13.5px;line-height:1.7}
+.gex{background:rgba(255,255,255,0.04);padding:9px 13px;margin-top:9px;border-left:2.5px solid var(--accent);font-size:13.5px;line-height:1.7}
 .gex em{color:var(--muted);font-style:normal}.gex strong{color:var(--accent);font-weight:500}
 .gtable{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-.gtable th{background:var(--bg);padding:7px 10px;text-align:left;font-weight:500;border:1px solid var(--border)}
+.gtable th{background:rgba(255,255,255,0.06);padding:7px 10px;text-align:left;font-weight:500;border:1px solid var(--border)}
 .gtable td{padding:7px 10px;border:1px solid var(--border)}
-
 /* PRONUNCIATION */
 .prow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .prow:last-child{border-bottom:none}
 .pw{font-weight:500;min-width:160px;font-size:14.5px}
 .pipa{font-size:13.5px;color:var(--muted);flex:1;font-family:Georgia,serif}
-.pbtn{padding:5px 13px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer;transition:all var(--tr);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.pbtn{padding:5px 13px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--muted);cursor:pointer;transition:all var(--tr);display:flex;align-items:center;gap:5px}
 .pbtn:hover{background:var(--accent-l);border-color:var(--accent);color:var(--accent)}
 .pico{width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:7px solid currentColor;display:inline-block}
-
 /* HOMEWORK */
 .ex{margin-bottom:1.15rem;padding-bottom:1.15rem;border-bottom:1px solid var(--border)}
 .ex:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .exnum{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
 .exq{font-size:15px;margin-bottom:9px}
+.extip{font-size:12px;color:var(--muted);margin-bottom:7px;font-style:italic}
 .exrow{display:flex;gap:7px;align-items:center}
-.exinput{flex:1;padding:8px 13px;border:1px solid var(--border);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:var(--bg);outline:none;transition:border-color var(--tr),background var(--tr)}
-.exinput:focus{border-color:var(--accent);background:var(--surface)}
+.exinput{flex:1;padding:8px 13px;border:1px solid var(--border);border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:var(--surface);outline:none;transition:border-color var(--tr),background var(--tr)}
+.exinput:focus{border-color:var(--accent);background:#0d1f16}
 .exinput.ok{border-color:var(--accent);background:var(--accent-l);color:var(--accent)}
 .exinput.err{border-color:var(--danger);background:var(--danger-l);color:var(--danger)}
 .exinput[readonly]{cursor:default}
@@ -116,14 +124,15 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 .fb.ok{color:var(--accent)}.fb.err{color:var(--danger)}
 .mcopts{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
 .mcbtn{padding:6px 15px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--text);transition:all var(--tr)}
-.mcbtn:hover:not(:disabled){background:var(--bg)}
+.mcbtn:hover:not(:disabled){background:rgba(255,255,255,0.06)}
 .mcbtn.mc-ok{background:var(--accent-l);border-color:var(--accent);color:var(--accent);font-weight:500}
 .mcbtn.mc-err{background:var(--danger-l);border-color:var(--danger);color:var(--danger)}
-.subhw{padding:10px 26px;background:var(--accent);color:#fff;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity var(--tr);margin-top:1.25rem}
+.subhw{padding:10px 26px;background:var(--accent);color:#000;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity var(--tr);margin-top:1.25rem}
 .subhw:hover{opacity:.85}
 .hw-result{display:inline-block;font-size:14px;font-weight:400;margin-left:10px}
-
-/* MIDTERM LOCK */
+.hw-score-bar{height:4px;background:var(--accent-l);border-radius:2px;margin-top:.5rem;overflow:hidden}
+.hw-score-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .6s ease}
+/* MIDTERM */
 .mtlock{text-align:center;padding:2.5rem 1.5rem}
 .mtlock-ico{font-size:44px;margin-bottom:.75rem}
 .mtlock h3{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--purple);margin-bottom:.4rem}
@@ -131,10 +140,8 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 .mt-dots{display:flex;gap:7px;justify-content:center;margin-top:1.1rem;flex-wrap:wrap}
 .mtd{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;border:1.5px solid var(--border)}
 .mtd.done{background:var(--accent-l);border-color:var(--accent);color:var(--accent)}
-.mtd.pend{background:var(--bg);color:var(--muted)}
-
+.mtd.pend{background:rgba(255,255,255,0.05);color:var(--muted)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-
 @media(max-width:640px){
   .sb{width:56px}.sb-logo p,.nav-lbl,.nbadge,.ni span:not(.nd){display:none}
   .ni{padding:9px;justify-content:center}.page{padding:1.1rem}
@@ -144,16 +151,11 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
 </style>
 </head>
 <body>
-
-<!-- SIDEBAR -->
 <nav class="sb">
-  <div class="sb-logo">
-    <h1>English<br>with me</h1>
-    <p>Sandugash's portal</p>
-  </div>
+  <div class="sb-logo"><h1>English<br>with me</h1><p>Sandugash's portal</p></div>
   <div class="nav-sec">
     <div class="nav-lbl">Overview</div>
-    <div class="ni active" data-page="progress"><span class="nd"></span>My progress<span class="nbadge" style="background:var(--accent-l);color:var(--accent)">live</span></div>
+    <div class="ni active" data-page="progress"><span class="nd"></span>My progress<span class="nbadge" style="background:#0d2818;color:#4ade80">live</span></div>
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Study</div>
@@ -163,7 +165,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
   </div>
   <div class="nav-sec">
     <div class="nav-lbl">Homework</div>
-    <div class="ni" data-page="hw1"><span class="nd"></span>HW 1<span class="nbadge" style="background:var(--warn-l);color:var(--warn)">open</span></div>
+    <div class="ni" data-page="hw1"><span class="nd"></span>HW 1<span class="nbadge" style="background:#1a1200;color:#fbbf24">open</span></div>
     <div class="ni locked" data-page="hw2"><span class="nd"></span>HW 2</div>
     <div class="ni locked" data-page="hw3"><span class="nd"></span>HW 3</div>
     <div class="ni locked" data-page="hw4"><span class="nd"></span>HW 4</div>
@@ -173,14 +175,13 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
   </div>
 </nav>
 
-<!-- MAIN -->
 <main class="main">
 
-<!-- PROGRESS PAGE -->
+<!-- PROGRESS -->
 <div class="page active" id="page-progress">
   <div class="ph"><h2>My progress</h2><p>Track your vocabulary mastery and homework journey</p></div>
   <div class="metrics">
-    <div class="metric"><div class="mval" style="color:var(--purple)" id="pm-total">112</div><div class="mlbl">Words in dictionary</div></div>
+    <div class="metric"><div class="mval" style="color:var(--purple)" id="pm-total">0</div><div class="mlbl">Words in dictionary</div></div>
     <div class="metric"><div class="mval" style="color:var(--accent)" id="pm-hw">0 / 6</div><div class="mlbl">Homework done</div></div>
     <div class="metric"><div class="mval" style="color:var(--accent2)" id="pm-avg">—</div><div class="mlbl">Average score</div></div>
   </div>
@@ -195,241 +196,389 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
     <div class="ctitle">Homework journey</div>
     <div class="hw-journey">
       <div class="hw-tile hw-open" onclick="goPage('hw1')"><div class="ht-num">HW 1</div><div class="ht-sc" style="color:var(--accent2)">open now</div></div>
-      <div class="hw-tile hw-locked"><div class="ht-num">HW 2</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
-      <div class="hw-tile hw-locked"><div class="ht-num">HW 3</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
-      <div class="hw-tile hw-locked"><div class="ht-num">HW 4</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
-      <div class="hw-tile hw-locked"><div class="ht-num">HW 5</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
-      <div class="hw-tile hw-locked"><div class="ht-num">HW 6</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked" id="tile-hw2"><div class="ht-num">HW 2</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked" id="tile-hw3"><div class="ht-num">HW 3</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked" id="tile-hw4"><div class="ht-num">HW 4</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked" id="tile-hw5"><div class="ht-num">HW 5</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
+      <div class="hw-tile hw-locked" id="tile-hw6"><div class="ht-num">HW 6</div><div class="ht-sc" style="color:var(--muted)">locked</div></div>
       <div class="hw-tile hw-mid"><div class="ht-num" style="color:var(--purple)">Midterm — unlocks after completing all 6 homeworks</div></div>
     </div>
   </div>
 </div>
 
-<!-- DICTIONARY PAGE -->
+<!-- DICTIONARY -->
 <div class="page" id="page-dictionary">
-  <div class="ph"><h2>Dictionary</h2><p>All 112 words and phrases — click the stars to rate how well you know each one</p></div>
+  <div class="ph"><h2>Dictionary</h2><p>All words and phrases — click stars to rate, add new words, or delete ones you've mastered</p></div>
   <div class="dict-top">
     <input class="dsearch" id="dsearch" placeholder="Search words or translation…" oninput="filterDict()">
     <select class="dfilter" id="dfilter" onchange="filterDict()">
-      <option value="">All categories</option>
-      <option value="noun">Noun</option>
-      <option value="verb">Verb</option>
-      <option value="phrase">Phrase</option>
-      <option value="adj">Adjective</option>
-      <option value="adverb">Adverb</option>
-      <option value="irreg.">Irregular verb</option>
-      <option value="gram.">Grammar</option>
-      <option value="body">Body</option>
+      <option value="">All types</option>
+      <option value="noun">Noun</option><option value="verb">Verb</option>
+      <option value="phrase">Phrase</option><option value="adj">Adjective</option>
+      <option value="adverb">Adverb</option><option value="irreg.">Irregular verb</option>
+      <option value="gram.">Grammar</option><option value="body">Body</option>
       <option value="clothes">Clothes</option>
     </select>
+    <button class="dadd-btn" onclick="toggleAddForm()">+ Add word</button>
+  </div>
+  <div class="add-form" id="add-form">
+    <div style="font-size:13px;font-weight:500;margin-bottom:.6rem;color:var(--text)">Add a new word</div>
+    <div class="add-form-row">
+      <input id="add-word" placeholder="Word / phrase (English)">
+      <input id="add-trans" placeholder="Translation (Russian)">
+      <select id="add-pos">
+        <option value="noun">Noun</option><option value="verb">Verb</option>
+        <option value="phrase">Phrase</option><option value="adj">Adjective</option>
+        <option value="adverb">Adverb</option><option value="irreg.">Irregular verb</option>
+        <option value="gram.">Grammar</option><option value="body">Body</option>
+        <option value="clothes">Clothes</option><option value="prep">Preposition</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="add-save" onclick="addWord()">Save</button>
+      <button class="add-cancel" onclick="toggleAddForm()">Cancel</button>
+    </div>
   </div>
   <div class="card" style="padding:1rem 1.5rem">
     <table class="dtable">
-      <thead><tr><th style="width:36%">Word / phrase</th><th style="width:13%">Type</th><th style="width:36%">Translation</th><th style="width:15%">Level</th></tr></thead>
+      <thead><tr>
+        <th style="width:33%">Word / phrase</th><th style="width:12%">Type</th>
+        <th style="width:32%">Translation</th><th style="width:13%">Level</th><th style="width:10%"></th>
+      </tr></thead>
       <tbody id="dtbody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- GRAMMAR PAGE -->
+<!-- GRAMMAR -->
 <div class="page" id="page-grammar">
-  <div class="ph"><h2>Grammar rules</h2><p>All grammar topics from your lessons with explanations and examples</p></div>
+  <div class="ph"><h2>Grammar rules</h2><p>Search any topic or scroll through all rules</p></div>
+  <div class="gram-search-wrap">
+    <input class="gram-search" id="gram-search" placeholder="Search: e.g. passive, must, present perfect, articles…" oninput="searchGrammar()">
+    <button class="gram-search-btn" onclick="searchGrammar()">Search</button>
+    <button class="gram-search-btn" style="background:transparent;color:var(--muted);border-color:var(--border)" onclick="clearGramSearch()">Clear</button>
+  </div>
+  <div id="gram-no-result" class="gram-no-result" style="display:none">No rules found for that topic. Try different keywords.</div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#eeedfc;color:#5548c8">Comparison</span>
-    <h3>Comparative & superlative adjectives</h3>
-    <p>Use <strong>comparative</strong> to compare two things; <strong>superlative</strong> for the most/least in a group. Also use <strong>as…as</strong> for equality.</p>
+  <div class="grule" data-keys="comparative superlative adjective as as bigger best more">
+    <span class="gtag" style="background:#1e1a3a;color:#a78bfa">Comparison</span>
+    <h3>Comparative &amp; superlative adjectives</h3>
+    <p>Use <strong>comparative</strong> to compare two things; <strong>superlative</strong> for the most/least in a group. Use <strong>as…as</strong> for equality.</p>
     <table class="gtable">
       <tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
-      <tr><td>tall</td><td>taller <em>than</em></td><td>the tallest</td></tr>
-      <tr><td>beautiful</td><td>more beautiful <em>than</em></td><td>the most beautiful</td></tr>
-      <tr><td>good</td><td>better <em>than</em></td><td>the best</td></tr>
-      <tr><td>bad</td><td>worse <em>than</em></td><td>the worst</td></tr>
+      <tr><td>tall</td><td>taller than</td><td>the tallest</td></tr>
+      <tr><td>beautiful</td><td>more beautiful than</td><td>the most beautiful</td></tr>
+      <tr><td>good</td><td>better than</td><td>the best</td></tr>
+      <tr><td>bad</td><td>worse than</td><td>the worst</td></tr>
+      <tr><td>slim</td><td>slimmer than</td><td>the slimmest</td></tr>
     </table>
-    <div class="gex">She is <strong>taller than</strong> her sister. / He is <strong>the most competitive</strong> player.<br><em>As…as:</em> She is <strong>as slim as</strong> her mother.</div>
+    <div class="gex">She is <strong>taller than</strong> her sister. / He is <strong>the most competitive</strong> player.<br><em>As…as:</em> She is <strong>as slim as</strong> her mother. / This is <strong>as valuable as</strong> gold.</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#e8f0eb;color:#2d5a3d">Modals</span>
-    <h3>Have to / must / should</h3>
-    <p><strong>Must</strong> = strong personal obligation. <strong>Have to</strong> = external obligation. <strong>Should</strong> = advice. Negatives change meaning completely.</p>
-    <div class="gex">You <strong>must</strong> take your medicine. (strong obligation)<br>I <strong>have to</strong> be at school by 8. (rule/external)<br>You <strong>should</strong> take notes in class. (advice)<br>You <strong>don't have to</strong> come. (not necessary — it's optional)<br>I <strong>mustn't</strong> forget. (prohibition)</div>
+  <div class="grule" data-keys="must have to should obligation advice need dont dont have to mustn't">
+    <span class="gtag" style="background:#0d2818;color:#4ade80">Modals</span>
+    <h3>Have to / must / should / don't have to</h3>
+    <p><strong>Must</strong> = strong personal obligation or prohibition. <strong>Have to</strong> = external rule. <strong>Should</strong> = advice. <strong>Don't have to</strong> = not necessary (it's optional — completely different from mustn't!).</p>
+    <div class="gex">You <strong>must</strong> take your medicine. (strong — you have no choice)<br>I <strong>have to</strong> be at school by 8. (external rule)<br>You <strong>should</strong> take notes in class. (advice)<br>You <strong>don't have to</strong> come. (optional — it's fine either way)<br>You <strong>mustn't</strong> cheat. (prohibition — it's forbidden)</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#e5f5f5;color:#1a6b6b">Have got</span>
-    <h3>Haven't got</h3>
-    <p><strong>Have got</strong> = possession (British English). Negative: <strong>haven't got</strong>. Same meaning as "don't have".</p>
-    <div class="gex">I <strong>haven't got</strong> a sword. = I <strong>don't have</strong> a sword.<br>She <strong>has got</strong> sensitive skin. = She <strong>has</strong> sensitive skin.</div>
+  <div class="grule" data-keys="have got haven't got possession don't have">
+    <span class="gtag" style="background:#051a12;color:#34d399">Have got</span>
+    <h3>Have got / haven't got</h3>
+    <p><strong>Have got</strong> = possession (common in British English). Negative: <strong>haven't got</strong>. It means the same as "don't have".</p>
+    <div class="gex">I <strong>haven't got</strong> a sword. = I <strong>don't have</strong> a sword.<br>She <strong>has got</strong> sensitive skin. = She <strong>has</strong> sensitive skin.<br>Have you got a hoodie? = Do you have a hoodie?</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#f5ece3;color:#7c4f2a">Past tenses</span>
+  <div class="grule" data-keys="past simple past continuous while when interrupted was were ing">
+    <span class="gtag" style="background:#1c1506;color:#f59e0b">Past tenses</span>
     <h3>Past Simple vs Past Continuous</h3>
-    <p><strong>Past Continuous</strong>: was/were + -ing → action in progress at a specific moment.<br><strong>Past Simple</strong> interrupts it.</p>
-    <div class="gex">I <strong>was reading</strong> when she <strong>arrived</strong>.<br>While he <strong>was sleeping</strong>, she <strong>left</strong>.<br>They <strong>were playing</strong> football all afternoon.</div>
+    <p><strong>Past Continuous</strong>: was/were + -ing → longer background action.<br><strong>Past Simple</strong> → shorter action that interrupts it. Key words: <em>while, when, as</em>.</p>
+    <div class="gex">I <strong>was reading</strong> when she <strong>arrived</strong>.<br>While he <strong>was sleeping</strong>, she <strong>left</strong>.<br>They <strong>were playing</strong> football all afternoon.<br>What <strong>were</strong> you <strong>doing</strong> at 8pm yesterday?</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#f5ece3;color:#7c4f2a">Past tenses</span>
+  <div class="grule" data-keys="past perfect had already before by the time first action">
+    <span class="gtag" style="background:#1c1506;color:#f59e0b">Past tenses</span>
     <h3>Past Perfect</h3>
-    <p>Use Past Perfect for the action that happened <em>first</em>, before another past action. Form: <strong>had + past participle</strong>.</p>
-    <div class="gex">She <strong>had already left</strong> when I arrived.<br>By the time the film started, we <strong>had found</strong> our seats.<br>He was tired because he <strong>had walked</strong> all day.</div>
+    <p>Use Past Perfect for the action that happened <em>first</em>, before another past action. Form: <strong>had + past participle</strong>. Key words: <em>already, just, by the time, before, after, when</em>.</p>
+    <div class="gex">She <strong>had already left</strong> when I arrived.<br>By the time the film started, we <strong>had found</strong> our seats.<br>He was tired because he <strong>had walked</strong> all day.<br>I <strong>had never seen</strong> a refugee camp before that visit.</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#eeedfc;color:#5548c8">Passive</span>
+  <div class="grule" data-keys="passive voice is considered was built are being helped by subject object">
+    <span class="gtag" style="background:#1e1a3a;color:#a78bfa">Passive</span>
     <h3>Passive voice</h3>
-    <p>Focus on the action, not who does it. Form: <strong>is/are/was/were + past participle</strong>.</p>
-    <div class="gex"><em>Active:</em> People consider this valuable.<br><strong>Passive:</strong> This <strong>is considered</strong> valuable.<br><strong>Passive past:</strong> The castle <strong>was built</strong> in 1200.<br>Refugees <strong>are being helped</strong> by volunteers.</div>
+    <p>Use passive when the action matters more than who does it. Form: <strong>is/are/was/were + past participle</strong>. The doer can be added with <em>by</em>.</p>
+    <div class="gex"><em>Active:</em> People consider this valuable.<br><strong>Passive present:</strong> This <strong>is considered</strong> valuable.<br><strong>Passive past:</strong> The castle <strong>was built</strong> in 1200.<br><strong>Passive continuous:</strong> Refugees <strong>are being helped</strong> by volunteers.<br><em>To form: Subject + is/are/was/were + past participle (+ by ...)</em></div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#fef8ec;color:#a06b1a">Present Perfect</span>
+  <div class="grule" data-keys="present perfect for since ever never always have has experience unfinished">
+    <span class="gtag" style="background:#1a1200;color:#fbbf24">Present Perfect</span>
     <h3>Present Perfect — for, since, ever, never, always</h3>
-    <p>Form: <strong>have/has + past participle</strong>. Use for past actions with a connection to now.</p>
-    <div class="gex">I <strong>have lived</strong> here <strong>for</strong> 5 years. (duration up to now)<br>She <strong>has worked</strong> here <strong>since</strong> 2019. (from a point in time)<br>Have you <strong>ever</strong> visited London? / I have <strong>never</strong> eaten sushi.<br>I have <strong>always</strong> wanted to travel.</div>
+    <p>Form: <strong>have/has + past participle</strong>. Used for past actions connected to the present. Key words: <em>for, since, ever, never, always, just, already, yet</em>.</p>
+    <div class="gex">I <strong>have lived</strong> here <strong>for</strong> 5 years. (duration up to now)<br>She <strong>has worked</strong> here <strong>since</strong> 2019. (from a point in time)<br>Have you <strong>ever</strong> visited London?<br>I have <strong>never</strong> eaten sushi. / I have <strong>always</strong> wanted to travel.<br>She has <strong>just</strong> arrived. / Have you finished <strong>yet</strong>?</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#fef8ec;color:#a06b1a">Present Perfect</span>
+  <div class="grule" data-keys="present perfect past simple difference when yesterday last year specific time">
+    <span class="gtag" style="background:#1a1200;color:#fbbf24">Present Perfect</span>
     <h3>Present Perfect or Past Simple?</h3>
-    <p><strong>Past Simple</strong>: finished time (yesterday, in 2020, last week). <strong>Present Perfect</strong>: unfinished time or no specific time.</p>
-    <div class="gex">I <strong>went</strong> to Paris last year. ✓ (finished, specific time)<br>I <strong>have been</strong> to Paris. ✓ (experience, no specific time)<br>She <strong>has lost</strong> her keys. ✓ (still relevant now)<br>She <strong>lost</strong> her keys yesterday. ✓ (finished)</div>
+    <p><strong>Past Simple</strong>: use with finished time (yesterday, in 2020, last week, ago). <strong>Present Perfect</strong>: no specific time, or when the result matters now.</p>
+    <table class="gtable">
+      <tr><th>Past Simple ✓</th><th>Present Perfect ✓</th></tr>
+      <tr><td>I went to Paris <em>last year</em>.</td><td>I have been to Paris. (experience)</td></tr>
+      <tr><td>She lost her keys <em>yesterday</em>.</td><td>She has lost her keys. (still missing!)</td></tr>
+      <tr><td>He lived here <em>in 2010</em>.</td><td>He has lived here for 5 years. (still here)</td></tr>
+    </table>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#e8f0eb;color:#2d5a3d">Future</span>
+  <div class="grule" data-keys="future going to will present continuous plans arrangements spontaneous prediction">
+    <span class="gtag" style="background:#0d2818;color:#4ade80">Future</span>
     <h3>Going to / will / Present Continuous for future</h3>
     <table class="gtable">
       <tr><th>Form</th><th>Use</th><th>Example</th></tr>
-      <tr><td><strong>going to</strong></td><td>plans & predictions with evidence</td><td>I'm going to study tonight.</td></tr>
+      <tr><td><strong>going to</strong></td><td>plans &amp; predictions with evidence</td><td>I'm going to study tonight.</td></tr>
       <tr><td><strong>will</strong></td><td>spontaneous decisions, promises, offers</td><td>I'll help you carry that!</td></tr>
       <tr><td><strong>Present Continuous</strong></td><td>fixed future arrangements</td><td>I'm meeting her at 6.</td></tr>
     </table>
+    <div class="gex">Look at those clouds — it<strong>'s going to</strong> rain! (evidence now)<br>A: I'm cold. B: I<strong>'ll</strong> close the window. (spontaneous)<br>I<strong>'m flying</strong> to London on Monday. (booked, fixed)</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#e5f5f5;color:#1a6b6b">Articles</span>
+  <div class="grule" data-keys="articles a an the zero no article general specific first mention">
+    <span class="gtag" style="background:#051a12;color:#34d399">Articles</span>
     <h3>Articles — a / an / the / Ø</h3>
-    <div class="gex"><strong>a/an</strong> = first mention, one of many: <em>I saw <strong>a</strong> refugee at the border.</em><br><strong>the</strong> = specific, both speakers know: <em><strong>The</strong> refugee I mentioned is safe.</em><br><strong>Ø (no article)</strong> = plural/uncountable general: <em><strong>Refugees</strong> need help. <strong>Water</strong> is essential.</em></div>
+    <table class="gtable">
+      <tr><th>Article</th><th>When to use</th><th>Example</th></tr>
+      <tr><td><strong>a / an</strong></td><td>First mention; one of many</td><td>I saw <strong>a</strong> refugee.</td></tr>
+      <tr><td><strong>the</strong></td><td>Both speakers know which one</td><td><strong>The</strong> refugee I mentioned is safe.</td></tr>
+      <tr><td><strong>Ø</strong> (no article)</td><td>Plural / uncountable in general</td><td><strong>Refugees</strong> need help. <strong>Water</strong> is essential.</td></tr>
+    </table>
+    <div class="gex">She is <strong>a</strong> brave soldier. (first mention, any soldier)<br><strong>The</strong> soldier saved her. (we know which one)<br>I love <strong>Ø</strong> history. / <strong>The</strong> history of Kazakhstan is fascinating.</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#eeedfc;color:#5548c8">Intensifiers</span>
+  <div class="grule" data-keys="so such so much so many intensifier adjective noun uncountable countable">
+    <span class="gtag" style="background:#1e1a3a;color:#a78bfa">Intensifiers</span>
     <h3>So / such / so much / so many</h3>
-    <p><strong>So</strong> + adjective/adverb. <strong>Such</strong> + (a/an) + noun. <strong>So much</strong> + uncountable. <strong>So many</strong> + countable plural.</p>
-    <div class="gex">It was <strong>so</strong> unusual. / She is <strong>such</strong> a brave person.<br>There was <strong>so much</strong> traffic. / There were <strong>so many</strong> people.</div>
+    <p><strong>So</strong> + adjective/adverb. <strong>Such (a/an)</strong> + noun. <strong>So much</strong> + uncountable noun. <strong>So many</strong> + countable plural.</p>
+    <div class="gex">It was <strong>so</strong> unusual. / She is <strong>such</strong> a brave person.<br>There was <strong>so much</strong> traffic. / There were <strong>so many</strong> refugees.<br>He speaks <strong>so</strong> quickly. / It was <strong>such</strong> a competitive exam.</div>
   </div>
 
-  <div class="grule">
-    <span class="gtag" style="background:#fdf0ef;color:#bc3a2e">Irregular verbs</span>
+  <div class="grule" data-keys="irregular verbs send sent sell sold bring brought find found bite bit carry">
+    <span class="gtag" style="background:#1f0c0c;color:#f87171">Irregular verbs</span>
     <h3>Key irregular verb forms</h3>
     <table class="gtable">
-      <tr><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th></tr>
-      <tr><td>send</td><td>sent</td><td>sent</td></tr>
-      <tr><td>sell</td><td>sold</td><td>sold</td></tr>
-      <tr><td>bring</td><td>brought</td><td>brought</td></tr>
-      <tr><td>find</td><td>found</td><td>found</td></tr>
-      <tr><td>found (establish)</td><td>founded</td><td>founded</td></tr>
-      <tr><td>take</td><td>took</td><td>taken</td></tr>
-      <tr><td>bite</td><td>bit</td><td>bitten</td></tr>
-      <tr><td>carry</td><td>carried</td><td>carried</td></tr>
+      <tr><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th><th>Meaning</th></tr>
+      <tr><td>send</td><td>sent</td><td>sent</td><td>отправить</td></tr>
+      <tr><td>sell</td><td>sold</td><td>sold</td><td>продать</td></tr>
+      <tr><td>bring</td><td>brought</td><td>brought</td><td>принести</td></tr>
+      <tr><td>find</td><td>found</td><td>found</td><td>найти</td></tr>
+      <tr><td>found (establish)</td><td>founded</td><td>founded</td><td>основать</td></tr>
+      <tr><td>take</td><td>took</td><td>taken</td><td>взять</td></tr>
+      <tr><td>bite</td><td>bit</td><td>bitten</td><td>укусить</td></tr>
+      <tr><td>carry</td><td>carried</td><td>carried</td><td>нести</td></tr>
+      <tr><td>shout</td><td>shouted</td><td>shouted</td><td>кричать (regular!)</td></tr>
+      <tr><td>invade</td><td>invaded</td><td>invaded</td><td>вторгаться (regular!)</td></tr>
     </table>
+  </div>
+
+  <div class="grule" data-keys="well badly prefix hyphen compound adjective well-known badly-managed">
+    <span class="gtag" style="background:#051a12;color:#34d399">Prefixes</span>
+    <h3>Well- and Badly- compound adjectives</h3>
+    <p>These attach to past participles to form compound adjectives. Use a <strong>hyphen before a noun</strong>, no hyphen after a verb.</p>
+    <div class="gex">A <strong>well-known</strong> scientist. (before noun → hyphen)<br>The scientist is <strong>well known</strong>. (after verb → no hyphen)<br>A <strong>badly-managed</strong> project. / The project was <strong>badly managed</strong>.<br>Other examples: well-paid, well-dressed, badly-organised, badly-behaved</div>
   </div>
 </div>
 
-<!-- PRONUNCIATION PAGE -->
+<!-- PRONUNCIATION -->
 <div class="page" id="page-pronunciation">
   <div class="ph"><h2>Pronunciation</h2><p>Press play to hear the word spoken aloud in English</p></div>
   <div class="card" style="padding:.9rem 1.5rem" id="pronlist"></div>
 </div>
 
-<!-- HW1 -->
+<!-- HW 1 — Vocabulary + Passive + Well/Badly + So/Such -->
 <div class="page" id="page-hw1">
-  <div class="ph">
-    <h2>Homework 1<span class="hw-result" id="hw1-result"></span></h2>
-    <p>Vocabulary &amp; phrases — type your answers and check each one</p>
-  </div>
+  <div class="ph"><h2>Homework 1<span class="hw-result" id="hw1-result"></span></h2><p>Vocabulary · Passive voice · Well/Badly · So/Such — 25 exercises</p></div>
   <div class="card">
-    <div class="ex">
-      <div class="exnum">Exercise 1 — Translation</div>
-      <div class="exq">Translate into English: «Беженец»</div>
-      <div class="exrow"><input class="exinput" id="h1e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e1','refugee','h1f1')">Check</button></div>
-      <div class="fb" id="h1f1"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 2 — Translation</div>
-      <div class="exq">Translate into English: «Избегать»</div>
-      <div class="exrow"><input class="exinput" id="h1e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e2','avoid','h1f2')">Check</button></div>
-      <div class="fb" id="h1f2"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 3 — Translation</div>
-      <div class="exq">Translate: «Позволить себе (по деньгам)»</div>
-      <div class="exrow"><input class="exinput" id="h1e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e3','afford','h1f3')">Check</button></div>
-      <div class="fb" id="h1f3"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 4 — Fill in</div>
-      <div class="exq">Fill in: «The army decided to ___ the country.» (вторгнуться)</div>
-      <div class="exrow"><input class="exinput" id="h1e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e4','invade','h1f4')">Check</button></div>
-      <div class="fb" id="h1f4"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 5 — Multiple choice</div>
-      <div class="exq">Which sentence uses <em>as…as</em> correctly?</div>
-      <div class="mcopts">
-        <button class="mcbtn" onclick="mc(this,'err','h1m5')">She is as brave than her brother.</button>
-        <button class="mcbtn" onclick="mc(this,'ok','h1m5')">She is as brave as her brother.</button>
-        <button class="mcbtn" onclick="mc(this,'err','h1m5')">She is as more brave as her brother.</button>
-      </div>
-      <div class="fb" id="h1m5"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 6 — Translation</div>
-      <div class="exq">Translate: «Необычный»</div>
-      <div class="exrow"><input class="exinput" id="h1e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e6','unusual','h1f6')">Check</button></div>
-      <div class="fb" id="h1f6"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 7 — Fill in</div>
-      <div class="exq">Fill in: «I ___ seen that film before.» (Present Perfect, never)</div>
-      <div class="exrow"><input class="exinput" id="h1e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e7','have never','h1f7')">Check</button></div>
-      <div class="fb" id="h1f7"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 8 — Multiple choice</div>
-      <div class="exq">Which is correct?</div>
-      <div class="mcopts">
-        <button class="mcbtn" onclick="mc(this,'err','h1m8')">I must to study.</button>
-        <button class="mcbtn" onclick="mc(this,'ok','h1m8')">I must study.</button>
-        <button class="mcbtn" onclick="mc(this,'err','h1m8')">I must studying.</button>
-      </div>
-      <div class="fb" id="h1m8"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 9 — Translation</div>
-      <div class="exq">Translate: «Космополитичный»</div>
-      <div class="exrow"><input class="exinput" id="h1e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e9','cosmopolitan','h1f9')">Check</button></div>
-      <div class="fb" id="h1f9"></div>
-    </div>
-    <div class="ex">
-      <div class="exnum">Exercise 10 — Fill in</div>
-      <div class="exq">Fill in: «She ___ (experience) a lot since moving abroad.» (Present Perfect)</div>
-      <div class="exrow"><input class="exinput" id="h1e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e10','has experienced','h1f10')">Check</button></div>
-      <div class="fb" id="h1f10"></div>
-    </div>
-    <button class="subhw" onclick="submitHW(1,10,'hw1-result')">Submit homework 1</button>
+
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);padding-bottom:.6rem;border-bottom:1px solid var(--border);margin-bottom:1rem">Part A — Vocabulary</div>
+
+    <div class="ex"><div class="exnum">Ex 1 — Translation</div><div class="exq">Translate: «Беженец»</div><div class="exrow"><input class="exinput" id="h1e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e1','refugee','h1f1')">Check</button></div><div class="fb" id="h1f1"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 2 — Translation</div><div class="exq">Translate: «Избегать»</div><div class="exrow"><input class="exinput" id="h1e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e2','avoid','h1f2')">Check</button></div><div class="fb" id="h1f2"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 3 — Translation</div><div class="exq">Translate: «Позволить себе (по деньгам)»</div><div class="exrow"><input class="exinput" id="h1e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e3','afford','h1f3')">Check</button></div><div class="fb" id="h1f3"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 4 — Fill in</div><div class="exq">Fill in: «The army decided to ___ the country.»</div><div class="exrow"><input class="exinput" id="h1e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e4','invade','h1f4')">Check</button></div><div class="fb" id="h1f4"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 5 — Translation</div><div class="exq">Translate: «Необычный»</div><div class="exrow"><input class="exinput" id="h1e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e5','unusual','h1f5')">Check</button></div><div class="fb" id="h1f5"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 6 — Translation</div><div class="exq">Translate: «Налог»</div><div class="exrow"><input class="exinput" id="h1e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e6','tax','h1f6')">Check</button></div><div class="fb" id="h1f6"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 7 — Multiple choice</div><div class="exq">«The government decided to ___ people fleeing the war.» What fits best?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h1m7')">invade</button><button class="mcbtn" onclick="mc(this,'ok','h1m7')">let people in</button><button class="mcbtn" onclick="mc(this,'err','h1m7')">avoid</button></div><div class="fb" id="h1m7"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 8 — Multiple choice</div><div class="exq">Which word means «Древний»?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h1m8')">Recently</button><button class="mcbtn" onclick="mc(this,'ok','h1m8')">Ancient</button><button class="mcbtn" onclick="mc(this,'err','h1m8')">Cosmopolitan</button></div><div class="fb" id="h1m8"></div></div>
+
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--purple);padding:.75rem 0 .6rem;border-bottom:1px solid var(--border);margin-bottom:1rem;margin-top:.5rem">Part B — Passive voice (is/are/was/were + past participle)</div>
+
+    <div class="ex"><div class="exnum">Ex 9 — Passive: identify</div><div class="exq">Which sentence is in the passive voice?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h1m9')">The soldiers invaded the city.</button><button class="mcbtn" onclick="mc(this,'ok','h1m9')">The city was invaded by soldiers.</button><button class="mcbtn" onclick="mc(this,'err','h1m9')">Soldiers are invading the city.</button></div><div class="fb" id="h1m9"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 10 — Passive: fill in</div><div class="exq">Fill in: «She ___ by the police after the protest.» (захвачена — passive, past)</div><div class="exrow"><input class="exinput" id="h1e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e10','was captured','h1f10')">Check</button></div><div class="fb" id="h1f10"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 11 — Passive: fill in</div><div class="exq">Fill in: «Taxes ___ (collect) by the government every year.» (passive, present)</div><div class="exrow"><input class="exinput" id="h1e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e11','are collected','h1f11')">Check</button></div><div class="fb" id="h1f11"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 12 — Passive: rewrite</div><div class="exq">Rewrite in passive: «People consider this city cosmopolitan.»</div><div class="extip">Start with: "This city…"</div><div class="exrow"><input class="exinput" id="h1e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e12','this city is considered cosmopolitan','h1f12')">Check</button></div><div class="fb" id="h1f12"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 13 — Passive: rewrite</div><div class="exq">Rewrite in passive: «The army invaded the country in 1940.»</div><div class="extip">Start with: "The country…"</div><div class="exrow"><input class="exinput" id="h1e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e13','the country was invaded in 1940','h1f13')">Check</button></div><div class="fb" id="h1f13"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 14 — Passive: multiple choice</div><div class="exq">«Refugees ___ helped by volunteers every day.» Choose the correct form.</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h1m14')">is</button><button class="mcbtn" onclick="mc(this,'ok','h1m14')">are</button><button class="mcbtn" onclick="mc(this,'err','h1m14')">was</button></div><div class="fb" id="h1m14"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 15 — Passive: translate</div><div class="exq">Translate into passive: «Приказ был выполнен.»</div><div class="exrow"><input class="exinput" id="h1e15" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e15','the order was executed','h1f15')">Check</button></div><div class="fb" id="h1f15"></div></div>
+
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);padding:.75rem 0 .6rem;border-bottom:1px solid var(--border);margin-bottom:1rem;margin-top:.5rem">Part C — Well- / Badly- compound adjectives</div>
+
+    <div class="ex"><div class="exnum">Ex 16 — Well / Badly: multiple choice</div><div class="exq">«She is a ___ known scientist around the world.» (before a noun)</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h1m16')">well-known</button><button class="mcbtn" onclick="mc(this,'err','h1m16')">well known</button><button class="mcbtn" onclick="mc(this,'err','h1m16')">good known</button></div><div class="fb" id="h1m16"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 17 — Well / Badly: fill in</div><div class="exq">Fill in: «The project was ___ managed — nothing worked.» (плохо управляемый, after a verb)</div><div class="exrow"><input class="exinput" id="h1e17" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e17','badly managed','h1f17')">Check</button></div><div class="fb" id="h1f17"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 18 — Well / Badly: multiple choice</div><div class="exq">«It was a ___ organised event — everyone was confused.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h1m18')">badly-organised</button><button class="mcbtn" onclick="mc(this,'err','h1m18')">well-organised</button><button class="mcbtn" onclick="mc(this,'err','h1m18')">bad-organise</button></div><div class="fb" id="h1m18"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 19 — Well / Badly: correct the mistake</div><div class="exq">Find the error: «She is a well known author.» (before a noun — what's missing?)</div><div class="extip">Hint: think about the hyphen rule</div><div class="exrow"><input class="exinput" id="h1e19" placeholder="Write the corrected phrase…"><button class="cbtn" onclick="chk('h1e19','she is a well-known author','h1f19')">Check</button></div><div class="fb" id="h1f19"></div></div>
+
+    <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--warn);padding:.75rem 0 .6rem;border-bottom:1px solid var(--border);margin-bottom:1rem;margin-top:.5rem">Part D — So / Such / So much / So many</div>
+
+    <div class="ex"><div class="exnum">Ex 20 — So / Such: multiple choice</div><div class="exq">«It was ___ unusual experience.» Choose the correct option.</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h1m20')">so</button><button class="mcbtn" onclick="mc(this,'ok','h1m20')">such an</button><button class="mcbtn" onclick="mc(this,'err','h1m20')">so much</button></div><div class="fb" id="h1m20"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 21 — So / Such: multiple choice</div><div class="exq">«There were ___ many refugees at the border.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h1m21')">so</button><button class="mcbtn" onclick="mc(this,'err','h1m21')">such</button><button class="mcbtn" onclick="mc(this,'err','h1m21')">very</button></div><div class="fb" id="h1m21"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 22 — So / Such: fill in</div><div class="exq">Fill in: «She is ___ a brave person.» (такая)</div><div class="exrow"><input class="exinput" id="h1e22" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e22','such','h1f22')">Check</button></div><div class="fb" id="h1f22"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 23 — So / Such: fill in</div><div class="exq">Fill in: «There was ___ much traffic that we were late.»</div><div class="exrow"><input class="exinput" id="h1e23" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e23','so','h1f23')">Check</button></div><div class="fb" id="h1f23"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 24 — So / Such: translate</div><div class="exq">Translate: «Это была такая необычная сказка!»</div><div class="extip">Use "such a" — remember the pattern: such a/an + adjective + noun</div><div class="exrow"><input class="exinput" id="h1e24" placeholder="Your answer…"><button class="cbtn" onclick="chk('h1e24','it was such an unusual fairy tale','h1f24')">Check</button></div><div class="fb" id="h1f24"></div></div>
+
+    <div class="ex"><div class="exnum">Ex 25 — Free writing</div><div class="exq">Write 2 sentences: one using <em>passive voice</em>, one using <em>so or such</em>. Topic: refugees or ancient cities.</div><div class="extip">Teacher will check. Make sure to use the correct grammar structures!</div><div class="exrow"><input class="exinput" id="h1e25" placeholder="Write your sentences…"><button class="cbtn" onclick="chkLen('h1e25','h1f25',8)">Check</button></div><div class="fb" id="h1f25"></div></div>
+
+    <button class="subhw" onclick="submitHW(1,25,'hw1-result','hw1-bar')">Submit HW 1</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw1-bar" style="width:0%"></div></div>
   </div>
 </div>
 
-<!-- HW2-6 locked placeholders -->
-<div class="page" id="page-hw2"><div class="ph"><h2>Homework 2</h2><p>Not available yet — complete HW 1 first.</p></div></div>
-<div class="page" id="page-hw3"><div class="ph"><h2>Homework 3</h2><p>Not available yet.</p></div></div>
-<div class="page" id="page-hw4"><div class="ph"><h2>Homework 4</h2><p>Not available yet.</p></div></div>
-<div class="page" id="page-hw5"><div class="ph"><h2>Homework 5</h2><p>Not available yet.</p></div></div>
-<div class="page" id="page-hw6"><div class="ph"><h2>Homework 6</h2><p>Not available yet.</p></div></div>
+<!-- HW 2 — Personality & appearance -->
+<div class="page" id="page-hw2">
+  <div class="ph"><h2>Homework 2<span class="hw-result" id="hw2-result"></span></h2><p>Personality, appearance &amp; body — 15 exercises</p></div>
+  <div class="card">
+    <div class="ex"><div class="exnum">Ex 1 — Translation</div><div class="exq">Translate: «Храбрый»</div><div class="exrow"><input class="exinput" id="h2e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e1','brave','h2f1')">Check</button></div><div class="fb" id="h2f1"></div></div>
+    <div class="ex"><div class="exnum">Ex 2 — Translation</div><div class="exq">Translate: «Чувствительный»</div><div class="exrow"><input class="exinput" id="h2e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e2','sensitive','h2f2')">Check</button></div><div class="fb" id="h2f2"></div></div>
+    <div class="ex"><div class="exnum">Ex 3 — Translation</div><div class="exq">Translate: «Лёгкий в общении»</div><div class="exrow"><input class="exinput" id="h2e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e3','easy-going','h2f3')">Check</button></div><div class="fb" id="h2f3"></div></div>
+    <div class="ex"><div class="exnum">Ex 4 — Translation</div><div class="exq">Translate: «Конкурентоспособный»</div><div class="exrow"><input class="exinput" id="h2e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e4','competitive','h2f4')">Check</button></div><div class="fb" id="h2f4"></div></div>
+    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «She has a ___ waist — she looks very fit.» (стройный/тонкий)</div><div class="exrow"><input class="exinput" id="h2e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e5','slim','h2f5')">Check</button></div><div class="fb" id="h2f5"></div></div>
+    <div class="ex"><div class="exnum">Ex 6 — Body part</div><div class="exq">Translate: «Запястье»</div><div class="exrow"><input class="exinput" id="h2e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e6','wrist','h2f6')">Check</button></div><div class="fb" id="h2f6"></div></div>
+    <div class="ex"><div class="exnum">Ex 7 — Body part</div><div class="exq">Translate: «Талия»</div><div class="exrow"><input class="exinput" id="h2e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e7','waist','h2f7')">Check</button></div><div class="fb" id="h2f7"></div></div>
+    <div class="ex"><div class="exnum">Ex 8 — Clothes</div><div class="exq">Translate: «Толстовка с капюшоном»</div><div class="exrow"><input class="exinput" id="h2e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e8','hoodie','h2f8')">Check</button></div><div class="fb" id="h2f8"></div></div>
+    <div class="ex"><div class="exnum">Ex 9 — Multiple choice</div><div class="exq">He fell off his bike and got ___. Which word is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h2m9')">retired</button><button class="mcbtn" onclick="mc(this,'ok','h2m9')">injured</button><button class="mcbtn" onclick="mc(this,'err','h2m9')">captured</button></div><div class="fb" id="h2m9"></div></div>
+    <div class="ex"><div class="exnum">Ex 10 — Translation</div><div class="exq">Translate: «Меч»</div><div class="exrow"><input class="exinput" id="h2e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e10','sword','h2f10')">Check</button></div><div class="fb" id="h2f10"></div></div>
+    <div class="ex"><div class="exnum">Ex 11 — Fill in</div><div class="exq">Fill in: «You can stay ___ ___ ___ you behave well.» (при условии что)</div><div class="extip">Hint: 3 words meaning «при условии что»</div><div class="exrow"><input class="exinput" id="h2e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e11','as long as','h2f11')">Check</button></div><div class="fb" id="h2f11"></div></div>
+    <div class="ex"><div class="exnum">Ex 12 — Comparative</div><div class="exq">Write the comparative of "competitive".</div><div class="exrow"><input class="exinput" id="h2e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e12','more competitive','h2f12')">Check</button></div><div class="fb" id="h2f12"></div></div>
+    <div class="ex"><div class="exnum">Ex 13 — Comparative</div><div class="exq">Write the superlative of "brave".</div><div class="exrow"><input class="exinput" id="h2e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h2e13','the bravest','h2f13')">Check</button></div><div class="fb" id="h2f13"></div></div>
+    <div class="ex"><div class="exnum">Ex 14 — Multiple choice</div><div class="exq">«She is ___ competitive ___ her sister.» Choose the correct form.</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h2m14')">as … as</button><button class="mcbtn" onclick="mc(this,'err','h2m14')">so … as</button><button class="mcbtn" onclick="mc(this,'err','h2m14')">more … than</button></div><div class="fb" id="h2m14"></div></div>
+    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Describe yourself using TWO personality adjectives from this lesson.</div><div class="extip">E.g. "I am easy-going and sometimes competitive." — checked by teacher.</div><div class="exrow"><input class="exinput" id="h2e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h2e15','h2f15',4)">Check</button></div><div class="fb" id="h2f15"></div></div>
+    <button class="subhw" onclick="submitHW(2,15,'hw2-result','hw2-bar')">Submit HW 2</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw2-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- HW 3 — Past Simple & Continuous -->
+<div class="page" id="page-hw3">
+  <div class="ph"><h2>Homework 3<span class="hw-result" id="hw3-result"></span></h2><p>Past Simple &amp; Past Continuous — 15 exercises</p></div>
+  <div class="card">
+    <div class="ex"><div class="exnum">Ex 1 — Fill in</div><div class="exq">Fill in: «She ___ (read) when I called her.» (Past Continuous)</div><div class="exrow"><input class="exinput" id="h3e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e1','was reading','h3f1')">Check</button></div><div class="fb" id="h3f1"></div></div>
+    <div class="ex"><div class="exnum">Ex 2 — Fill in</div><div class="exq">Fill in: «They ___ (play) football all afternoon.» (Past Continuous)</div><div class="exrow"><input class="exinput" id="h3e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e2','were playing','h3f2')">Check</button></div><div class="fb" id="h3f2"></div></div>
+    <div class="ex"><div class="exnum">Ex 3 — Fill in</div><div class="exq">Fill in: «While he ___ (sleep), the phone ___ (ring).»</div><div class="extip">Two answers separated by a comma: Past Continuous, Past Simple</div><div class="exrow"><input class="exinput" id="h3e3" placeholder="was sleeping, rang"><button class="cbtn" onclick="chk('h3e3','was sleeping, rang','h3f3')">Check</button></div><div class="fb" id="h3f3"></div></div>
+    <div class="ex"><div class="exnum">Ex 4 — Multiple choice</div><div class="exq">«I ___ dinner when she arrived.» Which tense is correct for the gap?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h3m4')">was making</button><button class="mcbtn" onclick="mc(this,'err','h3m4')">made</button><button class="mcbtn" onclick="mc(this,'err','h3m4')">make</button></div><div class="fb" id="h3m4"></div></div>
+    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «What ___ you ___ (do) at 9pm yesterday?»</div><div class="exrow"><input class="exinput" id="h3e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e5','were you doing','h3f5')">Check</button></div><div class="fb" id="h3f5"></div></div>
+    <div class="ex"><div class="exnum">Ex 6 — Irregular past</div><div class="exq">Past tense of "bring"?</div><div class="exrow"><input class="exinput" id="h3e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e6','brought','h3f6')">Check</button></div><div class="fb" id="h3f6"></div></div>
+    <div class="ex"><div class="exnum">Ex 7 — Irregular past</div><div class="exq">Past tense of "sell"?</div><div class="exrow"><input class="exinput" id="h3e7" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e7','sold','h3f7')">Check</button></div><div class="fb" id="h3f7"></div></div>
+    <div class="ex"><div class="exnum">Ex 8 — Irregular past</div><div class="exq">Past tense of "bite"?</div><div class="exrow"><input class="exinput" id="h3e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e8','bit','h3f8')">Check</button></div><div class="fb" id="h3f8"></div></div>
+    <div class="ex"><div class="exnum">Ex 9 — Multiple choice</div><div class="exq">«Founded» is the past of which verb?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h3m9')">to find</button><button class="mcbtn" onclick="mc(this,'ok','h3m9')">to found (establish)</button><button class="mcbtn" onclick="mc(this,'err','h3m9')">to feel</button></div><div class="fb" id="h3m9"></div></div>
+    <div class="ex"><div class="exnum">Ex 10 — Fill in</div><div class="exq">Fill in: «She ___ (carry) her sword ___ the ancient castle.» (Past Simple + towards)</div><div class="exrow"><input class="exinput" id="h3e10" placeholder="carried … towards"><button class="cbtn" onclick="chk('h3e10','carried her sword towards','h3f10')">Check</button></div><div class="fb" id="h3f10"></div></div>
+    <div class="ex"><div class="exnum">Ex 11 — Translation</div><div class="exq">Translate: «Они играли в футбол, когда начался дождь.»</div><div class="exrow"><input class="exinput" id="h3e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e11','they were playing football when it started to rain','h3f11')">Check</button></div><div class="fb" id="h3f11"></div></div>
+    <div class="ex"><div class="exnum">Ex 12 — Translation</div><div class="exq">Translate: «Тем временем»</div><div class="exrow"><input class="exinput" id="h3e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e12','meanwhile','h3f12')">Check</button></div><div class="fb" id="h3f12"></div></div>
+    <div class="ex"><div class="exnum">Ex 13 — Translation</div><div class="exq">Translate: «К / по направлению к»</div><div class="exrow"><input class="exinput" id="h3e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h3e13','towards','h3f13')">Check</button></div><div class="fb" id="h3f13"></div></div>
+    <div class="ex"><div class="exnum">Ex 14 — Sentence</div><div class="exq">Write one sentence using Past Continuous AND Past Simple together.</div><div class="extip">E.g. "I was eating when she shouted." — teacher will check.</div><div class="exrow"><input class="exinput" id="h3e14" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h3e14','h3f14',5)">Check</button></div><div class="fb" id="h3f14"></div></div>
+    <div class="ex"><div class="exnum">Ex 15 — Multiple choice</div><div class="exq">«She ___ her keys yesterday.» Correct form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h3m15')">was losing</button><button class="mcbtn" onclick="mc(this,'ok','h3m15')">lost</button><button class="mcbtn" onclick="mc(this,'err','h3m15')">has lost</button></div><div class="fb" id="h3m15"></div></div>
+    <button class="subhw" onclick="submitHW(3,15,'hw3-result','hw3-bar')">Submit HW 3</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw3-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- HW 4 — Present Perfect -->
+<div class="page" id="page-hw4">
+  <div class="ph"><h2>Homework 4<span class="hw-result" id="hw4-result"></span></h2><p>Present Perfect — for, since, ever, never — 15 exercises</p></div>
+  <div class="card">
+    <div class="ex"><div class="exnum">Ex 1 — Fill in</div><div class="exq">Fill in: «I ___ (live) here for 10 years.» (Present Perfect)</div><div class="exrow"><input class="exinput" id="h4e1" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e1','have lived','h4f1')">Check</button></div><div class="fb" id="h4f1"></div></div>
+    <div class="ex"><div class="exnum">Ex 2 — Fill in</div><div class="exq">Fill in: «She ___ (work) here since 2020.»</div><div class="exrow"><input class="exinput" id="h4e2" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e2','has worked','h4f2')">Check</button></div><div class="fb" id="h4f2"></div></div>
+    <div class="ex"><div class="exnum">Ex 3 — For or since?</div><div class="exq">«I have studied English ___ three years.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h4m3')">for</button><button class="mcbtn" onclick="mc(this,'err','h4m3')">since</button></div><div class="fb" id="h4m3"></div></div>
+    <div class="ex"><div class="exnum">Ex 4 — For or since?</div><div class="exq">«She has lived here ___ 2018.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m4')">for</button><button class="mcbtn" onclick="mc(this,'ok','h4m4')">since</button></div><div class="fb" id="h4m4"></div></div>
+    <div class="ex"><div class="exnum">Ex 5 — Fill in</div><div class="exq">Fill in: «Have you ___ visited an ancient city?» (когда-либо)</div><div class="exrow"><input class="exinput" id="h4e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e5','ever','h4f5')">Check</button></div><div class="fb" id="h4f5"></div></div>
+    <div class="ex"><div class="exnum">Ex 6 — Fill in</div><div class="exq">Fill in: «I have ___ eaten sushi. I don't like it.» (никогда)</div><div class="exrow"><input class="exinput" id="h4e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e6','never','h4f6')">Check</button></div><div class="fb" id="h4f6"></div></div>
+    <div class="ex"><div class="exnum">Ex 7 — PP or Past Simple?</div><div class="exq">«I ___ to London last year.» Which is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h4m7')">went</button><button class="mcbtn" onclick="mc(this,'err','h4m7')">have gone</button></div><div class="fb" id="h4m7"></div></div>
+    <div class="ex"><div class="exnum">Ex 8 — PP or Past Simple?</div><div class="exq">«She ___ her keys — she can't get in!» Which is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m8')">lost</button><button class="mcbtn" onclick="mc(this,'ok','h4m8')">has lost</button></div><div class="fb" id="h4m8"></div></div>
+    <div class="ex"><div class="exnum">Ex 9 — Translation</div><div class="exq">Translate: «Я никогда не видела беженца.» (Present Perfect)</div><div class="exrow"><input class="exinput" id="h4e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e9','i have never seen a refugee','h4f9')">Check</button></div><div class="fb" id="h4f9"></div></div>
+    <div class="ex"><div class="exnum">Ex 10 — Translation</div><div class="exq">Translate: «Ты когда-нибудь пробовала суши?»</div><div class="exrow"><input class="exinput" id="h4e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e10','have you ever tried sushi','h4f10')">Check</button></div><div class="fb" id="h4f10"></div></div>
+    <div class="ex"><div class="exnum">Ex 11 — Fill in</div><div class="exq">Fill in: «I ___ (always / want) to travel to Japan.»</div><div class="exrow"><input class="exinput" id="h4e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e11','have always wanted','h4f11')">Check</button></div><div class="fb" id="h4f11"></div></div>
+    <div class="ex"><div class="exnum">Ex 12 — Vocabulary</div><div class="exq">Translate: «Следить за» (phrase)</div><div class="exrow"><input class="exinput" id="h4e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e12','keep track of','h4f12')">Check</button></div><div class="fb" id="h4f12"></div></div>
+    <div class="ex"><div class="exnum">Ex 13 — Vocabulary</div><div class="exq">Translate: «Привыкать к»</div><div class="exrow"><input class="exinput" id="h4e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h4e13','get used to','h4f13')">Check</button></div><div class="fb" id="h4f13"></div></div>
+    <div class="ex"><div class="exnum">Ex 14 — Multiple choice</div><div class="exq">Which sentence is correct?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h4m14')">I have seen her yesterday.</button><button class="mcbtn" onclick="mc(this,'ok','h4m14')">I saw her yesterday.</button><button class="mcbtn" onclick="mc(this,'err','h4m14')">I have saw her.</button></div><div class="fb" id="h4m14"></div></div>
+    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Write a sentence about your life using Present Perfect + "since" or "for".</div><div class="extip">E.g. "I have studied English for two years." — teacher will check.</div><div class="exrow"><input class="exinput" id="h4e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h4e15','h4f15',5)">Check</button></div><div class="fb" id="h4f15"></div></div>
+    <button class="subhw" onclick="submitHW(4,15,'hw4-result','hw4-bar')">Submit HW 4</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw4-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- HW 5 — Modals & Passive -->
+<div class="page" id="page-hw5">
+  <div class="ph"><h2>Homework 5<span class="hw-result" id="hw5-result"></span></h2><p>Modals (must/should/have to) &amp; Passive voice — 15 exercises</p></div>
+  <div class="card">
+    <div class="ex"><div class="exnum">Ex 1 — Multiple choice</div><div class="exq">«You ___ take your passport — it's the law.» Which word fits best?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m1')">have to</button><button class="mcbtn" onclick="mc(this,'err','h5m1')">should</button><button class="mcbtn" onclick="mc(this,'err','h5m1')">don't have to</button></div><div class="fb" id="h5m1"></div></div>
+    <div class="ex"><div class="exnum">Ex 2 — Multiple choice</div><div class="exq">«You ___ come if you don't want to — it's optional.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h5m2')">mustn't</button><button class="mcbtn" onclick="mc(this,'ok','h5m2')">don't have to</button><button class="mcbtn" onclick="mc(this,'err','h5m2')">must</button></div><div class="fb" id="h5m2"></div></div>
+    <div class="ex"><div class="exnum">Ex 3 — Fill in</div><div class="exq">Fill in: «You ___ (should) take notes in every lesson.»</div><div class="exrow"><input class="exinput" id="h5e3" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e3','should','h5f3')">Check</button></div><div class="fb" id="h5f3"></div></div>
+    <div class="ex"><div class="exnum">Ex 4 — Passive</div><div class="exq">Rewrite in passive: «People consider this discovery valuable.»</div><div class="exrow"><input class="exinput" id="h5e4" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e4','this discovery is considered valuable','h5f4')">Check</button></div><div class="fb" id="h5f4"></div></div>
+    <div class="ex"><div class="exnum">Ex 5 — Passive</div><div class="exq">Rewrite in passive: «They built the castle in 1200.»</div><div class="exrow"><input class="exinput" id="h5e5" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e5','the castle was built in 1200','h5f5')">Check</button></div><div class="fb" id="h5f5"></div></div>
+    <div class="ex"><div class="exnum">Ex 6 — Translation</div><div class="exq">Translate to passive: «Беженцам помогают волонтёры.»</div><div class="exrow"><input class="exinput" id="h5e6" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e6','refugees are being helped by volunteers','h5f6')">Check</button></div><div class="fb" id="h5f6"></div></div>
+    <div class="ex"><div class="exnum">Ex 7 — Multiple choice</div><div class="exq">«Taxes ___ (collect) by the government every year.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h5m7')">collect</button><button class="mcbtn" onclick="mc(this,'ok','h5m7')">are collected</button><button class="mcbtn" onclick="mc(this,'err','h5m7')">were collected</button></div><div class="fb" id="h5m7"></div></div>
+    <div class="ex"><div class="exnum">Ex 8 — Translation</div><div class="exq">Translate: «Это считается лучшим решением.»</div><div class="exrow"><input class="exinput" id="h5e8" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e8','this is considered the best solution','h5f8')">Check</button></div><div class="fb" id="h5f8"></div></div>
+    <div class="ex"><div class="exnum">Ex 9 — Vocabulary</div><div class="exq">Translate: «Деловая сделка»</div><div class="exrow"><input class="exinput" id="h5e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e9','business deal','h5f9')">Check</button></div><div class="fb" id="h5f9"></div></div>
+    <div class="ex"><div class="exnum">Ex 10 — Vocabulary</div><div class="exq">Translate: «Рекламировать себя»</div><div class="exrow"><input class="exinput" id="h5e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e10','advertise oneself','h5f10')">Check</button></div><div class="fb" id="h5f10"></div></div>
+    <div class="ex"><div class="exnum">Ex 11 — Vocabulary</div><div class="exq">Translate: «Различать»</div><div class="exrow"><input class="exinput" id="h5e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e11','differentiate','h5f11')">Check</button></div><div class="fb" id="h5f11"></div></div>
+    <div class="ex"><div class="exnum">Ex 12 — Well / Badly</div><div class="exq">Fill in: «It was a ___ managed project — nothing went right.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m12')">badly-managed</button><button class="mcbtn" onclick="mc(this,'err','h5m12')">well-managed</button><button class="mcbtn" onclick="mc(this,'err','h5m12')">bad-managed</button></div><div class="fb" id="h5m12"></div></div>
+    <div class="ex"><div class="exnum">Ex 13 — Multiple choice</div><div class="exq">«I ___ have to go — it's optional.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h5m13')">don't</button><button class="mcbtn" onclick="mc(this,'err','h5m13')">mustn't</button><button class="mcbtn" onclick="mc(this,'err','h5m13')">shouldn't</button></div><div class="fb" id="h5m13"></div></div>
+    <div class="ex"><div class="exnum">Ex 14 — Translation</div><div class="exq">Translate: «Ценный»</div><div class="exrow"><input class="exinput" id="h5e14" placeholder="Your answer…"><button class="cbtn" onclick="chk('h5e14','valuable','h5f14')">Check</button></div><div class="fb" id="h5f14"></div></div>
+    <div class="ex"><div class="exnum">Ex 15 — Sentence</div><div class="exq">Write a sentence using the passive voice about a famous discovery.</div><div class="extip">E.g. "Penicillin was discovered by Alexander Fleming." — teacher will check.</div><div class="exrow"><input class="exinput" id="h5e15" placeholder="Write your sentence…"><button class="cbtn" onclick="chkLen('h5e15','h5f15',5)">Check</button></div><div class="fb" id="h5f15"></div></div>
+    <button class="subhw" onclick="submitHW(5,15,'hw5-result','hw5-bar')">Submit HW 5</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw5-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- HW 6 — Future, Articles, So/Such, Mixed vocab -->
+<div class="page" id="page-hw6">
+  <div class="ph"><h2>Homework 6<span class="hw-result" id="hw6-result"></span></h2><p>Future tenses, articles, so/such &amp; mixed vocabulary — 15 exercises</p></div>
+  <div class="card">
+    <div class="ex"><div class="exnum">Ex 1 — Future</div><div class="exq">«A: I'm cold! B: I ___ close the window for you.» Which future form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m1')">will</button><button class="mcbtn" onclick="mc(this,'err','h6m1')">am going to</button><button class="mcbtn" onclick="mc(this,'err','h6m1')">am closing</button></div><div class="fb" id="h6m1"></div></div>
+    <div class="ex"><div class="exnum">Ex 2 — Future</div><div class="exq">«Look at those clouds — it ___ rain!» Which future form?</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m2')">will</button><button class="mcbtn" onclick="mc(this,'ok','h6m2')">is going to</button><button class="mcbtn" onclick="mc(this,'err','h6m2')">rains</button></div><div class="fb" id="h6m2"></div></div>
+    <div class="ex"><div class="exnum">Ex 3 — Future</div><div class="exq">«I ___ meet my teacher on Tuesday at 3pm.» (fixed arrangement)</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m3')">will</button><button class="mcbtn" onclick="mc(this,'err','h6m3')">am going to</button><button class="mcbtn" onclick="mc(this,'ok','h6m3')">am meeting</button></div><div class="fb" id="h6m3"></div></div>
+    <div class="ex"><div class="exnum">Ex 4 — Articles</div><div class="exq">Fill in: «She is ___ brave soldier.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m4')">a</button><button class="mcbtn" onclick="mc(this,'err','h6m4')">the</button><button class="mcbtn" onclick="mc(this,'err','h6m4')">Ø (no article)</button></div><div class="fb" id="h6m4"></div></div>
+    <div class="ex"><div class="exnum">Ex 5 — Articles</div><div class="exq">Fill in: «___ refugees need our help.» (general statement)</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m5')">A</button><button class="mcbtn" onclick="mc(this,'err','h6m5')">The</button><button class="mcbtn" onclick="mc(this,'ok','h6m5')">Ø (no article)</button></div><div class="fb" id="h6m5"></div></div>
+    <div class="ex"><div class="exnum">Ex 6 — Articles</div><div class="exq">Fill in: «I saw ___ refugee at the border. ___ refugee looked exhausted.»</div><div class="exrow"><input class="exinput" id="h6e6" placeholder="a, The"><button class="cbtn" onclick="chk('h6e6','a, the','h6f6')">Check</button></div><div class="fb" id="h6f6"></div></div>
+    <div class="ex"><div class="exnum">Ex 7 — So / Such</div><div class="exq">Fill in: «It was ___ unusual experience.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'err','h6m7')">so</button><button class="mcbtn" onclick="mc(this,'ok','h6m7')">such an</button><button class="mcbtn" onclick="mc(this,'err','h6m7')">so much</button></div><div class="fb" id="h6m7"></div></div>
+    <div class="ex"><div class="exnum">Ex 8 — So / Such</div><div class="exq">Fill in: «There were ___ many refugees at the border.»</div><div class="mcopts"><button class="mcbtn" onclick="mc(this,'ok','h6m8')">so</button><button class="mcbtn" onclick="mc(this,'err','h6m8')">such</button><button class="mcbtn" onclick="mc(this,'err','h6m8')">very</button></div><div class="fb" id="h6m8"></div></div>
+    <div class="ex"><div class="exnum">Ex 9 — Vocabulary</div><div class="exq">Translate: «Жили-были / Однажды»</div><div class="exrow"><input class="exinput" id="h6e9" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e9','once upon a time','h6f9')">Check</button></div><div class="fb" id="h6f9"></div></div>
+    <div class="ex"><div class="exnum">Ex 10 — Vocabulary</div><div class="exq">Translate: «Обменять / поменяться»</div><div class="exrow"><input class="exinput" id="h6e10" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e10','swap','h6f10')">Check</button></div><div class="fb" id="h6f10"></div></div>
+    <div class="ex"><div class="exnum">Ex 11 — Vocabulary</div><div class="exq">Translate: «Понемногу / постепенно»</div><div class="exrow"><input class="exinput" id="h6e11" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e11','little by little','h6f11')">Check</button></div><div class="fb" id="h6f11"></div></div>
+    <div class="ex"><div class="exnum">Ex 12 — Vocabulary</div><div class="exq">Translate: «Опыт» (noun)</div><div class="exrow"><input class="exinput" id="h6e12" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e12','experience','h6f12')">Check</button></div><div class="fb" id="h6f12"></div></div>
+    <div class="ex"><div class="exnum">Ex 13 — Mixed grammar</div><div class="exq">Make this active sentence passive: «Volunteers help refugees every day.»</div><div class="exrow"><input class="exinput" id="h6e13" placeholder="Your answer…"><button class="cbtn" onclick="chk('h6e13','refugees are helped by volunteers every day','h6f13')">Check</button></div><div class="fb" id="h6f13"></div></div>
+    <div class="ex"><div class="exnum">Ex 14 — Mixed grammar</div><div class="exq">Fill in: «I ___ (send) her a message yesterday. She ___ (not reply) yet.»</div><div class="exrow"><input class="exinput" id="h6e14" placeholder="sent, has not replied"><button class="cbtn" onclick="chk('h6e14','sent, has not replied','h6f14')">Check</button></div><div class="fb" id="h6f14"></div></div>
+    <div class="ex"><div class="exnum">Ex 15 — Free writing</div><div class="exq">Write 3 sentences about your plans for next week using "going to", "will", and Present Continuous.</div><div class="extip">Teacher will check this one personally.</div><div class="exrow"><input class="exinput" id="h6e15" placeholder="Write your sentences…"><button class="cbtn" onclick="chkLen('h6e15','h6f15',10)">Check</button></div><div class="fb" id="h6f15"></div></div>
+    <button class="subhw" onclick="submitHW(6,15,'hw6-result','hw6-bar')">Submit HW 6</button>
+    <div class="hw-score-bar"><div class="hw-score-fill" id="hw6-bar" style="width:0%"></div></div>
+  </div>
+</div>
 
 <!-- MIDTERM -->
 <div class="page" id="page-midterm">
@@ -440,19 +589,17 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);fon
       <h3>Midterm is locked</h3>
       <p>Finish all 6 homeworks to unlock your midterm exam.</p>
       <div class="mt-dots">
-        <div class="mtd pend">1</div><div class="mtd pend">2</div><div class="mtd pend">3</div>
-        <div class="mtd pend">4</div><div class="mtd pend">5</div><div class="mtd pend">6</div>
+        <div class="mtd pend" id="mtd1">1</div><div class="mtd pend" id="mtd2">2</div><div class="mtd pend" id="mtd3">3</div>
+        <div class="mtd pend" id="mtd4">4</div><div class="mtd pend" id="mtd5">5</div><div class="mtd pend" id="mtd6">6</div>
       </div>
     </div>
   </div>
 </div>
 
 </main>
-
 <script>
-// ── DICTIONARY DATA ──────────────────────────────────────────
-const words = [
-  // Lesson batch 1 — society/world
+// ── DICTIONARY ────────────────────────────────────────────────
+const words=[
   {w:"Captured",t:"Захваченный / пойманный",pos:"adj",s:3},
   {w:"Execute",t:"Выполнять / казнить",pos:"verb",s:3},
   {w:"Refugee",t:"Беженец",pos:"noun",s:3},
@@ -470,7 +617,6 @@ const words = [
   {w:"Get used to",t:"Привыкать к",pos:"phrase",s:3},
   {w:"Little by little",t:"Понемногу / постепенно",pos:"phrase",s:3},
   {w:"Keep track of",t:"Следить за",pos:"phrase",s:3},
-  // Lesson batch 2 — people & personality
   {w:"Stunt",t:"Трюк / каскад",pos:"noun",s:3},
   {w:"Credits",t:"Титры / заслуги",pos:"noun",s:3},
   {w:"Alongside",t:"Рядом с / наряду с",pos:"prep",s:3},
@@ -484,18 +630,13 @@ const words = [
   {w:"Sword",t:"Меч",pos:"noun",s:3},
   {w:"Easy-going",t:"Лёгкий в общении",pos:"adj",s:3},
   {w:"Bite",t:"Кусать / укус",pos:"verb",s:3},
-  // Body parts
   {w:"Wrist",t:"Запястье",pos:"body",s:3},
   {w:"Waist",t:"Талия",pos:"body",s:3},
-  // Clothes
   {w:"Hoodie",t:"Толстовка с капюшоном",pos:"clothes",s:3},
   {w:"Shirt",t:"Рубашка",pos:"clothes",s:3},
   {w:"Feminine",t:"Женственный",pos:"adj",s:3},
   {w:"Clothes",t:"Одежда",pos:"clothes",s:3},
-  {w:"Body parts",t:"Части тела",pos:"body",s:3},
-  // Adjectives
   {w:"Slippery",t:"Скользкий",pos:"adj",s:3},
-  // Story phrases
   {w:"Once upon a time",t:"Однажды / Жили-были",pos:"phrase",s:3},
   {w:"Except",t:"Кроме / за исключением",pos:"prep",s:3},
   {w:"Piece",t:"Кусок / произведение",pos:"noun",s:3},
@@ -515,13 +656,10 @@ const words = [
   {w:"Upset",t:"Расстроенный",pos:"adj",s:3},
   {w:"Amazed",t:"Изумлённый",pos:"adj",s:3},
   {w:"Delighted",t:"Восхищённый / в восторге",pos:"adj",s:3},
-  // Lesson batch 3
   {w:"Deal",t:"Сделка / соглашение",pos:"noun",s:3},
   {w:"Take a pill",t:"Принять таблетку",pos:"phrase",s:3},
   {w:"Take notes",t:"Делать заметки",pos:"phrase",s:3},
   {w:"Come up with",t:"Придумать",pos:"phrase",s:3},
-  {w:"Well-",t:"Хорошо- (well-known)",pos:"gram.",s:3},
-  {w:"Badly-",t:"Плохо- (badly-managed)",pos:"gram.",s:3},
   {w:"Bring",t:"Приносить",pos:"verb",s:3},
   {w:"For myself",t:"Для себя",pos:"phrase",s:3},
   {w:"Discovery",t:"Открытие",pos:"noun",s:3},
@@ -531,62 +669,41 @@ const words = [
   {w:"Particularly",t:"В частности / особенно",pos:"adverb",s:3},
   {w:"Throughout",t:"На протяжении",pos:"prep",s:3},
   {w:"Eventually",t:"В конечном счёте",pos:"adverb",s:3},
-  {w:"Is considered",t:"Считается",pos:"gram.",s:3},
   {w:"Valuable",t:"Ценный",pos:"adj",s:3},
   {w:"Fairy tale",t:"Сказка",pos:"noun",s:3},
   {w:"Glory",t:"Слава",pos:"noun",s:3},
   {w:"Brought",t:"Принёс (past of bring)",pos:"irreg.",s:3},
   {w:"Advertise oneself",t:"Рекламировать себя",pos:"phrase",s:3},
   {w:"Business deal",t:"Деловое соглашение",pos:"phrase",s:3},
-  // Grammar / connectors
-  {w:"Passive",t:"Пассивный / страдательный залог",pos:"gram.",s:3},
-  {w:"So / such / so many",t:"Такой / столько",pos:"gram.",s:3},
   {w:"Send → Sent",t:"Отправить → Отправил",pos:"irreg.",s:3},
   {w:"Founded → Found",t:"Основал → Нашёл",pos:"irreg.",s:3},
   {w:"Sell → Sold",t:"Продавать → Продал",pos:"irreg.",s:3},
   {w:"Bite → Bit",t:"Кусать → Укусил",pos:"irreg.",s:3},
   {w:"Carry → Carried",t:"Нести → Нёс",pos:"irreg.",s:3},
-  // Grammar labels
-  {w:"Comparative",t:"Сравнительная степень",pos:"gram.",s:3},
-  {w:"Superlative",t:"Превосходная степень",pos:"gram.",s:3},
-  {w:"As…as",t:"Такой же … как",pos:"gram.",s:3},
-  {w:"Have to / must / should",t:"Должен (обязанность/совет)",pos:"gram.",s:3},
-  {w:"Don't have to",t:"Не обязательно",pos:"gram.",s:3},
-  {w:"Haven't got",t:"У меня нет",pos:"gram.",s:3},
-  {w:"Past Perfect",t:"Прошедшее совершённое",pos:"gram.",s:3},
-  {w:"Past Continuous",t:"Прошедшее длительное",pos:"gram.",s:3},
-  {w:"Going to",t:"Собираться (планы)",pos:"gram.",s:3},
-  {w:"Will",t:"Будущее (спонтанные решения)",pos:"gram.",s:3},
-  {w:"Present Continuous future",t:"Договорённости в будущем",pos:"gram.",s:3},
-  {w:"Articles a/an/the",t:"Артикли",pos:"gram.",s:3},
-  {w:"For and since",t:"В теч. / с (Pres. Perfect)",pos:"gram.",s:3},
-  {w:"Always/ever/never",t:"Всегда/когда-либо/никогда",pos:"gram.",s:3},
-  {w:"Present Perfect",t:"Настоящее совершённое",pos:"gram.",s:3},
-  {w:"Past Simple",t:"Простое прошедшее",pos:"gram.",s:3},
 ];
 
-const posColors = {
-  noun:"#eeedfc|#5548c8", verb:"#e8f0eb|#2d5a3d", phrase:"#f5ece3|#7c4f2a",
-  adj:"#fef8ec|#a06b1a", adverb:"#e8f0eb|#2d5a3d", irreg.:"#fdf0ef|#bc3a2e",
-  gram.:"#e5f5f5|#1a6b6b", body:"#fdf0ef|#bc3a2e", clothes:"#eeedfc|#5548c8",
-  prep:"#fef8ec|#a06b1a"
+const posColors={
+  noun:"#1e1a3a|#a78bfa",verb:"#0d2818|#4ade80",phrase:"#1c1506|#f59e0b",
+  adj:"#1a1200|#fbbf24",adverb:"#0d2818|#34d399","irreg.":"#1f0c0c|#f87171",
+  "gram.":"#051a12|#34d399",body:"#1f0c0c|#f87171",clothes:"#1e1a3a|#a78bfa",prep:"#1a1200|#fbbf24"
 };
 
-function starStr(s){return '★'.repeat(s)+'☆'.repeat(5-s)}
-function starCls(s){return s>=4?'stars s'+s:s>=3?'stars s3':'stars s'+s}
+function starStr(s){return'★'.repeat(s)+'☆'.repeat(5-s)}
+function starCls(s){return s>=4?'stars s'+s:s===3?'stars s3':'stars s'+s}
 
 function renderDict(q='',cat=''){
-  const qL=q.toLowerCase(), tbody=document.getElementById('dtbody');
+  const qL=q.toLowerCase(),tbody=document.getElementById('dtbody');
   tbody.innerHTML='';
   words.forEach((w,i)=>{
     if(qL&&!w.w.toLowerCase().includes(qL)&&!w.t.toLowerCase().includes(qL))return;
     if(cat&&w.pos!==cat)return;
-    const [bg,col]=(posColors[w.pos]||'#f5f5f5|#555').split('|');
+    const[bg,col]=(posColors[w.pos]||'#222|#aaa').split('|');
     const tr=document.createElement('tr');
     tr.innerHTML=`<td class="dword">${w.w}</td>
       <td><span class="dpos" style="background:${bg};color:${col}">${w.pos}</span></td>
       <td style="color:var(--muted);font-size:13px">${w.t}</td>
-      <td><span class="${starCls(w.s)}" onclick="cycleStar(${i},this)">${starStr(w.s)}</span></td>`;
+      <td><span class="${starCls(w.s)}" onclick="cycleStar(${i},this)">${starStr(w.s)}</span></td>
+      <td><button class="del-btn" onclick="deleteWord(${i})">✕</button></td>`;
     tbody.appendChild(tr);
   });
   updateBars();
@@ -601,54 +718,85 @@ function cycleStar(i,el){
   updateBars();
 }
 
+function deleteWord(i){
+  if(!confirm('Delete "'+words[i].w+'" from the dictionary?'))return;
+  words.splice(i,1);
+  filterDict();
+}
+
+function toggleAddForm(){
+  const f=document.getElementById('add-form');
+  f.classList.toggle('open');
+  if(f.classList.contains('open'))document.getElementById('add-word').focus();
+}
+
+function addWord(){
+  const w=document.getElementById('add-word').value.trim();
+  const t=document.getElementById('add-trans').value.trim();
+  const pos=document.getElementById('add-pos').value;
+  if(!w||!t){alert('Please fill in both the word and translation.');return;}
+  words.push({w,t,pos,s:3});
+  document.getElementById('add-word').value='';
+  document.getElementById('add-trans').value='';
+  document.getElementById('add-form').classList.remove('open');
+  filterDict();
+}
+
 function updateBars(){
-  const t=words.length;
-  const m=words.filter(w=>w.s>=4).length;
-  const p=words.filter(w=>w.s===3).length;
-  const r=words.filter(w=>w.s<=2).length;
+  const tot=words.length,m=words.filter(w=>w.s>=4).length,p=words.filter(w=>w.s===3).length,r=words.filter(w=>w.s<=2).length;
   document.getElementById('bv5').textContent=m+' words';
   document.getElementById('bv3').textContent=p+' words';
   document.getElementById('bv1').textContent=r+' words';
-  document.getElementById('bf5').style.width=Math.round(m/t*100)+'%';
-  document.getElementById('bf3').style.width=Math.round(p/t*100)+'%';
-  document.getElementById('bf1').style.width=Math.round(r/t*100)+'%';
-  document.getElementById('pm-total').textContent=t;
+  document.getElementById('bf5').style.width=tot?Math.round(m/tot*100)+'%':'0%';
+  document.getElementById('bf3').style.width=tot?Math.round(p/tot*100)+'%':'0%';
+  document.getElementById('bf1').style.width=tot?Math.round(r/tot*100)+'%':'0%';
+  document.getElementById('pm-total').textContent=tot;
+}
+
+// ── GRAMMAR SEARCH ────────────────────────────────────────────
+function searchGrammar(){
+  const q=document.getElementById('gram-search').value.toLowerCase().trim();
+  const rules=document.querySelectorAll('.grule');
+  let found=0;
+  rules.forEach(r=>{
+    const keys=(r.getAttribute('data-keys')||'').toLowerCase();
+    const title=r.querySelector('h3').textContent.toLowerCase();
+    const tag=r.querySelector('.gtag').textContent.toLowerCase();
+    const match=!q||keys.includes(q)||title.includes(q)||tag.includes(q);
+    r.classList.toggle('hidden',!match);
+    if(match)found++;
+  });
+  document.getElementById('gram-no-result').style.display=(q&&found===0)?'block':'none';
+}
+
+function clearGramSearch(){
+  document.getElementById('gram-search').value='';
+  document.querySelectorAll('.grule').forEach(r=>r.classList.remove('hidden'));
+  document.getElementById('gram-no-result').style.display='none';
 }
 
 // ── PRONUNCIATION ─────────────────────────────────────────────
 const pronList=[
-  {w:"Refugee",ipa:"/ˌrefjuˈdʒiː/"},
-  {w:"Cosmopolitan",ipa:"/ˌkɒzməˈpɒlɪtən/"},
-  {w:"Eventually",ipa:"/ɪˈventʃuəli/"},
-  {w:"Throughout",ipa:"/θruːˈaʊt/"},
-  {w:"Particularly",ipa:"/pəˈtɪkjələli/"},
-  {w:"Differentiate",ipa:"/ˌdɪfəˈrenʃieɪt/"},
-  {w:"Valuable",ipa:"/ˈvæljuəbl/"},
-  {w:"Discovery",ipa:"/dɪˈskʌvəri/"},
-  {w:"Associated",ipa:"/əˈsəʊʃieɪtɪd/"},
-  {w:"Competitive",ipa:"/kəmˈpetɪtɪv/"},
-  {w:"Disappointed",ipa:"/ˌdɪsəˈpɔɪntɪd/"},
-  {w:"Delighted",ipa:"/dɪˈlaɪtɪd/"},
-  {w:"Sensitive",ipa:"/ˈsensɪtɪv/"},
-  {w:"Slippery",ipa:"/ˈslɪpəri/"},
-  {w:"Towards",ipa:"/təˈwɔːdz/"},
-  {w:"Ancient",ipa:"/ˈeɪnʃənt/"},
-  {w:"Possession",ipa:"/pəˈzeʃən/"},
-  {w:"Meanwhile",ipa:"/ˈmiːnwaɪl/"},
-  {w:"Advertise",ipa:"/ˈædvətaɪz/"},
-  {w:"Unusual",ipa:"/ʌnˈjuːʒuəl/"},
-  {w:"Wrist",ipa:"/rɪst/"},
-  {w:"Waist",ipa:"/weɪst/"},
-  {w:"Sword",ipa:"/sɔːd/"},
-  {w:"Feminine",ipa:"/ˈfemɪnɪn/"},
-  {w:"Naughty",ipa:"/ˈnɔːti/"},
+  {w:"Refugee",ipa:"/ˌrefjuˈdʒiː/"},{w:"Cosmopolitan",ipa:"/ˌkɒzməˈpɒlɪtən/"},
+  {w:"Eventually",ipa:"/ɪˈventʃuəli/"},{w:"Throughout",ipa:"/θruːˈaʊt/"},
+  {w:"Particularly",ipa:"/pəˈtɪkjələli/"},{w:"Differentiate",ipa:"/ˌdɪfəˈrenʃieɪt/"},
+  {w:"Valuable",ipa:"/ˈvæljuəbl/"},{w:"Discovery",ipa:"/dɪˈskʌvəri/"},
+  {w:"Associated",ipa:"/əˈsəʊʃieɪtɪd/"},{w:"Competitive",ipa:"/kəmˈpetɪtɪv/"},
+  {w:"Disappointed",ipa:"/ˌdɪsəˈpɔɪntɪd/"},{w:"Delighted",ipa:"/dɪˈlaɪtɪd/"},
+  {w:"Sensitive",ipa:"/ˈsensɪtɪv/"},{w:"Slippery",ipa:"/ˈslɪpəri/"},
+  {w:"Towards",ipa:"/təˈwɔːdz/"},{w:"Ancient",ipa:"/ˈeɪnʃənt/"},
+  {w:"Possession",ipa:"/pəˈzeʃən/"},{w:"Meanwhile",ipa:"/ˈmiːnwaɪl/"},
+  {w:"Advertise",ipa:"/ˈædvətaɪz/"},{w:"Unusual",ipa:"/ʌnˈjuːʒuəl/"},
+  {w:"Wrist",ipa:"/rɪst/"},{w:"Waist",ipa:"/weɪst/"},
+  {w:"Sword",ipa:"/sɔːd/"},{w:"Feminine",ipa:"/ˈfemɪnɪn/"},
+  {w:"Naughty",ipa:"/ˈnɔːti/"},{w:"Captured",ipa:"/ˈkæptʃəd/"},
+  {w:"Throughout",ipa:"/θruːˈaʊt/"},{w:"Invade",ipa:"/ɪnˈveɪd/"},
 ];
 
 function renderPron(){
   document.getElementById('pronlist').innerHTML=pronList.map(p=>`
     <div class="prow">
-      <span class="pw">${p.w}</span>
-      <span class="pipa">${p.ipa}</span>
+      <span class="pw">${p.w}</span><span class="pipa">${p.ipa}</span>
       <button class="pbtn" onclick="speak('${p.w}')"><span class="pico"></span> Play</button>
     </div>`).join('');
 }
@@ -656,21 +804,33 @@ function renderPron(){
 function speak(w){
   if(!('speechSynthesis' in window))return;
   window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(w);
-  u.lang='en-GB';u.rate=0.8;
+  const u=new SpeechSynthesisUtterance(w);u.lang='en-GB';u.rate=0.8;
   window.speechSynthesis.speak(u);
 }
 
-// ── EXERCISE CHECKING ─────────────────────────────────────────
+// ── HOMEWORK CHECKING ─────────────────────────────────────────
 function chk(inpId,correct,fbId){
-  const inp=document.getElementById(inpId);
-  const fb=document.getElementById(fbId);
+  const inp=document.getElementById(inpId),fb=document.getElementById(fbId);
   const val=inp.value.trim().toLowerCase();
   if(!val)return;
-  const ok=val===correct.toLowerCase()||val.replace(/[^a-z ]/g,'')===correct.toLowerCase().replace(/[^a-z ]/g,'');
+  const clean=s=>s.toLowerCase().replace(/[^a-zа-яё ,]/g,'').trim();
+  const ok=clean(val)===clean(correct);
   inp.classList.toggle('ok',ok);inp.classList.toggle('err',!ok);
   fb.className='fb '+(ok?'ok':'err');
   fb.textContent=ok?'✓ Correct!':'✗ Correct answer: '+correct;
+}
+
+function chkLen(inpId,fbId,minWords){
+  const inp=document.getElementById(inpId),fb=document.getElementById(fbId);
+  const val=inp.value.trim();
+  const wc=val.split(/\s+/).filter(Boolean).length;
+  if(wc>=minWords){
+    inp.classList.add('ok');inp.classList.remove('err');
+    fb.className='fb ok';fb.textContent='✓ Good length! Your teacher will review this.';
+  } else {
+    inp.classList.add('err');inp.classList.remove('ok');
+    fb.className='fb err';fb.textContent='✗ Too short — write at least '+minWords+' words.';
+  }
 }
 
 function mc(btn,res,fbId){
@@ -679,25 +839,27 @@ function mc(btn,res,fbId){
   btn.classList.add(res==='ok'?'mc-ok':'mc-err');
   const fb=document.getElementById(fbId);
   fb.className='fb '+(res==='ok'?'ok':'err');
-  fb.textContent=res==='ok'?'✓ Correct!':'✗ Not quite — review the grammar rule!';
+  fb.textContent=res==='ok'?'✓ Correct!':'✗ Not quite — check the grammar rules!';
 }
 
 const hwScores={};
-function submitHW(num,total,resultId){
+function submitHW(num,total,resultId,barId){
   let correct=0;
-  // count green inputs
-  document.querySelectorAll(`#page-hw${num} .exinput.ok`).forEach(()=>correct++);
-  document.querySelectorAll(`#page-hw${num} .mcbtn.mc-ok`).forEach(()=>correct++);
+  document.querySelectorAll('#page-hw'+num+' .exinput.ok').forEach(()=>correct++);
+  document.querySelectorAll('#page-hw'+num+' .mcbtn.mc-ok').forEach(()=>correct++);
   const pct=Math.round(correct/total*100);
   hwScores[num]=pct;
-  document.getElementById(resultId).textContent=` — ${pct}% submitted`;
-  document.getElementById(resultId).style.color=pct>=70?'var(--accent)':'var(--danger)';
-  // update progress
+  const res=document.getElementById(resultId);
+  res.textContent=' — '+pct+'%';
+  res.style.color=pct>=70?'var(--accent)':'var(--danger)';
+  document.getElementById(barId).style.width=pct+'%';
   const done=Object.keys(hwScores).length;
   document.getElementById('pm-hw').textContent=done+' / 6';
   const avg=Math.round(Object.values(hwScores).reduce((a,b)=>a+b,0)/done);
   document.getElementById('pm-avg').textContent=avg+'%';
-  alert('Homework '+num+' submitted! Score: '+pct+'%');
+  document.getElementById('mtd'+num).className='mtd done';
+  saveResultToSupabase(num,pct,correct,total);
+  alert('HW '+num+' submitted! Score: '+pct+'% ('+correct+'/'+total+')\n\nYour teacher can now see this result on the dashboard.');
 }
 
 // ── NAVIGATION ────────────────────────────────────────────────
@@ -706,9 +868,9 @@ function goPage(id){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   const pg=document.getElementById('page-'+id);
   if(pg)pg.classList.add('active');
-  const ni=document.querySelector(`[data-page="${id}"]`);
+  const ni=document.querySelector('[data-page="'+id+'"]');
   if(ni&&!ni.classList.contains('locked'))ni.classList.add('active');
-  window.scrollTo(0,0);
+  document.querySelector('.main').scrollTop=0;
 }
 
 document.querySelectorAll('.ni').forEach(n=>{
@@ -717,6 +879,40 @@ document.querySelectorAll('.ni').forEach(n=>{
     goPage(n.getAttribute('data-page'));
   });
 });
+
+// ── SUPABASE CONFIG ───────────────────────────────────────────
+// Paste your Supabase credentials here after setting up (see teacher dashboard → Setup)
+const SUPABASE_URL = 'https://jjlzimjfnwywsmodobct.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
+const STUDENT_NAME = 'Sandugash';
+
+async function saveResultToSupabase(hwNum, pct, correct, total) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return; // skip if not configured
+  const mastered = words.filter(w=>w.s>=4).length;
+  const practicing = words.filter(w=>w.s===3).length;
+  const review = words.filter(w=>w.s<=2).length;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/hw_results`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        student: STUDENT_NAME,
+        hw_number: hwNum,
+        score_pct: pct,
+        correct: correct,
+        total: total,
+        vocab_mastered: mastered,
+        vocab_practicing: practicing,
+        vocab_review: review
+      })
+    });
+  } catch(e) { console.warn('Supabase save failed:', e); }
+}
 
 // ── INIT ──────────────────────────────────────────────────────
 renderDict();
