@@ -6,289 +6,294 @@
 <title>Teacher Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0a0b0f;
-  --surface: #12141a;
-  --surface2: #1a1d26;
-  --border: #1f2330;
-  --border2: #2a2f42;
-  --text: #e8eaf2;
-  --muted: #5a6078;
-  --muted2: #8890aa;
-  --green: #22d97a;
-  --green-l: #0a2018;
-  --blue: #4f9eff;
-  --blue-l: #0a1628;
-  --amber: #f5b642;
-  --amber-l: #1a1200;
-  --red: #f05252;
-  --red-l: #200a0a;
-  --purple: #9b6dff;
-  --purple-l: #130f22;
-  --r: 10px;
+:root{
+  --bg:#0a0b0f;--surf:#12141a;--surf2:#1a1d26;--surf3:#20243080;
+  --bord:#1f2330;--bord2:#2a2f42;--text:#e8eaf2;--muted:#5a6078;--muted2:#8890aa;
+  --green:#22d97a;--gl:#0a2018;--blue:#4f9eff;--bl:#0a1628;
+  --amber:#f5b642;--al:#1a1200;--red:#f05252;--rl:#200a0a;
+  --purple:#9b6dff;--pl:#130f22;--r:10px;--rs:7px;
+  --tr:0.16s ease;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html,body { height:100%; }
-body { background:var(--bg); font-family:'Instrument Sans',sans-serif; color:var(--text); font-size:14px; line-height:1.6; }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);font-family:'Instrument Sans',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
 
 /* TOPBAR */
-.topbar { height:56px; background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 2rem; gap:1.5rem; position:sticky; top:0; z-index:100; }
-.topbar-logo { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; letter-spacing:0.05em; color:var(--text); flex-shrink:0; }
-.topbar-logo span { color:var(--green); }
-.topbar-sep { width:1px; height:20px; background:var(--border2); }
-.topbar-subtitle { font-size:12px; color:var(--muted2); }
-.topbar-spacer { flex:1; }
-.topbar-badge { font-size:11px; padding:3px 10px; border-radius:20px; background:var(--green-l); color:var(--green); border:1px solid #1a4a2a; font-weight:500; }
-.topbar-btn { font-size:12px; padding:6px 14px; border:1px solid var(--border2); border-radius:var(--r); background:transparent; color:var(--muted2); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
-.topbar-btn:hover { border-color:var(--green); color:var(--green); }
-.topbar-btn.primary { background:var(--green); color:#000; border-color:var(--green); font-weight:500; }
-.topbar-btn.primary:hover { opacity:.85; }
+.topbar{height:54px;background:var(--surf);border-bottom:1px solid var(--bord);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;position:sticky;top:0;z-index:200}
+.tlogo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.06em}
+.tlogo span{color:var(--green)}
+.tsep{width:1px;height:18px;background:var(--bord2)}
+.tsub{font-size:12px;color:var(--muted2)}
+.tspace{flex:1}
+.tbadge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;border:1px solid var(--bord2);color:var(--muted2)}
+.tbadge.ok{background:var(--gl);color:var(--green);border-color:#1a4a2a}
+.tbadge.err{background:var(--rl);color:var(--red);border-color:#3a1010}
+.tbtn{font-size:12px;padding:6px 13px;border:1px solid var(--bord2);border-radius:var(--rs);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
+.tbtn:hover{border-color:var(--green);color:var(--green)}
+.tbtn.pri{background:var(--green);color:#000;border-color:var(--green);font-weight:500}
+.tbtn.pri:hover{opacity:.85}
 
 /* LAYOUT */
-.layout { display:flex; height:calc(100vh - 56px); }
-.sidebar { width:200px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); padding:1rem 0; overflow-y:auto; }
-.sidebar-section { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--muted); padding:.6rem 1.25rem .3rem; }
-.sni { display:flex; align-items:center; gap:8px; padding:7px 1.25rem; cursor:pointer; font-size:13px; color:var(--muted2); border-left:2px solid transparent; transition:all .15s; }
-.sni:hover { color:var(--text); background:rgba(255,255,255,.03); }
-.sni.active { color:var(--green); border-left-color:var(--green); background:var(--green-l); font-weight:500; }
-.sni-dot { width:6px; height:6px; border-radius:50%; background:var(--border2); flex-shrink:0; }
-.sni.active .sni-dot { background:var(--green); }
+.layout{display:flex;height:calc(100vh - 54px)}
+.sidebar{width:195px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--bord);padding:.75rem 0;overflow-y:auto}
+.slbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:.5rem 1.1rem .25rem}
+.sni{display:flex;align-items:center;gap:7px;padding:7px 1.1rem;cursor:pointer;font-size:13px;color:var(--muted2);border-left:2px solid transparent;transition:all var(--tr)}
+.sni:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sni.active{color:var(--green);border-left-color:var(--green);background:var(--gl);font-weight:500}
+.sni.hw-item{padding-left:1.6rem;font-size:12px}
+.sni-dot{width:5px;height:5px;border-radius:50%;background:var(--bord2);flex-shrink:0}
+.sni.active .sni-dot{background:var(--green)}
+.sni-badge{margin-left:auto;font-size:10px;padding:1px 6px;border-radius:10px}
 
 /* MAIN */
-.main { flex:1; overflow-y:auto; padding:2rem; }
-.page { display:none; }
-.page.active { display:block; animation:fadeUp .2s ease; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.main{flex:1;height:100%;overflow-y:auto}
+.page{display:none;padding:1.75rem 2rem;max-width:920px}
+.page.active{display:block;animation:fu .2s ease}
+@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.ph{margin-bottom:1.5rem}
+.ph h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px}
+.ph p{font-size:13px;color:var(--muted2);margin-top:3px}
+.ph-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
 
-/* PAGE HEADER */
-.ph { margin-bottom:1.75rem; }
-.ph h1 { font-family:'Syne',sans-serif; font-size:24px; font-weight:600; letter-spacing:-.3px; }
-.ph p { font-size:13px; color:var(--muted2); margin-top:3px; }
+/* CARDS */
+.card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);padding:1.1rem 1.4rem;margin-bottom:1rem}
+.card-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.85rem}
 
-/* STATS ROW */
-.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:1.5rem; }
-.stat { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:.9rem 1.1rem; }
-.stat-val { font-family:'Syne',sans-serif; font-size:28px; font-weight:600; line-height:1; }
-.stat-lbl { font-size:11px; color:var(--muted2); margin-top:4px; text-transform:uppercase; letter-spacing:.06em; }
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+.stat{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rs);padding:.8rem 1rem}
+.sv{font-family:'Syne',sans-serif;font-size:26px;font-weight:600;line-height:1}
+.sl{font-size:11px;color:var(--muted2);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
 
-/* STUDENT CARDS */
-.students-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; margin-bottom:1.5rem; }
-.student-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:border-color .15s; }
-.student-card:hover { border-color:var(--border2); }
-.sc-header { padding:1rem 1.25rem; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
-.sc-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:14px; font-weight:700; flex-shrink:0; }
-.sc-name { font-weight:500; font-size:14px; }
-.sc-meta { font-size:11px; color:var(--muted2); margin-top:1px; }
-.sc-status { margin-left:auto; font-size:11px; padding:3px 9px; border-radius:20px; font-weight:500; white-space:nowrap; }
-.sc-body { padding:1rem 1.25rem; }
-.sc-hw-row { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:.85rem; }
-.hw-pill { text-align:center; padding:5px 3px; border-radius:6px; font-size:10px; font-weight:600; border:1px solid var(--border); }
-.hw-pill.done-great { background:#0a2018; border-color:#1a4a2a; color:var(--green); }
-.hw-pill.done-ok { background:#1a1200; border-color:#3a2800; color:var(--amber); }
-.hw-pill.done-poor { background:#200a0a; border-color:#3a1010; color:var(--red); }
-.hw-pill.open { background:var(--surface2); border-color:var(--border2); color:var(--muted2); }
-.hw-pill.locked { background:var(--bg); border-color:var(--border); color:#333; }
-.hw-pill.midterm { background:var(--purple-l); border-color:#2a1f4a; color:var(--purple); font-size:9px; }
-.sc-progress-row { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
-.sc-progress-label { font-size:11px; color:var(--muted2); min-width:80px; }
-.sc-progress-bar { flex:1; height:5px; background:var(--border); border-radius:3px; overflow:hidden; }
-.sc-progress-fill { height:100%; border-radius:3px; }
-.sc-progress-val { font-size:11px; color:var(--muted2); min-width:32px; text-align:right; }
-.sc-footer { padding:.75rem 1.25rem; border-top:1px solid var(--border); display:flex; gap:8px; align-items:center; }
-.sc-last-active { font-size:11px; color:var(--muted); flex:1; }
-.sc-action-btn { font-size:11px; padding:5px 12px; border:1px solid var(--border2); border-radius:6px; background:transparent; color:var(--muted2); cursor:pointer; font-family:'Instrument Sans',sans-serif; transition:all .15s; }
-.sc-action-btn:hover { border-color:var(--green); color:var(--green); }
+/* STUDENT CARD */
+.sc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden;margin-bottom:1rem}
+.sc-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:10px}
+.sc-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;flex-shrink:0}
+.sc-name{font-weight:500;font-size:14px}
+.sc-meta{font-size:11px;color:var(--muted2);margin-top:1px}
+.sc-status{margin-left:auto;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.sc-body{padding:.9rem 1.2rem}
+.hw-pills{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:.75rem}
+.hwp{text-align:center;padding:5px 2px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid var(--bord)}
+.hwp.great{background:#0a2018;border-color:#1a4a2a;color:var(--green)}
+.hwp.okk{background:var(--al);border-color:#3a2800;color:var(--amber)}
+.hwp.bad{background:var(--rl);border-color:#3a1010;color:var(--red)}
+.hwp.open{background:var(--surf2);border-color:var(--bord2);color:var(--muted2)}
+.hwp.locked{background:var(--bg);border-color:var(--bord);color:#2a2f42}
+.hwp.mid{background:var(--pl);border-color:#2a1f4a;color:var(--purple);font-size:9px}
+.pbar-row{display:flex;gap:6px;align-items:center;margin-bottom:5px}
+.pbar-lbl{font-size:11px;color:var(--muted2);min-width:75px}
+.pbar-track{flex:1;height:4px;background:var(--bord);border-radius:2px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:2px}
+.pbar-val{font-size:11px;color:var(--muted2);min-width:28px;text-align:right}
+.sc-foot{padding:.65rem 1.2rem;border-top:1px solid var(--bord);display:flex;align-items:center;gap:8px}
+.sc-last{font-size:11px;color:var(--muted);flex:1}
+.sc-btn{font-size:11px;padding:4px 10px;border:1px solid var(--bord2);border-radius:5px;background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
+.sc-btn:hover{border-color:var(--green);color:var(--green)}
 
-/* HW DETAIL TABLE */
-.table-wrap { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; margin-bottom:1.25rem; }
-.table-head { display:grid; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); padding:.65rem 1.25rem; border-bottom:1px solid var(--border); background:var(--surface2); }
-.table-row { display:grid; padding:.75rem 1.25rem; border-bottom:1px solid var(--border); align-items:center; transition:background .1s; }
-.table-row:last-child { border-bottom:none; }
-.table-row:hover { background:rgba(255,255,255,.015); }
-.table-head, .table-row { grid-template-columns: 2fr 1fr 1fr 1fr 1fr 100px; gap:12px; }
-.score-chip { display:inline-block; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; }
+/* HW RESULTS TABLE */
+.rtable{width:100%;border-collapse:collapse}
+.rtable th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:0 0 8px;text-align:left;border-bottom:1px solid var(--bord)}
+.rtable td{padding:10px 0;border-bottom:1px solid var(--bord);font-size:13px;vertical-align:middle}
+.rtable tr:last-child td{border-bottom:none}
+.chip{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600}
 
-/* SETUP PAGE */
-.setup-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:1.5rem; margin-bottom:1rem; }
-.setup-card h3 { font-family:'Syne',sans-serif; font-size:16px; font-weight:600; margin-bottom:.4rem; }
-.setup-card p { font-size:13px; color:var(--muted2); line-height:1.7; margin-bottom:1rem; }
-.setup-step { display:flex; gap:12px; margin-bottom:.85rem; }
-.step-num { width:24px; height:24px; border-radius:50%; background:var(--green-l); border:1px solid #1a4a2a; color:var(--green); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-.step-text { font-size:13px; color:var(--muted2); line-height:1.6; }
-.step-text strong { color:var(--text); font-weight:500; }
-.code-block { background:var(--bg); border:1px solid var(--border2); border-radius:6px; padding:.75rem 1rem; font-family:monospace; font-size:12px; color:var(--green); margin:.5rem 0; overflow-x:auto; white-space:pre; }
-.input-row { display:flex; gap:8px; margin-bottom:.75rem; flex-wrap:wrap; }
-.setup-input { flex:1; min-width:200px; padding:8px 12px; border:1px solid var(--border2); border-radius:6px; background:var(--bg); font-family:'Instrument Sans',sans-serif; font-size:13px; color:var(--text); outline:none; transition:border-color .15s; }
-.setup-input:focus { border-color:var(--green); }
-.setup-save { padding:8px 18px; background:var(--green); color:#000; border:none; border-radius:6px; font-family:'Instrument Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; }
-.setup-save:hover { opacity:.85; }
-.alert { padding:.75rem 1rem; border-radius:6px; font-size:13px; margin-bottom:1rem; }
-.alert-info { background:var(--blue-l); border:1px solid #152840; color:var(--blue); }
-.alert-warn { background:var(--amber-l); border:1px solid #3a2800; color:var(--amber); }
+/* ── HW EDITOR ────────────────────────────────────────────── */
+.hw-editor-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
+.hw-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.hw-tab{padding:6px 14px;border:1px solid var(--bord2);border-radius:20px;font-size:12px;color:var(--muted2);cursor:pointer;transition:all var(--tr);font-family:'Instrument Sans',sans-serif;background:transparent}
+.hw-tab:hover{border-color:var(--green);color:var(--green)}
+.hw-tab.active{background:var(--gl);border-color:var(--green);color:var(--green);font-weight:500}
+.hw-tab.locked-tab{border-style:dashed;opacity:.55}
 
-/* ACTIVITY FEED */
-.feed-item { display:flex; gap:12px; padding:.85rem 0; border-bottom:1px solid var(--border); align-items:flex-start; }
-.feed-item:last-child { border-bottom:none; }
-.feed-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
-.feed-content { flex:1; }
-.feed-title { font-size:13px; color:var(--text); }
-.feed-time { font-size:11px; color:var(--muted); margin-top:2px; }
-.feed-score { font-size:12px; font-weight:600; padding:2px 8px; border-radius:10px; margin-left:auto; flex-shrink:0; }
+/* QUESTION CARD */
+.qcard{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;transition:border-color var(--tr)}
+.qcard:hover{border-color:var(--bord2)}
+.qcard-top{display:flex;align-items:center;gap:8px;margin-bottom:.7rem}
+.qnum{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);min-width:30px}
+.qsec{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--surf2);border:1px solid var(--bord2);color:var(--muted2)}
+.qtype-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
+.qtype-translate{background:#1a1200;color:var(--amber);border:1px solid #3a2800}
+.qtype-fillin{background:#0a1628;color:var(--blue);border:1px solid #152840}
+.qtype-multiple{background:var(--pl);color:var(--purple);border:1px solid #2a1f4a}
+.qtype-sentence{background:var(--gl);color:var(--green);border:1px solid #1a4a2a}
+.qcard-actions{margin-left:auto;display:flex;gap:5px}
+.qbtn{padding:3px 10px;border:1px solid var(--bord2);border-radius:5px;background:transparent;font-size:11px;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
+.qbtn:hover{border-color:var(--green);color:var(--green)}
+.qbtn.del:hover{border-color:var(--red);color:var(--red)}
+.qbtn.save-q{background:var(--green);color:#000;border-color:var(--green);font-weight:500}
+.qbtn.save-q:hover{opacity:.85}
 
-/* SCORE COLORS */
-.great { color:var(--green); }
-.ok { color:var(--amber); }
-.poor { color:var(--red); }
+/* EDITABLE FIELDS */
+.qfield{width:100%;background:var(--surf2);border:1px solid var(--bord2);border-radius:var(--rs);padding:7px 10px;font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color var(--tr);resize:vertical}
+.qfield:focus{border-color:var(--green)}
+.qfield-row{display:flex;gap:8px;margin-bottom:.5rem;flex-wrap:wrap}
+.qfield-label{font-size:11px;color:var(--muted2);margin-bottom:3px}
+.qfield-group{flex:1;min-width:140px}
+.options-list{display:flex;flex-direction:column;gap:4px;margin-bottom:.5rem}
+.option-row{display:flex;gap:6px;align-items:center}
+.option-row input{flex:1;background:var(--surf2);border:1px solid var(--bord2);border-radius:var(--rs);padding:5px 9px;font-family:'Instrument Sans',sans-serif;font-size:12px;color:var(--text);outline:none}
+.option-row input:focus{border-color:var(--green)}
+.option-correct{font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--bord2);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;white-space:nowrap;transition:all var(--tr)}
+.option-correct.selected{background:var(--gl);color:var(--green);border-color:#1a4a2a}
+.opt-del{padding:2px 7px;border:1px solid var(--bord2);border-radius:5px;background:transparent;color:var(--muted);cursor:pointer;font-size:12px;transition:all var(--tr)}
+.opt-del:hover{color:var(--red);border-color:var(--red)}
 
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+/* ADD QUESTION */
+.add-q-btn{width:100%;padding:9px;border:1px dashed var(--bord2);border-radius:var(--r);background:transparent;color:var(--muted2);font-family:'Instrument Sans',sans-serif;font-size:13px;cursor:pointer;transition:all var(--tr);margin-bottom:.75rem}
+.add-q-btn:hover{border-color:var(--green);color:var(--green);background:var(--gl)}
+
+/* HW STATUS TOGGLE */
+.lock-row{display:flex;align-items:center;gap:10px;padding:.75rem 1.1rem;background:var(--surf2);border-radius:var(--rs);margin-bottom:1rem;border:1px solid var(--bord)}
+.lock-lbl{font-size:13px;flex:1}
+.lock-sub{font-size:11px;color:var(--muted2);margin-top:1px}
+.toggle-wrap{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle-inp{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--bord2);border-radius:11px;cursor:pointer;transition:background var(--tr)}
+.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform var(--tr)}
+.toggle-inp:checked+.toggle-slider{background:var(--green)}
+.toggle-inp:checked+.toggle-slider:before{transform:translateX(18px)}
+
+/* FEED */
+.feed-item{display:flex;gap:10px;padding:.75rem 0;border-bottom:1px solid var(--bord);align-items:flex-start}
+.feed-item:last-child{border-bottom:none}
+.feed-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.feed-body{flex:1}
+.feed-title{font-size:13px}
+.feed-time{font-size:11px;color:var(--muted);margin-top:1px}
+.feed-chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:auto;flex-shrink:0}
+
+/* SAVING TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surf);border:1px solid var(--bord2);border-radius:var(--r);padding:.75rem 1.1rem;font-size:13px;display:flex;align-items:center;gap:8px;z-index:999;animation:fu .2s ease;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.toast.ok{border-color:#1a4a2a;color:var(--green)}
+.toast.err{border-color:#3a1010;color:var(--red)}
+
+/* ALERT */
+.alert{padding:.7rem 1rem;border-radius:var(--rs);font-size:13px;margin-bottom:1rem}
+.alert-info{background:var(--bl);border:1px solid #152840;color:var(--blue)}
+.alert-warn{background:var(--al);border:1px solid #3a2800;color:var(--amber)}
+
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px}
+@media(max-width:600px){.sidebar{width:50px}.slbl,.sni span:not(.sni-dot){display:none}.sni{padding:9px;justify-content:center}.stats{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="topbar-logo">MIND <span>·</span> TEACHER</div>
-  <div class="topbar-sep"></div>
-  <div class="topbar-subtitle">English class dashboard</div>
-  <div class="topbar-spacer"></div>
-  <div class="topbar-badge" id="conn-badge">⚪ Not connected</div>
-  <button class="topbar-btn" onclick="goPage('setup')">Setup</button>
-  <button class="topbar-btn primary" onclick="loadData()">↻ Refresh</button>
+  <div class="tlogo">MIND <span>·</span> TEACHER</div>
+  <div class="tsep"></div>
+  <div class="tsub">English class dashboard</div>
+  <div class="tspace"></div>
+  <div class="tbadge" id="conn-badge">⚪ Connecting…</div>
+  <button class="tbtn" onclick="loadAll()">↻ Refresh</button>
+  <button class="tbtn pri" onclick="goPage('editor')">✏ Edit homeworks</button>
 </div>
 
 <div class="layout">
   <nav class="sidebar">
-    <div class="sidebar-section">Dashboard</div>
+    <div class="slbl">Dashboard</div>
     <div class="sni active" data-page="overview"><span class="sni-dot"></span>Overview</div>
     <div class="sni" data-page="activity"><span class="sni-dot"></span>Activity feed</div>
-    <div class="sidebar-section">Students</div>
+    <div class="slbl">Students</div>
     <div class="sni" data-page="sandugash"><span class="sni-dot"></span>Sandugash</div>
-    <div class="sni" data-page="students"><span class="sni-dot"></span>Add student</div>
-    <div class="sidebar-section">Settings</div>
-    <div class="sni" data-page="setup"><span class="sni-dot"></span>Connection setup</div>
+    <div class="slbl">Homeworks</div>
+    <div class="sni" data-page="editor"><span class="sni-dot"></span>Edit HW</div>
+    <div class="slbl" style="margin-top:.5rem"></div>
+    <div class="sni" data-page="setup"><span class="sni-dot"></span>Setup</div>
   </nav>
 
   <main class="main">
 
     <!-- OVERVIEW -->
     <div class="page active" id="page-overview">
-      <div class="ph"><h1>Overview</h1><p>All students at a glance — scores, progress and activity</p></div>
+      <div class="ph ph-row">
+        <div><h1>Overview</h1><p>All students — scores, progress and status</p></div>
+        <button class="tbtn pri" onclick="goPage('editor')">✏ Edit homeworks</button>
+      </div>
       <div class="stats">
-        <div class="stat"><div class="stat-val great" id="st-students">1</div><div class="stat-lbl">Students</div></div>
-        <div class="stat"><div class="stat-val" id="st-hw-done" style="color:var(--blue)">0</div><div class="stat-lbl">HW submitted</div></div>
-        <div class="stat"><div class="stat-val" id="st-avg" style="color:var(--amber)">—</div><div class="stat-lbl">Avg score</div></div>
-        <div class="stat"><div class="stat-val" id="st-words" style="color:var(--purple)">80</div><div class="stat-lbl">Words in dict.</div></div>
+        <div class="stat"><div class="sv" style="color:var(--green)" id="st-students">1</div><div class="sl">Students</div></div>
+        <div class="stat"><div class="sv" style="color:var(--blue)" id="st-hw">0</div><div class="sl">HW submitted</div></div>
+        <div class="stat"><div class="sv" style="color:var(--amber)" id="st-avg">—</div><div class="sl">Avg score</div></div>
+        <div class="stat"><div class="sv" style="color:var(--purple)" id="st-words">80</div><div class="sl">Vocab words</div></div>
       </div>
-      <div class="students-grid" id="students-grid">
-        <!-- rendered by JS -->
-      </div>
-      <div class="alert alert-info" id="no-data-msg">
-        No homework submitted yet. Once Sandugash submits a homework, it will appear here automatically. Make sure the Supabase connection is configured in Setup.
-      </div>
+      <div id="students-wrap"></div>
+      <div class="alert alert-info" id="no-data-msg" style="display:none">No submissions yet. Once Sandugash submits homework it will appear here.</div>
     </div>
 
     <!-- SANDUGASH DETAIL -->
     <div class="page" id="page-sandugash">
-      <div class="ph"><h1>Sandugash</h1><p>Full homework history and progress breakdown</p></div>
+      <div class="ph"><h1>Sandugash</h1><p>Full homework history and vocabulary progress</p></div>
       <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-        <div class="stat"><div class="stat-val great" id="sd-done">0 / 6</div><div class="stat-lbl">HW completed</div></div>
-        <div class="stat"><div class="stat-val" id="sd-avg" style="color:var(--amber)">—</div><div class="stat-lbl">Average score</div></div>
-        <div class="stat"><div class="stat-val" id="sd-best" style="color:var(--blue)">—</div><div class="stat-lbl">Best score</div></div>
+        <div class="stat"><div class="sv" style="color:var(--green)" id="sd-done">0/6</div><div class="sl">HW done</div></div>
+        <div class="stat"><div class="sv" style="color:var(--amber)" id="sd-avg">—</div><div class="sl">Avg score</div></div>
+        <div class="stat"><div class="sv" style="color:var(--blue)" id="sd-best">—</div><div class="sl">Best score</div></div>
       </div>
-
-      <div class="table-wrap">
-        <div class="table-head">
-          <span>Homework</span><span>Score</span><span>Correct</span><span>Total</span><span>Status</span><span>Submitted</span>
-        </div>
-        <div id="hw-table-body">
-          <!-- rendered by JS -->
-        </div>
+      <div class="card">
+        <div class="card-title">Homework results</div>
+        <table class="rtable" id="hw-table"><tbody></tbody></table>
       </div>
-
-      <div class="setup-card">
-        <h3>Vocabulary progress</h3>
-        <p style="margin-bottom:.5rem">Synced from student's dictionary star ratings</p>
-        <div class="sc-progress-row"><div class="sc-progress-label">Mastered ★★★★★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar5" style="background:var(--green);width:0%"></div></div><div class="sc-progress-val" id="vval5">0</div></div>
-        <div class="sc-progress-row"><div class="sc-progress-label">Practicing ★★★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar3" style="background:var(--amber);width:0%"></div></div><div class="sc-progress-val" id="vval3">0</div></div>
-        <div class="sc-progress-row"><div class="sc-progress-label">Needs review ★</div><div class="sc-progress-bar"><div class="sc-progress-fill" id="vbar1" style="background:var(--red);width:0%"></div></div><div class="sc-progress-val" id="vval1">0</div></div>
+      <div class="card">
+        <div class="card-title">Vocabulary mastery</div>
+        <div class="pbar-row"><div class="pbar-lbl">Mastered ★★★★</div><div class="pbar-track"><div class="pbar-fill" id="vb5" style="background:var(--green);width:0%"></div></div><div class="pbar-val" id="vv5">0</div></div>
+        <div class="pbar-row"><div class="pbar-lbl">Practicing ★★★</div><div class="pbar-track"><div class="pbar-fill" id="vb3" style="background:var(--amber);width:0%"></div></div><div class="pbar-val" id="vv3">0</div></div>
+        <div class="pbar-row"><div class="pbar-lbl">Needs review ★</div><div class="pbar-track"><div class="pbar-fill" id="vb1" style="background:var(--red);width:0%"></div></div><div class="pbar-val" id="vv1">0</div></div>
       </div>
     </div>
 
     <!-- ACTIVITY FEED -->
     <div class="page" id="page-activity">
-      <div class="ph"><h1>Activity feed</h1><p>All homework submissions in chronological order</p></div>
-      <div class="setup-card">
-        <div id="feed-list"><div style="color:var(--muted2);font-size:13px">No activity yet. Submissions will appear here.</div></div>
-      </div>
+      <div class="ph"><h1>Activity feed</h1><p>All submissions in order</p></div>
+      <div class="card" id="feed-card"><div style="color:var(--muted2)">No activity yet.</div></div>
     </div>
 
-    <!-- ADD STUDENT -->
-    <div class="page" id="page-students">
-      <div class="ph"><h1>Add a student</h1><p>Each student gets their own HTML file in the repo</p></div>
-      <div class="setup-card">
-        <h3>How to add a new student</h3>
-        <p>Each student has their own <code style="background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--green)">studentname.html</code> file in the GitHub repo. Copy <code style="background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--green)">sandugash.html</code>, rename it, and update the student name and Supabase config at the top of the file.</p>
-        <div class="setup-step"><div class="step-num">1</div><div class="step-text">Duplicate <strong>sandugash.html</strong> in your repo and rename it to the student's name, e.g. <strong>aisha.html</strong></div></div>
-        <div class="setup-step"><div class="step-num">2</div><div class="step-text">Open the file and change <strong>STUDENT_NAME</strong> at the top of the script to the new student's name</div></div>
-        <div class="setup-step"><div class="step-num">3</div><div class="step-text">Push to GitHub — the student gets their own link: <strong>yoursite.github.io/aisha.html</strong></div></div>
-        <div class="setup-step"><div class="step-num">4</div><div class="step-text">Add the student's name to the sidebar of this teacher dashboard</div></div>
+    <!-- HW EDITOR -->
+    <div class="page" id="page-editor">
+      <div class="ph ph-row">
+        <div><h1>Edit homeworks</h1><p>Edit questions, answers and options — changes save instantly to Supabase and update for Sandugash immediately</p></div>
+        <button class="tbtn pri" onclick="addQuestion()">+ Add question</button>
       </div>
+
+      <!-- HW tabs -->
+      <div class="hw-selector" id="hw-tabs"></div>
+
+      <!-- Lock toggle -->
+      <div class="lock-row" id="lock-row">
+        <div>
+          <div class="lock-lbl" id="lock-lbl">HW 1</div>
+          <div class="lock-sub" id="lock-sub">Unlocked — visible to student</div>
+        </div>
+        <label class="toggle-wrap">
+          <input type="checkbox" class="toggle-inp" id="lock-toggle" onchange="toggleLock()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Questions list -->
+      <div id="questions-list"></div>
+      <button class="add-q-btn" onclick="addQuestion()">+ Add new question to this homework</button>
     </div>
 
     <!-- SETUP -->
     <div class="page" id="page-setup">
-      <div class="ph"><h1>Connection setup</h1><p>Connect to Supabase so homework results sync automatically</p></div>
-
-      <div class="alert alert-warn">Without this setup, homework results only live in the student's browser and you can't see them. This takes about 5 minutes and is completely free.</div>
-
-      <div class="setup-card">
-        <h3>Step 1 — Create a free Supabase project</h3>
-        <p>Supabase is a free database that both the student site and this teacher dashboard connect to. No credit card needed.</p>
-        <div class="setup-step"><div class="step-num">1</div><div class="step-text">Go to <strong>supabase.com</strong> → click "Start your project" → sign in with GitHub</div></div>
-        <div class="setup-step"><div class="step-num">2</div><div class="step-text">Create a new project, name it anything (e.g. "english-class")</div></div>
-        <div class="setup-step"><div class="step-num">3</div><div class="step-text">Wait ~1 min for it to set up, then go to <strong>Settings → API</strong></div></div>
-        <div class="setup-step"><div class="step-num">4</div><div class="step-text">Copy your <strong>Project URL</strong> and <strong>anon public key</strong></div></div>
-      </div>
-
-      <div class="setup-card">
-        <h3>Step 2 — Create the results table</h3>
-        <p>In your Supabase project go to <strong>SQL Editor</strong> and run this query once:</p>
-        <div class="code-block">CREATE TABLE hw_results (
-  id SERIAL PRIMARY KEY,
-  student TEXT NOT NULL,
-  hw_number INTEGER NOT NULL,
-  score_pct INTEGER NOT NULL,
-  correct INTEGER NOT NULL,
-  total INTEGER NOT NULL,
-  vocab_mastered INTEGER DEFAULT 0,
-  vocab_practicing INTEGER DEFAULT 0,
-  vocab_review INTEGER DEFAULT 0,
-  submitted_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Allow public inserts and reads (student site is public)
-ALTER TABLE hw_results ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "allow_all" ON hw_results FOR ALL USING (true) WITH CHECK (true);</div>
-      </div>
-
-      <div class="setup-card">
-        <h3>Step 3 — Enter your Supabase credentials</h3>
-        <p>Paste your credentials below. They are saved in your browser and used to fetch results on this dashboard.</p>
-        <div class="input-row">
-          <input class="setup-input" id="sb-url" placeholder="https://xxxx.supabase.co" value="">
-          <input class="setup-input" id="sb-key" placeholder="eyJh... (anon public key)" value="">
+      <div class="ph"><h1>Setup</h1><p>Supabase connection — already configured</p></div>
+      <div class="card">
+        <div class="card-title">Connection details</div>
+        <div style="margin-bottom:.75rem">
+          <div class="qfield-label">Supabase URL</div>
+          <input class="qfield" id="sb-url" value="https://jjlzimjfnwywsmodobct.supabase.co" style="font-size:12px">
         </div>
-        <button class="setup-save" onclick="saveConfig()">Save & test connection</button>
-        <div class="fb" id="setup-fb" style="margin-top:.6rem;font-size:13px"></div>
+        <div style="margin-bottom:.75rem">
+          <div class="qfield-label">Anon key</div>
+          <input class="qfield" id="sb-key" style="font-size:11px">
+        </div>
+        <button class="tbtn pri" onclick="testConn()" style="margin-top:.25rem">Test connection</button>
+        <div id="setup-fb" style="font-size:12px;margin-top:.5rem;color:var(--muted2)"></div>
       </div>
-
-      <div class="setup-card">
-        <h3>Step 4 — Add credentials to the student file</h3>
-        <p>Open <strong>sandugash.html</strong> in your repo, find the CONFIG section near the bottom of the &lt;script&gt; tag, and paste your Supabase URL and key there. This allows the student's submissions to be saved.</p>
-        <div class="code-block">// ── SUPABASE CONFIG (add your credentials here) ──
-const SUPABASE_URL = 'https://xxxx.supabase.co';
-const SUPABASE_KEY = 'eyJh...your-anon-key...';
-const STUDENT_NAME = 'Sandugash';</div>
-        <p style="margin-top:.5rem">Once you add these and push to GitHub, every HW submission will automatically save to Supabase and appear on this dashboard.</p>
+      <div class="card">
+        <div class="card-title">Run this SQL if tables are missing</div>
+        <div style="font-size:12px;color:var(--muted2);line-height:1.7">
+          Go to <strong style="color:var(--text)">Supabase → SQL Editor</strong> and run the <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">setup.sql</code> file provided alongside these HTML files. This creates the <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">hw_questions</code> and <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">hw_status</code> tables and seeds HW 1 with all questions.
+        </div>
       </div>
     </div>
 
@@ -296,263 +301,372 @@ const STUDENT_NAME = 'Sandugash';</div>
 </div>
 
 <script>
-// ── CONFIG ────────────────────────────────────────────────────
-let SUPABASE_URL = localStorage.getItem('sb_url') || 'https://jjlzimjfnwywsmodobct.supabase.co';
-let SUPABASE_KEY = localStorage.getItem('sb_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
+const SB_URL = 'https://jjlzimjfnwywsmodobct.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
+const HEADERS = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
-// Load saved credentials into inputs
-window.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('sb-url').value = SUPABASE_URL;
-  document.getElementById('sb-key').value = SUPABASE_KEY;  renderStudentCard(DEMO_DATA);
-  renderHWTable(DEMO_DATA.homeworks);
-  renderFeed(DEMO_DATA.homeworks);
-  updateStats([DEMO_DATA]);
-  updateConnBadge();
-  if (SUPABASE_URL && SUPABASE_KEY) loadData();
-});
+// ── SUPABASE HELPERS ──────────────────────────────────────────
+async function sb(path, method='GET', body=null) {
+  const opts = { method, headers: HEADERS };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(SB_URL + '/rest/v1/' + path, opts);
+  if (!r.ok) { const e = await r.text(); throw new Error(e); }
+  return r.status === 204 ? null : r.json();
+}
 
-// ── DEMO DATA (shown before real connection) ──────────────────
-const DEMO_DATA = {
-  name: 'Sandugash',
-  avatar_color: '#9b6dff',
-  avatar_bg: '#130f22',
-  homeworks: [
-    // replace with real data from Supabase once connected
-  ],
-  vocab: { mastered: 0, practicing: 80, review: 0, total: 80 }
-};
+// ── LOAD ALL DATA ─────────────────────────────────────────────
+let hwStatusData = {};
+let currentHW = 1;
+let questionsData = [];
+let resultsData = [];
 
-// ── SUPABASE FETCH ────────────────────────────────────────────
-async function loadData() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    document.getElementById('conn-badge').textContent = '⚪ Not connected';
-    document.getElementById('conn-badge').style.background = 'var(--surface2)';
-    document.getElementById('conn-badge').style.color = 'var(--muted2)';
-    return;
-  }
+async function loadAll() {
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/hw_results?order=submitted_at.desc`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const rows = await res.json();
-    processResults(rows);
-    updateConnBadge(true);
+    const [results, statuses, questions] = await Promise.all([
+      sb('hw_results?order=submitted_at.desc'),
+      sb('hw_status?order=hw_number.asc'),
+      sb('hw_questions?order=hw_number.asc,ex_number.asc')
+    ]);
+    resultsData = results || [];
+    questionsData = questions || [];
+    statuses.forEach(s => hwStatusData[s.hw_number] = s);
+    renderOverview(resultsData);
+    renderDetail(resultsData);
+    renderFeed(resultsData);
+    renderHWTabs();
+    renderQuestions(currentHW);
+    setBadge(true);
   } catch(e) {
-    updateConnBadge(false, e.message);
+    setBadge(false, e.message);
+    showToast('Connection failed: ' + e.message, 'err');
   }
 }
 
-function updateConnBadge(ok, err) {
+function setBadge(ok, msg) {
   const el = document.getElementById('conn-badge');
-  if (ok === true) { el.textContent = '🟢 Connected'; el.style.background='var(--green-l)'; el.style.color='var(--green)'; el.style.borderColor='#1a4a2a'; }
-  else if (ok === false) { el.textContent = '🔴 Error: '+err; el.style.background='var(--red-l)'; el.style.color='var(--red)'; el.style.borderColor='#3a1010'; }
-  else { el.textContent = SUPABASE_URL ? '🟡 Credentials saved' : '⚪ Not connected'; el.style.background=''; el.style.color=''; }
+  if (ok) { el.textContent = '🟢 Connected'; el.className = 'tbadge ok'; }
+  else { el.textContent = '🔴 ' + (msg||'Error'); el.className = 'tbadge err'; }
 }
 
-function processResults(rows) {
-  // Group by student
-  const byStudent = {};
-  rows.forEach(r => {
-    if (!byStudent[r.student]) byStudent[r.student] = [];
-    byStudent[r.student].push(r);
-  });
+// ── OVERVIEW ──────────────────────────────────────────────────
+function renderOverview(rows) {
+  const done = rows.length;
+  const avg = done ? Math.round(rows.reduce((a,r)=>a+r.score_pct,0)/done) : null;
+  document.getElementById('st-hw').textContent = done;
+  document.getElementById('st-avg').textContent = avg !== null ? avg+'%' : '—';
+  document.getElementById('no-data-msg').style.display = done ? 'none' : 'block';
 
-  // Build student objects
-  const students = Object.entries(byStudent).map(([name, hws]) => ({
-    name, homeworks: hws,
-    vocab: { mastered: hws[0]?.vocab_mastered||0, practicing: hws[0]?.vocab_practicing||0, review: hws[0]?.vocab_review||0, total: 80 },
-    avatar_color: '#9b6dff', avatar_bg: '#130f22'
-  }));
-
-  if (students.length) {
-    document.getElementById('no-data-msg').style.display = 'none';
-    document.getElementById('students-grid').innerHTML = '';
-    students.forEach(s => renderStudentCard(s));
-    const sandugashData = students.find(s => s.name === 'Sandugash') || students[0];
-    if (sandugashData) {
-      renderHWTable(sandugashData.homeworks);
-      renderVocab(sandugashData.vocab);
-      renderFeed(rows);
-    }
-    updateStats(students);
+  const wrap = document.getElementById('students-wrap');
+  wrap.innerHTML = '';
+  const sc = document.createElement('div');
+  sc.className = 'sc';
+  const hwDone = rows.length;
+  const scores = rows.map(r=>r.score_pct);
+  const avgSc = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const statusTxt = avgSc===null?'No submissions yet':avgSc>=80?'On track':avgSc>=60?'Needs attention':'Struggling';
+  const statusSty = avgSc===null?'background:var(--surf2);color:var(--muted2)':avgSc>=80?'background:var(--gl);color:var(--green)':avgSc>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
+  let pills = '';
+  for (let i=1;i<=6;i++){
+    const hw=rows.find(r=>r.hw_number===i);
+    if(hw){const c=hw.score_pct>=80?'great':hw.score_pct>=60?'okk':'bad';pills+=`<div class="hwp ${c}">HW${i}<br>${hw.score_pct}%</div>`;}
+    else{const st=hwStatusData[i];pills+=`<div class="hwp ${st&&!st.is_locked?'open':'locked'}">HW${i}</div>`;}
   }
-}
-
-// ── RENDER STUDENT CARD ───────────────────────────────────────
-function renderStudentCard(student) {
-  const hws = student.homeworks || [];
-  const scores = hws.map(h => h.score_pct || 0);
-  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
-  const done = hws.length;
-
-  // HW pills (HW1–6 + Midterm)
-  let pillsHtml = '';
-  for (let i=1; i<=6; i++) {
-    const hw = hws.find(h => h.hw_number === i);
-    if (hw) {
-      const cls = hw.score_pct >= 80 ? 'done-great' : hw.score_pct >= 60 ? 'done-ok' : 'done-poor';
-      pillsHtml += `<div class="hw-pill ${cls}">HW${i}<br>${hw.score_pct}%</div>`;
-    } else {
-      pillsHtml += `<div class="hw-pill locked">HW${i}</div>`;
-    }
-  }
-  pillsHtml += `<div class="hw-pill midterm">Mid<br>term</div>`;
-
-  // Progress bars
-  const vocab = student.vocab || {};
-  const vtotal = vocab.total || 80;
-
-  const statusCls = avg === null ? '' : avg >= 80 ? 'great' : avg >= 60 ? 'ok' : 'poor';
-  const statusText = avg === null ? 'No submissions' : avg >= 80 ? 'On track' : avg >= 60 ? 'Needs attention' : 'Struggling';
-  const statusBg = avg === null ? 'background:var(--surface2);color:var(--muted2)' : avg >= 80 ? 'background:var(--green-l);color:var(--green)' : avg >= 60 ? 'background:var(--amber-l);color:var(--amber)' : 'background:var(--red-l);color:var(--red)';
-
-  const lastHw = hws[0];
-  const lastTime = lastHw ? new Date(lastHw.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'No submissions yet';
-
-  const card = document.createElement('div');
-  card.className = 'student-card';
-  card.innerHTML = `
-    <div class="sc-header">
-      <div class="sc-avatar" style="background:${student.avatar_bg};color:${student.avatar_color}">${student.name.slice(0,2).toUpperCase()}</div>
-      <div>
-        <div class="sc-name">${student.name}</div>
-        <div class="sc-meta">${done}/6 homeworks · avg ${avg !== null ? avg+'%' : '—'}</div>
-      </div>
-      <div class="sc-status" style="${statusBg}">${statusText}</div>
+  pills += `<div class="hwp mid">Mid<br>term</div>`;
+  const lastRow = rows[0];
+  const lastT = lastRow ? new Date(lastRow.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : 'None yet';
+  sc.innerHTML = `
+    <div class="sc-head">
+      <div class="sc-av" style="background:#130f22;color:#9b6dff">SA</div>
+      <div><div class="sc-name">Sandugash</div><div class="sc-meta">${hwDone}/6 submitted · avg ${avgSc!==null?avgSc+'%':'—'}</div></div>
+      <div class="sc-status" style="${statusSty}">${statusTxt}</div>
     </div>
     <div class="sc-body">
-      <div class="sc-hw-row">${pillsHtml}</div>
-      <div class="sc-progress-row">
-        <div class="sc-progress-label">Vocab mastered</div>
-        <div class="sc-progress-bar"><div class="sc-progress-fill" style="background:var(--green);width:${vtotal?Math.round((vocab.mastered||0)/vtotal*100):0}%"></div></div>
-        <div class="sc-progress-val">${vocab.mastered||0}</div>
-      </div>
-      <div class="sc-progress-row">
-        <div class="sc-progress-label">Practicing</div>
-        <div class="sc-progress-bar"><div class="sc-progress-fill" style="background:var(--amber);width:${vtotal?Math.round((vocab.practicing||0)/vtotal*100):0}%"></div></div>
-        <div class="sc-progress-val">${vocab.practicing||0}</div>
-      </div>
+      <div class="hw-pills">${pills}</div>
+      <div class="pbar-row"><div class="pbar-lbl">Mastered</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${lastRow?Math.round((lastRow.vocab_mastered||0)/80*100):0}%"></div></div><div class="pbar-val">${lastRow?lastRow.vocab_mastered||0:0}</div></div>
+      <div class="pbar-row"><div class="pbar-lbl">Practicing</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${lastRow?Math.round((lastRow.vocab_practicing||0)/80*100):0}%"></div></div><div class="pbar-val">${lastRow?lastRow.vocab_practicing||0:0}</div></div>
     </div>
-    <div class="sc-footer">
-      <div class="sc-last-active">Last submission: ${lastTime}</div>
-      <button class="sc-action-btn" onclick="goPage('${student.name.toLowerCase()}')">View detail →</button>
-    </div>`;
-  document.getElementById('students-grid').appendChild(card);
+    <div class="sc-foot"><div class="sc-last">Last submission: ${lastT}</div><button class="sc-btn" onclick="goPage('sandugash')">View detail →</button></div>`;
+  wrap.appendChild(sc);
 }
 
-function renderHWTable(hws) {
-  const tbody = document.getElementById('hw-table-body');
-  const labels = ['','Vocabulary & world','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
-  if (!hws || !hws.length) {
-    tbody.innerHTML = `<div class="table-row" style="grid-template-columns:1fr;color:var(--muted2)">No homework submitted yet</div>`;
+// ── DETAIL ────────────────────────────────────────────────────
+function renderDetail(rows) {
+  const tbody = document.querySelector('#hw-table tbody');
+  const labels = ['','Vocabulary & passive','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
+  if (!rows.length) { tbody.innerHTML = `<tr><td colspan="6" style="color:var(--muted2);padding:.75rem 0">No submissions yet</td></tr>`; return; }
+  tbody.innerHTML = `<tr>${['Homework','Score','Correct','Total','Status','Date'].map(h=>`<th>${h}</th>`).join('')}</tr>` +
+    rows.map(r => {
+      const cs = r.score_pct>=80?'background:var(--gl);color:var(--green)':r.score_pct>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
+      const st = r.score_pct>=80?'✓ Good':r.score_pct>=60?'△ Ok':'✗ Needs redo';
+      const stc = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
+      const d = new Date(r.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      return `<tr><td><strong>HW ${r.hw_number}</strong> <span style="color:var(--muted2);font-size:11px">${labels[r.hw_number]||''}</span></td><td><span class="chip" style="${cs}">${r.score_pct}%</span></td><td style="color:var(--green)">${r.correct}</td><td style="color:var(--muted2)">${r.total}</td><td style="color:${stc}">${st}</td><td style="color:var(--muted2);font-size:12px">${d}</td></tr>`;
+    }).join('');
+  const scores = rows.map(r=>r.score_pct);
+  document.getElementById('sd-done').textContent = rows.length+'/6';
+  document.getElementById('sd-avg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%';
+  document.getElementById('sd-best').textContent = Math.max(...scores)+'%';
+  const last = rows[0];
+  if (last) {
+    document.getElementById('vb5').style.width = Math.round((last.vocab_mastered||0)/80*100)+'%';
+    document.getElementById('vb3').style.width = Math.round((last.vocab_practicing||0)/80*100)+'%';
+    document.getElementById('vb1').style.width = Math.round((last.vocab_review||0)/80*100)+'%';
+    document.getElementById('vv5').textContent = last.vocab_mastered||0;
+    document.getElementById('vv3').textContent = last.vocab_practicing||0;
+    document.getElementById('vv1').textContent = last.vocab_review||0;
+  }
+}
+
+// ── FEED ──────────────────────────────────────────────────────
+function renderFeed(rows) {
+  const card = document.getElementById('feed-card');
+  if (!rows.length) { card.innerHTML = `<div style="color:var(--muted2)">No submissions yet.</div>`; return; }
+  card.innerHTML = rows.map(r => {
+    const c = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
+    const cs = r.score_pct>=80?`background:var(--gl);color:var(--green)`:r.score_pct>=60?`background:var(--al);color:var(--amber)`:`background:var(--rl);color:var(--red)`;
+    const d = new Date(r.submitted_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<div class="feed-item"><div class="feed-dot" style="background:${c}"></div><div class="feed-body"><div class="feed-title"><strong>${r.student}</strong> submitted <strong>Homework ${r.hw_number}</strong></div><div class="feed-time">${d}</div></div><div class="feed-chip" style="${cs}">${r.score_pct}% · ${r.correct}/${r.total}</div></div>`;
+  }).join('');
+}
+
+// ── HW EDITOR ─────────────────────────────────────────────────
+function renderHWTabs() {
+  const tabs = document.getElementById('hw-tabs');
+  tabs.innerHTML = '';
+  for (let i=1;i<=6;i++) {
+    const st = hwStatusData[i];
+    const locked = st ? st.is_locked : true;
+    const count = questionsData.filter(q=>q.hw_number===i).length;
+    const btn = document.createElement('button');
+    btn.className = 'hw-tab' + (i===currentHW?' active':'') + (locked?' locked-tab':'');
+    btn.innerHTML = `HW ${i} <span style="font-size:10px;color:var(--muted)">(${count})</span>`;
+    btn.onclick = () => { currentHW = i; renderHWTabs(); renderQuestions(i); };
+    tabs.appendChild(btn);
+  }
+}
+
+function renderQuestions(hwNum) {
+  const list = document.getElementById('questions-list');
+  const qs = questionsData.filter(q=>q.hw_number===hwNum).sort((a,b)=>a.ex_number-b.ex_number);
+  const st = hwStatusData[hwNum];
+  const locked = st ? st.is_locked : true;
+
+  document.getElementById('lock-lbl').textContent = `HW ${hwNum}`;
+  document.getElementById('lock-sub').textContent = locked ? '🔒 Locked — not visible to student' : '🔓 Unlocked — visible to student';
+  document.getElementById('lock-toggle').checked = !locked;
+
+  if (!qs.length) {
+    list.innerHTML = `<div class="alert alert-warn">No questions yet for HW ${hwNum}. Click "+ Add question" to create the first one, or run setup.sql to seed HW 1.</div>`;
     return;
   }
-  tbody.innerHTML = hws.map(h => {
-    const cls = h.score_pct >= 80 ? 'great' : h.score_pct >= 60 ? 'ok' : 'poor';
-    const chipStyle = h.score_pct >= 80 ? 'background:var(--green-l);color:var(--green)' : h.score_pct >= 60 ? 'background:var(--amber-l);color:var(--amber)' : 'background:var(--red-l);color:var(--red)';
-    const time = new Date(h.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<div class="table-row">
-      <span><strong>HW ${h.hw_number}</strong> <span style="color:var(--muted2);font-size:12px">— ${labels[h.hw_number]||''}</span></span>
-      <span class="score-chip" style="${chipStyle}">${h.score_pct}%</span>
-      <span class="${cls}">${h.correct}</span>
-      <span style="color:var(--muted2)">${h.total}</span>
-      <span class="${cls}">${h.score_pct>=80?'✓ Good':h.score_pct>=60?'△ Ok':'✗ Redo'}</span>
-      <span style="color:var(--muted2);font-size:12px">${time}</span>
-    </div>`;
-  }).join('');
-
-  // Update Sandugash detail stats
-  const scores = hws.map(h=>h.score_pct);
-  document.getElementById('sd-done').textContent = hws.length + ' / 6';
-  document.getElementById('sd-avg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%';
-  document.getElementById('sd-best').textContent = Math.max(...scores) + '%';
+  list.innerHTML = qs.map((q,idx) => buildQuestionCard(q, idx+1)).join('');
 }
 
-function renderVocab(vocab) {
-  const t = vocab.total || 80;
-  ['5','3','1'].forEach(k => {
-    const val = k==='5'?vocab.mastered:k==='3'?vocab.practicing:vocab.review;
-    document.getElementById('vbar'+k).style.width = (t?Math.round(val/t*100):0)+'%';
-    document.getElementById('vval'+k).textContent = val||0;
-  });
-}
+function buildQuestionCard(q, displayNum) {
+  const typeCls = `qtype-${q.type}`;
+  const typeLabel = {translate:'Translate',fillin:'Fill in',multiple:'Multiple choice',sentence:'Free writing'}[q.type]||q.type;
+  const opts = Array.isArray(q.options) ? q.options : (q.options ? JSON.parse(q.options) : []);
+  const optionsHtml = q.type==='multiple' ? `
+    <div class="qfield-label" style="margin-bottom:4px">Answer options <span style="color:var(--muted2)">(click "✓ correct" to mark the right answer)</span></div>
+    <div class="options-list" id="opts-${q.id}">
+      ${opts.map((o,i) => `
+        <div class="option-row" id="orow-${q.id}-${i}">
+          <input value="${o}" onchange="updateOpt(${q.id},${i},this.value)" placeholder="Option ${i+1}">
+          <button class="option-correct ${o===q.answer?'selected':''}" onclick="setCorrect(${q.id},'${o.replace(/'/g,"\\'")}',this)">✓ correct</button>
+          <button class="opt-del" onclick="removeOpt(${q.id},${i})">✕</button>
+        </div>`).join('')}
+    </div>
+    <button class="qbtn" style="font-size:11px;margin-bottom:.5rem" onclick="addOpt(${q.id})">+ Add option</button>` : '';
 
-function renderFeed(rows) {
-  const list = document.getElementById('feed-list');
-  if (!rows || !rows.length) return;
-  const sorted = [...rows].sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
-  list.innerHTML = sorted.map(r => {
-    const cls = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
-    const chipStyle = r.score_pct>=80?'background:var(--green-l);color:var(--green)':r.score_pct>=60?'background:var(--amber-l);color:var(--amber)':'background:var(--red-l);color:var(--red)';
-    const time = new Date(r.submitted_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<div class="feed-item">
-      <div class="feed-dot" style="background:${cls}"></div>
-      <div class="feed-content">
-        <div class="feed-title"><strong>${r.student}</strong> submitted <strong>Homework ${r.hw_number}</strong></div>
-        <div class="feed-time">${time}</div>
+  return `<div class="qcard" id="qcard-${q.id}">
+    <div class="qcard-top">
+      <span class="qnum">Ex ${displayNum}</span>
+      <span class="qsec">${q.section||''}</span>
+      <span class="qtype-badge ${typeCls}">${typeLabel}</span>
+      <div class="qcard-actions">
+        <button class="qbtn save-q" onclick="saveQuestion(${q.id})">Save</button>
+        <button class="qbtn del" onclick="deleteQuestion(${q.id})">Delete</button>
       </div>
-      <div class="feed-score" style="${chipStyle}">${r.score_pct}% · ${r.correct}/${r.total}</div>
-    </div>`;
-  }).join('');
+    </div>
+    <div class="qfield-row">
+      <div class="qfield-group" style="flex:2">
+        <div class="qfield-label">Question / prompt</div>
+        <textarea class="qfield" id="q-question-${q.id}" rows="2">${q.question}</textarea>
+      </div>
+      <div class="qfield-group">
+        <div class="qfield-label">Section label</div>
+        <input class="qfield" id="q-section-${q.id}" value="${q.section||''}">
+      </div>
+    </div>
+    ${q.type!=='multiple'?`
+    <div class="qfield-row">
+      <div class="qfield-group">
+        <div class="qfield-label">Correct answer</div>
+        <input class="qfield" id="q-answer-${q.id}" value="${q.answer}">
+      </div>
+      <div class="qfield-group">
+        <div class="qfield-label">Tip for student (optional)</div>
+        <input class="qfield" id="q-tip-${q.id}" value="${q.tip||''}">
+      </div>
+    </div>`:''}
+    ${optionsHtml}
+    <div class="qfield-row">
+      <div class="qfield-group">
+        <div class="qfield-label">Type</div>
+        <select class="qfield" id="q-type-${q.id}" onchange="changeType(${q.id},this.value)" style="cursor:pointer">
+          <option value="translate" ${q.type==='translate'?'selected':''}>Translate</option>
+          <option value="fillin" ${q.type==='fillin'?'selected':''}>Fill in</option>
+          <option value="multiple" ${q.type==='multiple'?'selected':''}>Multiple choice</option>
+          <option value="sentence" ${q.type==='sentence'?'selected':''}>Free writing</option>
+        </select>
+      </div>
+      ${q.type==='sentence'?`<div class="qfield-group"><div class="qfield-label">Min words required</div><input class="qfield" type="number" id="q-minw-${q.id}" value="${q.min_words||0}" min="0"></div>`:''}
+    </div>
+  </div>`;
 }
 
-function updateStats(students) {
-  let totalHW=0, scores=[];
-  students.forEach(s => {
-    totalHW += (s.homeworks||[]).length;
-    (s.homeworks||[]).forEach(h=>scores.push(h.score_pct));
-  });
-  document.getElementById('st-students').textContent = students.length;
-  document.getElementById('st-hw-done').textContent = totalHW;
-  document.getElementById('st-avg').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%' : '—';
-}
-
-// ── SETUP SAVE ────────────────────────────────────────────────
-async function saveConfig() {
-  SUPABASE_URL = document.getElementById('sb-url').value.trim().replace(/\/$/, '');
-  SUPABASE_KEY = document.getElementById('sb-key').value.trim();
-  localStorage.setItem('sb_url', SUPABASE_URL);
-  localStorage.setItem('sb_key', SUPABASE_KEY);
-  const fb = document.getElementById('setup-fb');
-  fb.style.color = 'var(--amber)';
-  fb.textContent = 'Testing connection…';
+// ── QUESTION CRUD ─────────────────────────────────────────────
+async function saveQuestion(id) {
+  const q = questionsData.find(x=>x.id===id);
+  if (!q) return;
+  const type = document.getElementById(`q-type-${id}`).value;
+  const question = document.getElementById(`q-question-${id}`).value.trim();
+  const section = document.getElementById(`q-section-${id}`).value.trim();
+  let answer = type!=='multiple' ? (document.getElementById(`q-answer-${id}`)?.value.trim()||'') : q.answer;
+  const tip = type!=='multiple' ? (document.getElementById(`q-tip-${id}`)?.value.trim()||'') : '';
+  const min_words = type==='sentence' ? parseInt(document.getElementById(`q-minw-${id}`)?.value||0) : 0;
+  const opts = type==='multiple' ? (Array.isArray(q.options)?q.options:JSON.parse(q.options||'[]')) : null;
+  if (!question) { showToast('Question text cannot be empty','err'); return; }
   try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/hw_results?limit=1`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    if (res.ok) {
-      fb.style.color = 'var(--green)';
-      fb.textContent = '✓ Connected successfully! Loading data…';
-      updateConnBadge(true);
-      loadData();
-    } else {
-      throw new Error('Status ' + res.status + ' — check your URL and key');
-    }
-  } catch(e) {
-    fb.style.color = 'var(--red)';
-    fb.textContent = '✗ ' + e.message;
-    updateConnBadge(false, e.message);
-  }
+    await sb(`hw_questions?id=eq.${id}`, 'PATCH', { type, question, section, answer, tip, min_words, options: opts, updated_at: new Date().toISOString() });
+    Object.assign(q, { type, question, section, answer, tip, min_words, options: opts });
+    showToast('Saved ✓');
+  } catch(e) { showToast('Save failed: '+e.message,'err'); }
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────
+async function deleteQuestion(id) {
+  if (!confirm('Delete this question?')) return;
+  try {
+    await sb(`hw_questions?id=eq.${id}`, 'DELETE');
+    questionsData = questionsData.filter(q=>q.id!==id);
+    document.getElementById(`qcard-${id}`)?.remove();
+    renderHWTabs();
+    showToast('Deleted');
+  } catch(e) { showToast('Delete failed: '+e.message,'err'); }
+}
+
+async function addQuestion() {
+  const maxEx = questionsData.filter(q=>q.hw_number===currentHW).reduce((m,q)=>Math.max(m,q.ex_number),0);
+  const newQ = { hw_number: currentHW, ex_number: maxEx+1, section: '', type: 'translate', question: 'New question', answer: '', options: null, tip: '', min_words: 0 };
+  try {
+    const [created] = await sb('hw_questions', 'POST', newQ);
+    questionsData.push(created);
+    renderHWTabs();
+    renderQuestions(currentHW);
+    showToast('Question added');
+    setTimeout(()=>{ document.getElementById(`qcard-${created.id}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
+  } catch(e) { showToast('Add failed: '+e.message,'err'); }
+}
+
+function updateOpt(qid, idx, val) {
+  const q = questionsData.find(x=>x.id===qid);
+  if (!q) return;
+  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
+  opts[idx] = val;
+  q.options = opts;
+}
+
+function setCorrect(qid, val, btn) {
+  const q = questionsData.find(x=>x.id===qid);
+  if (!q) return;
+  q.answer = val;
+  document.querySelectorAll(`#opts-${qid} .option-correct`).forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const ansEl = document.getElementById(`q-answer-${qid}`);
+  if (ansEl) ansEl.value = val;
+}
+
+function removeOpt(qid, idx) {
+  const q = questionsData.find(x=>x.id===qid);
+  if (!q) return;
+  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
+  opts.splice(idx,1);
+  q.options = opts;
+  document.getElementById(`orow-${qid}-${idx}`)?.remove();
+  const rows = document.querySelectorAll(`#opts-${qid} .option-row`);
+  rows.forEach((r,i)=>r.id=`orow-${qid}-${i}`);
+}
+
+function addOpt(qid) {
+  const q = questionsData.find(x=>x.id===qid);
+  if (!q) return;
+  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
+  opts.push('New option');
+  q.options = opts;
+  const container = document.getElementById(`opts-${qid}`);
+  const i = opts.length-1;
+  const div = document.createElement('div');
+  div.className = 'option-row';
+  div.id = `orow-${qid}-${i}`;
+  div.innerHTML = `<input value="New option" onchange="updateOpt(${qid},${i},this.value)"><button class="option-correct" onclick="setCorrect(${qid},'New option',this)">✓ correct</button><button class="opt-del" onclick="removeOpt(${qid},${i})">✕</button>`;
+  container.appendChild(div);
+}
+
+function changeType(qid, newType) {
+  const q = questionsData.find(x=>x.id===qid);
+  if (!q) return;
+  q.type = newType;
+  renderQuestions(currentHW);
+}
+
+// ── LOCK TOGGLE ───────────────────────────────────────────────
+async function toggleLock() {
+  const unlocked = document.getElementById('lock-toggle').checked;
+  const sub = document.getElementById('lock-sub');
+  try {
+    await sb(`hw_status?hw_number=eq.${currentHW}`, 'PATCH', { is_locked: !unlocked });
+    if (hwStatusData[currentHW]) hwStatusData[currentHW].is_locked = !unlocked;
+    sub.textContent = unlocked ? '🔓 Unlocked — visible to student' : '🔒 Locked — not visible to student';
+    renderHWTabs();
+    showToast(unlocked ? `HW ${currentHW} unlocked for Sandugash` : `HW ${currentHW} locked`);
+  } catch(e) { showToast('Failed: '+e.message,'err'); }
+}
+
+// ── SETUP TEST ────────────────────────────────────────────────
+async function testConn() {
+  const fb = document.getElementById('setup-fb');
+  fb.style.color = 'var(--amber)'; fb.textContent = 'Testing…';
+  try {
+    await sb('hw_results?limit=1');
+    fb.style.color = 'var(--green)'; fb.textContent = '✓ Connected successfully';
+    setBadge(true);
+  } catch(e) { fb.style.color = 'var(--red)'; fb.textContent = '✗ '+e.message; setBadge(false); }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, type='ok') {
+  document.querySelector('.toast')?.remove();
+  clearTimeout(toastTimer);
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = type==='ok' ? '✓ ' + msg : '✗ ' + msg;
+  document.body.appendChild(t);
+  toastTimer = setTimeout(()=>t.remove(), 3000);
+}
+
+// ── NAV ───────────────────────────────────────────────────────
 function goPage(id) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.sni').forEach(n=>n.classList.remove('active'));
-  const pg = document.getElementById('page-'+id);
-  if (pg) pg.classList.add('active');
-  const ni = document.querySelector(`[data-page="${id}"]`);
-  if (ni) ni.classList.add('active');
+  document.getElementById('page-'+id)?.classList.add('active');
+  document.querySelector(`[data-page="${id}"]`)?.classList.add('active');
   document.querySelector('.main').scrollTop = 0;
 }
-document.querySelectorAll('.sni').forEach(n => {
-  n.addEventListener('click', () => goPage(n.getAttribute('data-page')));
-});
+document.querySelectorAll('.sni').forEach(n => n.addEventListener('click', ()=>goPage(n.getAttribute('data-page'))));
+
+// ── INIT ──────────────────────────────────────────────────────
+loadAll();
 </script>
 </body>
 </html>
