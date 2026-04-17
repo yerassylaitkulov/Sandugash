@@ -195,7 +195,8 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;color:var(--t
     <div class="sni active" data-page="overview"><span class="sni-dot"></span>Overview</div>
     <div class="sni" data-page="activity"><span class="sni-dot"></span>Activity feed</div>
     <div class="slbl">Students</div>
-    <div class="sni" data-page="sandugash"><span class="sni-dot"></span>Sandugash</div>
+    <div id="student-nav-items"></div>
+    <div class="sni" data-page="add-student" style="color:var(--green);opacity:.7"><span class="sni-dot" style="background:var(--green)"></span>+ Add student</div>
     <div class="slbl">Homeworks</div>
     <div class="sni" data-page="editor"><span class="sni-dot"></span>Edit HW</div>
     <div class="slbl" style="margin-top:.5rem"></div>
@@ -220,25 +221,34 @@ body{background:var(--bg);font-family:'Instrument Sans',sans-serif;color:var(--t
       <div class="alert alert-info" id="no-data-msg" style="display:none">No submissions yet. Once Sandugash submits homework it will appear here.</div>
     </div>
 
-    <!-- SANDUGASH DETAIL -->
-    <div class="page" id="page-sandugash">
-      <div class="ph"><h1>Sandugash</h1><p>Full homework history and vocabulary progress</p></div>
-      <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-        <div class="stat"><div class="sv" style="color:var(--green)" id="sd-done">0/6</div><div class="sl">HW done</div></div>
-        <div class="stat"><div class="sv" style="color:var(--amber)" id="sd-avg">—</div><div class="sl">Avg score</div></div>
-        <div class="stat"><div class="sv" style="color:var(--blue)" id="sd-best">—</div><div class="sl">Best score</div></div>
+    <!-- ADD STUDENT PAGE -->
+    <div class="page" id="page-add-student">
+      <div class="ph"><h1>Add a student</h1><p>Register a new student so they appear on your dashboard immediately</p></div>
+      <div class="card">
+        <div class="card-title">New student details</div>
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:420px">
+          <div>
+            <div style="font-size:12px;color:var(--muted2);margin-bottom:4px">Student name</div>
+            <input class="qfield" id="new-student-name" placeholder="e.g. Yana" style="width:100%">
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--muted2);margin-bottom:4px">GitHub Pages URL (optional)</div>
+            <input class="qfield" id="new-student-url" placeholder="e.g. https://yerassylaitkulov.github.io/Yana/" style="width:100%">
+          </div>
+          <button class="tbtn pri" style="align-self:flex-start;margin-top:4px" onclick="addStudent()">Add student</button>
+          <div id="add-student-fb" style="font-size:13px"></div>
+        </div>
       </div>
       <div class="card">
-        <div class="card-title">Homework results</div>
-        <table class="rtable" id="hw-table"><tbody></tbody></table>
-      </div>
-      <div class="card">
-        <div class="card-title">Vocabulary mastery</div>
-        <div class="pbar-row"><div class="pbar-lbl">Mastered ★★★★</div><div class="pbar-track"><div class="pbar-fill" id="vb5" style="background:var(--green);width:0%"></div></div><div class="pbar-val" id="vv5">0</div></div>
-        <div class="pbar-row"><div class="pbar-lbl">Practicing ★★★</div><div class="pbar-track"><div class="pbar-fill" id="vb3" style="background:var(--amber);width:0%"></div></div><div class="pbar-val" id="vv3">0</div></div>
-        <div class="pbar-row"><div class="pbar-lbl">Needs review ★</div><div class="pbar-track"><div class="pbar-fill" id="vb1" style="background:var(--red);width:0%"></div></div><div class="pbar-val" id="vv1">0</div></div>
+        <div class="card-title">All registered students</div>
+        <div id="students-list-manage"></div>
       </div>
     </div>
+
+    <!-- STUDENT DETAIL PAGES — injected dynamically by showStudent() -->
+
+    <!-- SANDUGASH legacy detail — redirects to dynamic page -->
+    <div class="page" id="page-sandugash"></div>
 
     <!-- ACTIVITY FEED -->
     <div class="page" id="page-activity">
@@ -319,24 +329,26 @@ let hwStatusData = {};
 let currentHW = 1;
 let questionsData = [];
 let resultsData = [];
+let studentsData = [];
+let selectedStudent = null;
 
 async function loadAll() {
   try {
-    const [results, statuses, questions] = await Promise.all([
+    const [results, statuses, questions, students] = await Promise.all([
       sb('hw_results?order=submitted_at.desc'),
       sb('hw_status?order=hw_number.asc'),
-      sb('hw_questions?order=hw_number.asc,ex_number.asc')
+      sb('hw_questions?order=hw_number.asc,ex_number.asc'),
+      sb('students?order=added_at.asc')
     ]);
-    // Keep only the latest submission per hw_number (results are already sorted desc)
-    const _seen = new Set();
-    resultsData = (results || []).filter(r => { if (_seen.has(r.hw_number)) return false; _seen.add(r.hw_number); return true; });
+    resultsData = results || [];
     questionsData = questions || [];
+    studentsData = students || [];
     statuses.forEach(s => hwStatusData[s.hw_number] = s);
-    renderOverview(resultsData);
-    renderDetail(resultsData);
+    renderOverview();
     renderFeed(resultsData);
     renderHWTabs();
     renderQuestions(currentHW);
+    renderStudentSidebar();
     setBadge(true);
   } catch(e) {
     setBadge(false, e.message);
@@ -350,23 +362,52 @@ function setBadge(ok, msg) {
   else { el.textContent = '🔴 ' + (msg||'Error'); el.className = 'tbadge err'; }
 }
 
-// ── OVERVIEW ──────────────────────────────────────────────────
-function renderOverview(rows) {
-  const done = rows.length;
-  const avg = done ? Math.round(rows.reduce((a,r)=>a+r.score_pct,0)/done) : null;
-  document.getElementById('st-hw').textContent = done;
-  document.getElementById('st-avg').textContent = avg !== null ? avg+'%' : '—';
-  document.getElementById('no-data-msg').style.display = done ? 'none' : 'block';
+// ── STUDENT SIDEBAR ───────────────────────────────────────────
+function renderStudentSidebar() {
+  const container = document.getElementById('student-nav-items');
+  container.innerHTML = studentsData.map(s =>
+    `<div class="sni" data-page="student-${s.name.toLowerCase()}" onclick="showStudent('${s.name}')">
+      <span class="sni-dot"></span>${s.name}
+    </div>`
+  ).join('');
+}
 
+// ── OVERVIEW ──────────────────────────────────────────────────
+function renderOverview() {
   const wrap = document.getElementById('students-wrap');
   wrap.innerHTML = '';
-  const sc = document.createElement('div');
-  sc.className = 'sc';
-  const hwDone = rows.length;
+
+  const totalHW = resultsData.length;
+  const scores = resultsData.map(r=>r.score_pct);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  document.getElementById('st-students').textContent = studentsData.length;
+  document.getElementById('st-hw').textContent = totalHW;
+  document.getElementById('st-avg').textContent = avg !== null ? avg+'%' : '—';
+
+  if (!studentsData.length) {
+    document.getElementById('no-data-msg').style.display = 'block';
+    return;
+  }
+  document.getElementById('no-data-msg').style.display = 'none';
+
+  studentsData.forEach(student => {
+    const rows = resultsData.filter(r => r.student === student.name);
+    wrap.appendChild(buildStudentCard(student, rows));
+  });
+}
+
+function buildStudentCard(student, rows) {
   const scores = rows.map(r=>r.score_pct);
   const avgSc = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
   const statusTxt = avgSc===null?'No submissions yet':avgSc>=80?'On track':avgSc>=60?'Needs attention':'Struggling';
   const statusSty = avgSc===null?'background:var(--surf2);color:var(--muted2)':avgSc>=80?'background:var(--gl);color:var(--green)':avgSc>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
+
+  // avatar initials + color
+  const initials = student.name.slice(0,2).toUpperCase();
+  const avatarColors = ['#130f22|#9b6dff','#0a2018|#22d97a','#1a1200|#f5b642','#0a1628|#4f9eff','#200a0a|#f05252','#051a12|#34d399'];
+  const ac = avatarColors[student.id % avatarColors.length] || '#130f22|#9b6dff';
+  const [avBg, avCol] = ac.split('|');
+
   let pills = '';
   for (let i=1;i<=6;i++){
     const hw=rows.find(r=>r.hw_number===i);
@@ -374,49 +415,141 @@ function renderOverview(rows) {
     else{const st=hwStatusData[i];pills+=`<div class="hwp ${st&&!st.is_locked?'open':'locked'}">HW${i}</div>`;}
   }
   pills += `<div class="hwp mid">Mid<br>term</div>`;
+
   const lastRow = rows[0];
   const lastT = lastRow ? new Date(lastRow.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : 'None yet';
+  const mastered = lastRow ? lastRow.vocab_mastered||0 : 0;
+  const practicing = lastRow ? lastRow.vocab_practicing||0 : 0;
+  const total = 80;
+
+  const sc = document.createElement('div');
+  sc.className = 'sc';
   sc.innerHTML = `
     <div class="sc-head">
-      <div class="sc-av" style="background:#130f22;color:#9b6dff">SA</div>
-      <div><div class="sc-name">Sandugash</div><div class="sc-meta">${hwDone}/6 submitted · avg ${avgSc!==null?avgSc+'%':'—'}</div></div>
+      <div class="sc-av" style="background:${avBg};color:${avCol}">${initials}</div>
+      <div>
+        <div class="sc-name">${student.name}</div>
+        <div class="sc-meta">${rows.length}/6 submitted · avg ${avgSc!==null?avgSc+'%':'—'}</div>
+      </div>
       <div class="sc-status" style="${statusSty}">${statusTxt}</div>
     </div>
     <div class="sc-body">
       <div class="hw-pills">${pills}</div>
-      <div class="pbar-row"><div class="pbar-lbl">Mastered</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${lastRow?Math.round((lastRow.vocab_mastered||0)/80*100):0}%"></div></div><div class="pbar-val">${lastRow?lastRow.vocab_mastered||0:0}</div></div>
-      <div class="pbar-row"><div class="pbar-lbl">Practicing</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${lastRow?Math.round((lastRow.vocab_practicing||0)/80*100):0}%"></div></div><div class="pbar-val">${lastRow?lastRow.vocab_practicing||0:0}</div></div>
+      <div class="pbar-row"><div class="pbar-lbl">Mastered</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${Math.round(mastered/total*100)}%"></div></div><div class="pbar-val">${mastered}</div></div>
+      <div class="pbar-row"><div class="pbar-lbl">Practicing</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${Math.round(practicing/total*100)}%"></div></div><div class="pbar-val">${practicing}</div></div>
     </div>
-    <div class="sc-foot"><div class="sc-last">Last submission: ${lastT}</div><button class="sc-btn" onclick="goPage('sandugash')">View detail →</button></div>`;
-  wrap.appendChild(sc);
+    <div class="sc-foot">
+      <div class="sc-last">Last submission: ${lastT}</div>
+      ${student.repo_url ? `<a href="${student.repo_url}" target="_blank" style="font-size:11px;color:var(--muted2);text-decoration:none;padding:4px 10px;border:1px solid var(--bord2);border-radius:5px;transition:all .15s" onmouseover="this.style.color='var(--green)';this.style.borderColor='var(--green)'" onmouseout="this.style.color='var(--muted2)';this.style.borderColor='var(--bord2)'">Open site ↗</a>` : ''}
+      <button class="sc-btn" onclick="showStudent('${student.name}')">View detail →</button>
+    </div>`;
+  return sc;
 }
 
-// ── DETAIL ────────────────────────────────────────────────────
-function renderDetail(rows) {
-  const tbody = document.querySelector('#hw-table tbody');
-  const labels = ['','Vocabulary & passive','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
-  if (!rows.length) { tbody.innerHTML = `<tr><td colspan="6" style="color:var(--muted2);padding:.75rem 0">No submissions yet</td></tr>`; return; }
-  tbody.innerHTML = `<tr>${['Homework','Score','Correct','Total','Status','Date'].map(h=>`<th>${h}</th>`).join('')}</tr>` +
-    rows.map(r => {
-      const cs = r.score_pct>=80?'background:var(--gl);color:var(--green)':r.score_pct>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
-      const st = r.score_pct>=80?'✓ Good':r.score_pct>=60?'△ Ok':'✗ Needs redo';
-      const stc = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
-      const d = new Date(r.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-      return `<tr><td><strong>HW ${r.hw_number}</strong> <span style="color:var(--muted2);font-size:11px">${labels[r.hw_number]||''}</span></td><td><span class="chip" style="${cs}">${r.score_pct}%</span></td><td style="color:var(--green)">${r.correct}</td><td style="color:var(--muted2)">${r.total}</td><td style="color:${stc}">${st}</td><td style="color:var(--muted2);font-size:12px">${d}</td></tr>`;
-    }).join('');
-  const scores = rows.map(r=>r.score_pct);
-  document.getElementById('sd-done').textContent = rows.length+'/6';
-  document.getElementById('sd-avg').textContent = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%';
-  document.getElementById('sd-best').textContent = Math.max(...scores)+'%';
-  const last = rows[0];
-  if (last) {
-    document.getElementById('vb5').style.width = Math.round((last.vocab_mastered||0)/80*100)+'%';
-    document.getElementById('vb3').style.width = Math.round((last.vocab_practicing||0)/80*100)+'%';
-    document.getElementById('vb1').style.width = Math.round((last.vocab_review||0)/80*100)+'%';
-    document.getElementById('vv5').textContent = last.vocab_mastered||0;
-    document.getElementById('vv3').textContent = last.vocab_practicing||0;
-    document.getElementById('vv1').textContent = last.vocab_review||0;
+// ── STUDENT DETAIL PAGE ───────────────────────────────────────
+function showStudent(name) {
+  selectedStudent = name;
+  const student = studentsData.find(s=>s.name===name);
+  const rows = resultsData.filter(r=>r.student===name);
+
+  // Build/update a dynamic student detail page
+  let page = document.getElementById('page-student-'+name.toLowerCase());
+  if (!page) {
+    page = document.createElement('div');
+    page.className = 'page';
+    page.id = 'page-student-'+name.toLowerCase();
+    document.querySelector('.main').appendChild(page);
   }
+
+  const scores = rows.map(r=>r.score_pct);
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const best = scores.length ? Math.max(...scores) : null;
+  const lastRow = rows[0];
+  const labels = ['','Vocabulary & passive','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
+
+  const rowsHtml = rows.length ? rows.map(r => {
+    const cs = r.score_pct>=80?'background:var(--gl);color:var(--green)':r.score_pct>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
+    const st = r.score_pct>=80?'✓ Good':r.score_pct>=60?'△ Ok':'✗ Needs redo';
+    const stc = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
+    const d = new Date(r.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    return `<tr><td><strong>HW ${r.hw_number}</strong> <span style="color:var(--muted2);font-size:11px">${labels[r.hw_number]||''}</span></td><td><span class="chip" style="${cs}">${r.score_pct}%</span></td><td style="color:var(--green)">${r.correct}</td><td style="color:var(--muted2)">${r.total}</td><td style="color:${stc}">${st}</td><td style="color:var(--muted2);font-size:12px">${d}</td></tr>`;
+  }).join('') : `<tr><td colspan="6" style="color:var(--muted2);padding:.75rem 0">No submissions yet</td></tr>`;
+
+  const mastered=lastRow?lastRow.vocab_mastered||0:0;
+  const practicing=lastRow?lastRow.vocab_practicing||0:0;
+  const review=lastRow?lastRow.vocab_review||0:0;
+
+  page.innerHTML = `
+    <div class="ph">
+      <h1>${name}</h1>
+      <p>Full homework history and progress · ${student?.repo_url ? `<a href="${student.repo_url}" target="_blank" style="color:var(--green);text-decoration:none">Open student site ↗</a>` : 'No site URL set'}</p>
+    </div>
+    <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="stat"><div class="sv" style="color:var(--green)">${rows.length}/6</div><div class="sl">HW done</div></div>
+      <div class="stat"><div class="sv" style="color:var(--amber)">${avg!==null?avg+'%':'—'}</div><div class="sl">Avg score</div></div>
+      <div class="stat"><div class="sv" style="color:var(--blue)">${best!==null?best+'%':'—'}</div><div class="sl">Best score</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Homework results</div>
+      <table class="rtable">
+        <thead><tr><th>Homework</th><th>Score</th><th>Correct</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Vocabulary mastery</div>
+      <div class="pbar-row"><div class="pbar-lbl">Mastered ★★★★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${Math.round(mastered/80*100)}%"></div></div><div class="pbar-val">${mastered}</div></div>
+      <div class="pbar-row"><div class="pbar-lbl">Practicing ★★★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${Math.round(practicing/80*100)}%"></div></div><div class="pbar-val">${practicing}</div></div>
+      <div class="pbar-row"><div class="pbar-lbl">Needs review ★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--red);width:${Math.round(review/80*100)}%"></div></div><div class="pbar-val">${review}</div></div>
+    </div>`;
+
+  goPage('student-'+name.toLowerCase());
+}
+
+// ── ADD STUDENT ───────────────────────────────────────────────
+async function addStudent() {
+  const name = document.getElementById('new-student-name').value.trim();
+  const url = document.getElementById('new-student-url').value.trim();
+  const fb = document.getElementById('add-student-fb');
+  if (!name) { fb.style.color='var(--red)'; fb.textContent='Please enter a student name.'; return; }
+  fb.style.color='var(--amber)'; fb.textContent='Saving…';
+  try {
+    const [created] = await sb('students', 'POST', { name, repo_url: url });
+    studentsData.push(created);
+    renderOverview();
+    renderStudentSidebar();
+    renderStudentsManage();
+    document.getElementById('new-student-name').value = '';
+    document.getElementById('new-student-url').value = '';
+    fb.style.color='var(--green)'; fb.textContent='✓ '+name+' added! They will appear on the overview.';
+    showToast(name + ' added ✓');
+  } catch(e) {
+    fb.style.color='var(--red)'; fb.textContent='✗ '+e.message;
+  }
+}
+
+async function deleteStudent(id, name) {
+  if (!confirm('Remove '+name+' from the dashboard? Their submission history will remain.')) return;
+  try {
+    await sb('students?id=eq.'+id, 'DELETE');
+    studentsData = studentsData.filter(s=>s.id!==id);
+    renderOverview();
+    renderStudentSidebar();
+    renderStudentsManage();
+    showToast(name+' removed');
+  } catch(e) { showToast('Error: '+e.message,'err'); }
+}
+
+function renderStudentsManage() {
+  const el = document.getElementById('students-list-manage');
+  if (!el) return;
+  if (!studentsData.length) { el.innerHTML='<div style="color:var(--muted2);font-size:13px">No students yet.</div>'; return; }
+  el.innerHTML = studentsData.map(s => `
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bord)">
+      <span style="font-size:13px;font-weight:500;flex:1">${s.name}</span>
+      ${s.repo_url ? `<a href="${s.repo_url}" target="_blank" style="font-size:11px;color:var(--muted2);">${s.repo_url}</a>` : '<span style="font-size:11px;color:var(--muted)">No URL</span>'}
+      <button class="qbtn del" onclick="deleteStudent(${s.id},'${s.name}')">Remove</button>
+    </div>`).join('');
 }
 
 // ── FEED ──────────────────────────────────────────────────────
@@ -664,6 +797,7 @@ function goPage(id) {
   document.getElementById('page-'+id)?.classList.add('active');
   document.querySelector(`[data-page="${id}"]`)?.classList.add('active');
   document.querySelector('.main').scrollTop = 0;
+  if (id === 'add-student') renderStudentsManage();
 }
 document.querySelectorAll('.sni').forEach(n => n.addEventListener('click', ()=>goPage(n.getAttribute('data-page'))));
 
