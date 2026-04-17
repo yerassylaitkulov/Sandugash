@@ -327,7 +327,9 @@ async function loadAll() {
       sb('hw_status?order=hw_number.asc'),
       sb('hw_questions?order=hw_number.asc,ex_number.asc')
     ]);
-    resultsData = results || [];
+    // Keep only the latest submission per hw_number (results are already sorted desc)
+    const _seen = new Set();
+    resultsData = (results || []).filter(r => { if (_seen.has(r.hw_number)) return false; _seen.add(r.hw_number); return true; });
     questionsData = questions || [];
     statuses.forEach(s => hwStatusData[s.hw_number] = s);
     renderOverview(resultsData);
