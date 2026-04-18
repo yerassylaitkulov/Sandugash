@@ -3,806 +3,1111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teacher Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<title>Teacher</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0a0b0f;--surf:#12141a;--surf2:#1a1d26;--surf3:#20243080;
-  --bord:#1f2330;--bord2:#2a2f42;--text:#e8eaf2;--muted:#5a6078;--muted2:#8890aa;
-  --green:#22d97a;--gl:#0a2018;--blue:#4f9eff;--bl:#0a1628;
-  --amber:#f5b642;--al:#1a1200;--red:#f05252;--rl:#200a0a;
-  --purple:#9b6dff;--pl:#130f22;--r:10px;--rs:7px;
-  --tr:0.16s ease;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: #262626;
+  --border-hover: #404040;
+  --text: #e5e5e5;
+  --muted: #737373;
+  --muted2: #525252;
+
+  --empty-bg: #161616;
+  --empty-border: #303030;
+  --empty-text: #404040;
+
+  --sent-bg: #0f1a2e;
+  --sent-border: #1e3a5f;
+  --sent-text: #60a5fa;
+
+  --checked-bg: #0a1f12;
+  --checked-border: #166534;
+  --checked-text: #4ade80;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{background:var(--bg);font-family:'Instrument Sans',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
 
-/* TOPBAR */
-.topbar{height:54px;background:var(--surf);border-bottom:1px solid var(--bord);display:flex;align-items:center;padding:0 1.5rem;gap:1rem;position:sticky;top:0;z-index:200}
-.tlogo{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:.06em}
-.tlogo span{color:var(--green)}
-.tsep{width:1px;height:18px;background:var(--bord2)}
-.tsub{font-size:12px;color:var(--muted2)}
-.tspace{flex:1}
-.tbadge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;border:1px solid var(--bord2);color:var(--muted2)}
-.tbadge.ok{background:var(--gl);color:var(--green);border-color:#1a4a2a}
-.tbadge.err{background:var(--rl);color:var(--red);border-color:#3a1010}
-.tbtn{font-size:12px;padding:6px 13px;border:1px solid var(--bord2);border-radius:var(--rs);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
-.tbtn:hover{border-color:var(--green);color:var(--green)}
-.tbtn.pri{background:var(--green);color:#000;border-color:var(--green);font-weight:500}
-.tbtn.pri:hover{opacity:.85}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
 
-/* LAYOUT */
-.layout{display:flex;height:calc(100vh - 54px)}
-.sidebar{width:195px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--bord);padding:.75rem 0;overflow-y:auto}
-.slbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:.5rem 1.1rem .25rem}
-.sni{display:flex;align-items:center;gap:7px;padding:7px 1.1rem;cursor:pointer;font-size:13px;color:var(--muted2);border-left:2px solid transparent;transition:all var(--tr)}
-.sni:hover{color:var(--text);background:rgba(255,255,255,.03)}
-.sni.active{color:var(--green);border-left-color:var(--green);background:var(--gl);font-weight:500}
-.sni.hw-item{padding-left:1.6rem;font-size:12px}
-.sni-dot{width:5px;height:5px;border-radius:50%;background:var(--bord2);flex-shrink:0}
-.sni.active .sni-dot{background:var(--green)}
-.sni-badge{margin-left:auto;font-size:10px;padding:1px 6px;border-radius:10px}
+header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.logo { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+#conn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-hover); display: inline-block; margin-right: 6px; }
+#conn-dot.ok { background: #4ade80; }
+#conn-dot.err { background: #f87171; }
 
-/* MAIN */
-.main{flex:1;height:100%;overflow-y:auto}
-.page{display:none;padding:1.75rem 2rem;max-width:920px}
-.page.active{display:block;animation:fu .2s ease}
-@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.ph{margin-bottom:1.5rem}
-.ph h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px}
-.ph p{font-size:13px;color:var(--muted2);margin-top:3px}
-.ph-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.view { display: none; padding: 32px; max-width: 960px; margin: 0 auto; }
+.view.active { display: block; }
 
-/* CARDS */
-.card{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);padding:1.1rem 1.4rem;margin-bottom:1rem}
-.card-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.85rem}
+/* ── HOME ── */
+.section-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
 
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
-.stat{background:var(--surf);border:1px solid var(--bord);border-radius:var(--rs);padding:.8rem 1rem}
-.sv{font-family:'Syne',sans-serif;font-size:26px;font-weight:600;line-height:1}
-.sl{font-size:11px;color:var(--muted2);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+.students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
 
-/* STUDENT CARD */
-.sc{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);overflow:hidden;margin-bottom:1rem}
-.sc-head{padding:.9rem 1.2rem;border-bottom:1px solid var(--bord);display:flex;align-items:center;gap:10px}
-.sc-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;flex-shrink:0}
-.sc-name{font-weight:500;font-size:14px}
-.sc-meta{font-size:11px;color:var(--muted2);margin-top:1px}
-.sc-status{margin-left:auto;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
-.sc-body{padding:.9rem 1.2rem}
-.hw-pills{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:.75rem}
-.hwp{text-align:center;padding:5px 2px;border-radius:6px;font-size:10px;font-weight:600;border:1px solid var(--bord)}
-.hwp.great{background:#0a2018;border-color:#1a4a2a;color:var(--green)}
-.hwp.okk{background:var(--al);border-color:#3a2800;color:var(--amber)}
-.hwp.bad{background:var(--rl);border-color:#3a1010;color:var(--red)}
-.hwp.open{background:var(--surf2);border-color:var(--bord2);color:var(--muted2)}
-.hwp.locked{background:var(--bg);border-color:var(--bord);color:#2a2f42}
-.hwp.mid{background:var(--pl);border-color:#2a1f4a;color:var(--purple);font-size:9px}
-.pbar-row{display:flex;gap:6px;align-items:center;margin-bottom:5px}
-.pbar-lbl{font-size:11px;color:var(--muted2);min-width:75px}
-.pbar-track{flex:1;height:4px;background:var(--bord);border-radius:2px;overflow:hidden}
-.pbar-fill{height:100%;border-radius:2px}
-.pbar-val{font-size:11px;color:var(--muted2);min-width:28px;text-align:right}
-.sc-foot{padding:.65rem 1.2rem;border-top:1px solid var(--bord);display:flex;align-items:center;gap:8px}
-.sc-last{font-size:11px;color:var(--muted);flex:1}
-.sc-btn{font-size:11px;padding:4px 10px;border:1px solid var(--bord2);border-radius:5px;background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
-.sc-btn:hover{border-color:var(--green);color:var(--green)}
+.student-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+  user-select: none;
+}
+.student-box:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+.student-box-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.student-box-progress { font-size: 12px; color: var(--muted); }
+.student-box-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 14px; }
+.mini-dot { width: 8px; height: 8px; border-radius: 2px; background: var(--empty-border); }
+.mini-dot.sent { background: var(--sent-border); }
+.mini-dot.checked { background: var(--checked-border); }
 
-/* HW RESULTS TABLE */
-.rtable{width:100%;border-collapse:collapse}
-.rtable th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:0 0 8px;text-align:left;border-bottom:1px solid var(--bord)}
-.rtable td{padding:10px 0;border-bottom:1px solid var(--bord);font-size:13px;vertical-align:middle}
-.rtable tr:last-child td{border-bottom:none}
-.chip{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600}
+/* ── STUDENT DETAIL ── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--muted); cursor: pointer;
+  border: none; background: none; padding: 0;
+  margin-bottom: 20px; font-family: inherit;
+  transition: color .15s;
+}
+.back-btn:hover { color: var(--text); }
+.student-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
 
-/* ── HW EDITOR ────────────────────────────────────────────── */
-.hw-editor-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap}
-.hw-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
-.hw-tab{padding:6px 14px;border:1px solid var(--bord2);border-radius:20px;font-size:12px;color:var(--muted2);cursor:pointer;transition:all var(--tr);font-family:'Instrument Sans',sans-serif;background:transparent}
-.hw-tab:hover{border-color:var(--green);color:var(--green)}
-.hw-tab.active{background:var(--gl);border-color:var(--green);color:var(--green);font-weight:500}
-.hw-tab.locked-tab{border-style:dashed;opacity:.55}
+/* ── TABS ── */
+.tab-bar { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.tab {
+  padding: 9px 16px; font-size: 13px; font-weight: 500;
+  color: var(--muted); cursor: pointer; border: none; background: none;
+  font-family: inherit; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
 
-/* QUESTION CARD */
-.qcard{background:var(--surf);border:1px solid var(--bord);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;transition:border-color var(--tr)}
-.qcard:hover{border-color:var(--bord2)}
-.qcard-top{display:flex;align-items:center;gap:8px;margin-bottom:.7rem}
-.qnum{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);min-width:30px}
-.qsec{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--surf2);border:1px solid var(--bord2);color:var(--muted2)}
-.qtype-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:500}
-.qtype-translate{background:#1a1200;color:var(--amber);border:1px solid #3a2800}
-.qtype-fillin{background:#0a1628;color:var(--blue);border:1px solid #152840}
-.qtype-multiple{background:var(--pl);color:var(--purple);border:1px solid #2a1f4a}
-.qtype-sentence{background:var(--gl);color:var(--green);border:1px solid #1a4a2a}
-.qcard-actions{margin-left:auto;display:flex;gap:5px}
-.qbtn{padding:3px 10px;border:1px solid var(--bord2);border-radius:5px;background:transparent;font-size:11px;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all var(--tr)}
-.qbtn:hover{border-color:var(--green);color:var(--green)}
-.qbtn.del:hover{border-color:var(--red);color:var(--red)}
-.qbtn.save-q{background:var(--green);color:#000;border-color:var(--green);font-weight:500}
-.qbtn.save-q:hover{opacity:.85}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
 
-/* EDITABLE FIELDS */
-.qfield{width:100%;background:var(--surf2);border:1px solid var(--bord2);border-radius:var(--rs);padding:7px 10px;font-family:'Instrument Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color var(--tr);resize:vertical}
-.qfield:focus{border-color:var(--green)}
-.qfield-row{display:flex;gap:8px;margin-bottom:.5rem;flex-wrap:wrap}
-.qfield-label{font-size:11px;color:var(--muted2);margin-bottom:3px}
-.qfield-group{flex:1;min-width:140px}
-.options-list{display:flex;flex-direction:column;gap:4px;margin-bottom:.5rem}
-.option-row{display:flex;gap:6px;align-items:center}
-.option-row input{flex:1;background:var(--surf2);border:1px solid var(--bord2);border-radius:var(--rs);padding:5px 9px;font-family:'Instrument Sans',sans-serif;font-size:12px;color:var(--text);outline:none}
-.option-row input:focus{border-color:var(--green)}
-.option-correct{font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid var(--bord2);background:transparent;color:var(--muted2);cursor:pointer;font-family:'Instrument Sans',sans-serif;white-space:nowrap;transition:all var(--tr)}
-.option-correct.selected{background:var(--gl);color:var(--green);border-color:#1a4a2a}
-.opt-del{padding:2px 7px;border:1px solid var(--bord2);border-radius:5px;background:transparent;color:var(--muted);cursor:pointer;font-size:12px;transition:all var(--tr)}
-.opt-del:hover{color:var(--red);border-color:var(--red)}
+/* ── LESSON GRID ── */
+.half-label {
+  font-size: 11px; font-weight: 500; color: var(--muted2);
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 10px; margin-top: 28px;
+}
+.half-label:first-of-type { margin-top: 0; }
+.lessons-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
 
-/* ADD QUESTION */
-.add-q-btn{width:100%;padding:9px;border:1px dashed var(--bord2);border-radius:var(--r);background:transparent;color:var(--muted2);font-family:'Instrument Sans',sans-serif;font-size:13px;cursor:pointer;transition:all var(--tr);margin-bottom:.75rem}
-.add-q-btn:hover{border-color:var(--green);color:var(--green);background:var(--gl)}
+.lesson-box {
+  border-radius: 8px; padding: 14px 10px; text-align: center;
+  cursor: pointer; transition: all .15s; user-select: none;
+  border: 1px solid var(--empty-border); background: var(--empty-bg);
+}
+.lesson-box:hover { border-color: var(--border-hover); }
+.lesson-box.sent  { background: var(--sent-bg);    border-color: var(--sent-border); }
+.lesson-box.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+.lesson-box.exam { border-style: dashed; }
+.lesson-box.exam.sent, .lesson-box.exam.checked { border-style: solid; }
+.lesson-box-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--empty-text); margin-bottom: 6px; }
+.lesson-box.sent    .lesson-box-label { color: var(--sent-text); }
+.lesson-box.checked .lesson-box-label { color: var(--checked-text); }
+.lesson-box-status { font-size: 10px; color: var(--muted2); }
+.lesson-box.sent    .lesson-box-status { color: var(--sent-text); opacity: .7; }
+.lesson-box.checked .lesson-box-status { color: var(--checked-text); opacity: .8; }
 
-/* HW STATUS TOGGLE */
-.lock-row{display:flex;align-items:center;gap:10px;padding:.75rem 1.1rem;background:var(--surf2);border-radius:var(--rs);margin-bottom:1rem;border:1px solid var(--bord)}
-.lock-lbl{font-size:13px;flex:1}
-.lock-sub{font-size:11px;color:var(--muted2);margin-top:1px}
-.toggle-wrap{position:relative;width:40px;height:22px;flex-shrink:0}
-.toggle-inp{opacity:0;width:0;height:0;position:absolute}
-.toggle-slider{position:absolute;inset:0;background:var(--bord2);border-radius:11px;cursor:pointer;transition:background var(--tr)}
-.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform var(--tr)}
-.toggle-inp:checked+.toggle-slider{background:var(--green)}
-.toggle-inp:checked+.toggle-slider:before{transform:translateX(18px)}
+/* ── SITE FRAME ── */
+.site-frame-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; height: 78vh; position: relative; }
+.site-frame-wrap iframe { width: 100%; height: 100%; border: none; background: #fff; }
+.site-frame-blocked {
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; gap: 12px;
+  color: var(--muted); font-size: 13px; text-align: center;
+}
 
-/* FEED */
-.feed-item{display:flex;gap:10px;padding:.75rem 0;border-bottom:1px solid var(--bord);align-items:flex-start}
-.feed-item:last-child{border-bottom:none}
-.feed-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.feed-body{flex:1}
-.feed-title{font-size:13px}
-.feed-time{font-size:11px;color:var(--muted);margin-top:1px}
-.feed-chip{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:auto;flex-shrink:0}
+/* ── ADD CONTENT ── */
+.content-section { margin-bottom: 36px; }
+.content-section-title {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
 
-/* SAVING TOAST */
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surf);border:1px solid var(--bord2);border-radius:var(--r);padding:.75rem 1.1rem;font-size:13px;display:flex;align-items:center;gap:8px;z-index:999;animation:fu .2s ease;box-shadow:0 4px 24px rgba(0,0,0,.4)}
-.toast.ok{border-color:#1a4a2a;color:var(--green)}
-.toast.err{border-color:#3a1010;color:var(--red)}
+.add-form { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: flex-end; }
+.add-form .fgroup { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
+.add-form .fgroup label { font-size: 11px; color: var(--muted); }
 
-/* ALERT */
-.alert{padding:.7rem 1rem;border-radius:var(--rs);font-size:13px;margin-bottom:1rem}
-.alert-info{background:var(--bl);border:1px solid #152840;color:var(--blue)}
-.alert-warn{background:var(--al);border:1px solid #3a2800;color:var(--amber)}
+.field {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+  width: 100%;
+}
+.field:focus { border-color: var(--border-hover); }
+textarea.field { resize: vertical; min-height: 68px; }
 
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px}
-@media(max-width:600px){.sidebar{width:50px}.slbl,.sni span:not(.sni-dot){display:none}.sni{padding:9px;justify-content:center}.stats{grid-template-columns:repeat(2,1fr)}}
+.btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--border-hover); color: var(--text); }
+.btn.primary { background: var(--text); color: #000; border-color: var(--text); font-weight: 500; }
+.btn.primary:hover { opacity: .85; }
+.btn.danger:hover { border-color: #7f1d1d; color: #f87171; }
+
+/* ── ITEM CARDS ── */
+.item-list { display: flex; flex-direction: column; gap: 8px; }
+
+.item-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.item-card-body { flex: 1; min-width: 0; }
+.item-card-main { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.item-card-secondary { font-size: 13px; color: var(--sent-text); margin-bottom: 3px; }
+.item-card-example { font-size: 12px; color: var(--muted); font-style: italic; }
+.item-card-del {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted2); font-size: 16px; padding: 0 2px;
+  transition: color .15s; line-height: 1; flex-shrink: 0;
+}
+.item-card-del:hover { color: #f87171; }
+
+.empty-state { font-size: 13px; color: var(--muted2); padding: 16px 0; }
+
+/* ── HOME ADD STRIP ── */
+.manage-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.manage-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--surface); border: 1px solid var(--border-hover);
+  border-radius: 8px; padding: 10px 16px; font-size: 13px; z-index: 999;
+  animation: fadeup .2s ease;
+}
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .lessons-grid { grid-template-columns: repeat(4, 1fr); }
+  header { padding: 16px 20px; }
+  .view { padding: 20px; }
+}
+
+.import-preview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  animation: fadeup .2s ease;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="tlogo">MIND <span>·</span> TEACHER</div>
-  <div class="tsep"></div>
-  <div class="tsub">English class dashboard</div>
-  <div class="tspace"></div>
-  <div class="tbadge" id="conn-badge">⚪ Connecting…</div>
-  <button class="tbtn" onclick="loadAll()">↻ Refresh</button>
-  <button class="tbtn pri" onclick="goPage('editor')">✏ Edit homeworks</button>
+<header>
+  <div class="logo">Teacher</div>
+  <div style="font-size:12px;color:var(--muted)">
+    <span id="conn-dot"></span><span id="conn-text">Connecting…</span>
+  </div>
+</header>
+
+<!-- ══ HOME VIEW ══ -->
+<div class="view active" id="view-home">
+  <div class="section-label" id="students-count-label">Students</div>
+  <div class="students-grid" id="students-grid"></div>
+
+  <div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--border)">
+    <div class="manage-label">Add student</div>
+    <div class="manage-row">
+      <input class="field" id="new-name" placeholder="Name" style="max-width:180px">
+      <input class="field" id="new-url" placeholder="Site URL (optional)">
+      <button class="btn primary" onclick="addStudent()">Add</button>
+    </div>
+    <div id="add-fb" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
+  </div>
 </div>
 
-<div class="layout">
-  <nav class="sidebar">
-    <div class="slbl">Dashboard</div>
-    <div class="sni active" data-page="overview"><span class="sni-dot"></span>Overview</div>
-    <div class="sni" data-page="activity"><span class="sni-dot"></span>Activity feed</div>
-    <div class="slbl">Students</div>
-    <div id="student-nav-items"></div>
-    <div class="sni" data-page="add-student" style="color:var(--green);opacity:.7"><span class="sni-dot" style="background:var(--green)"></span>+ Add student</div>
-    <div class="slbl">Homeworks</div>
-    <div class="sni" data-page="editor"><span class="sni-dot"></span>Edit HW</div>
-    <div class="slbl" style="margin-top:.5rem"></div>
-    <div class="sni" data-page="setup"><span class="sni-dot"></span>Setup</div>
-  </nav>
+<!-- ══ STUDENT DETAIL VIEW ══ -->
+<div class="view" id="view-student">
+  <button class="back-btn" onclick="showHome()">← All students</button>
+  <div class="student-title" id="detail-name"></div>
 
-  <main class="main">
+  <div class="tab-bar">
+    <button class="tab active" id="tab-lessons"  onclick="switchTab('lessons')">Lessons</button>
+    <button class="tab"        id="tab-site"     onclick="switchTab('site')">Student Site</button>
+    <button class="tab"        id="tab-vocab"    onclick="switchTab('vocab')">Dictionary</button>
+    <button class="tab"        id="tab-grammar"  onclick="switchTab('grammar')">Grammar</button>
+  </div>
 
-    <!-- OVERVIEW -->
-    <div class="page active" id="page-overview">
-      <div class="ph ph-row">
-        <div><h1>Overview</h1><p>All students — scores, progress and status</p></div>
-        <button class="tbtn pri" onclick="goPage('editor')">✏ Edit homeworks</button>
-      </div>
-      <div class="stats">
-        <div class="stat"><div class="sv" style="color:var(--green)" id="st-students">1</div><div class="sl">Students</div></div>
-        <div class="stat"><div class="sv" style="color:var(--blue)" id="st-hw">0</div><div class="sl">HW submitted</div></div>
-        <div class="stat"><div class="sv" style="color:var(--amber)" id="st-avg">—</div><div class="sl">Avg score</div></div>
-        <div class="stat"><div class="sv" style="color:var(--purple)" id="st-words">80</div><div class="sl">Vocab words</div></div>
-      </div>
-      <div id="students-wrap"></div>
-      <div class="alert alert-info" id="no-data-msg" style="display:none">No submissions yet. Once Sandugash submits homework it will appear here.</div>
-    </div>
+  <!-- LESSONS -->
+  <div class="tab-panel active" id="panel-lessons">
+    <div class="half-label">First half · HW 1–6 + Midterm</div>
+    <div class="lessons-grid" id="grid-half1"></div>
+    <div class="half-label">Second half · HW 7–12 + Final</div>
+    <div class="lessons-grid" id="grid-half2"></div>
+  </div>
 
-    <!-- ADD STUDENT PAGE -->
-    <div class="page" id="page-add-student">
-      <div class="ph"><h1>Add a student</h1><p>Register a new student so they appear on your dashboard immediately</p></div>
-      <div class="card">
-        <div class="card-title">New student details</div>
-        <div style="display:flex;flex-direction:column;gap:10px;max-width:420px">
-          <div>
-            <div style="font-size:12px;color:var(--muted2);margin-bottom:4px">Student name</div>
-            <input class="qfield" id="new-student-name" placeholder="e.g. Yana" style="width:100%">
-          </div>
-          <div>
-            <div style="font-size:12px;color:var(--muted2);margin-bottom:4px">GitHub Pages URL (optional)</div>
-            <input class="qfield" id="new-student-url" placeholder="e.g. https://yerassylaitkulov.github.io/Yana/" style="width:100%">
-          </div>
-          <button class="tbtn pri" style="align-self:flex-start;margin-top:4px" onclick="addStudent()">Add student</button>
-          <div id="add-student-fb" style="font-size:13px"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">All registered students</div>
-        <div id="students-list-manage"></div>
+  <!-- STUDENT SITE EMBED -->
+  <div class="tab-panel" id="panel-site">
+    <div class="site-frame-wrap">
+      <iframe id="student-frame" src="about:blank"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      <div class="site-frame-blocked" id="frame-blocked">
+        <div style="font-size:28px">🔒</div>
+        <div id="frame-blocked-msg">This site can't be embedded.</div>
+        <a id="frame-fallback-link" href="#" target="_blank"
+           class="btn" style="margin-top:4px;text-decoration:none">Open in new tab ↗</a>
       </div>
     </div>
+  </div>
 
-    <!-- STUDENT DETAIL PAGES — injected dynamically by showStudent() -->
+  <!-- DICTIONARY -->
+  <div class="tab-panel" id="panel-vocab">
 
-    <!-- SANDUGASH legacy detail — redirects to dynamic page -->
-    <div class="page" id="page-sandugash"></div>
-
-    <!-- ACTIVITY FEED -->
-    <div class="page" id="page-activity">
-      <div class="ph"><h1>Activity feed</h1><p>All submissions in order</p></div>
-      <div class="card" id="feed-card"><div style="color:var(--muted2)">No activity yet.</div></div>
-    </div>
-
-    <!-- HW EDITOR -->
-    <div class="page" id="page-editor">
-      <div class="ph ph-row">
-        <div><h1>Edit homeworks</h1><p>Edit questions, answers and options — changes save instantly to Supabase and update for Sandugash immediately</p></div>
-        <button class="tbtn pri" onclick="addQuestion()">+ Add question</button>
-      </div>
-
-      <!-- HW tabs -->
-      <div class="hw-selector" id="hw-tabs"></div>
-
-      <!-- Lock toggle -->
-      <div class="lock-row" id="lock-row">
-        <div>
-          <div class="lock-lbl" id="lock-lbl">HW 1</div>
-          <div class="lock-sub" id="lock-sub">Unlocked — visible to student</div>
+    <!-- BULK IMPORT -->
+    <div class="content-section">
+      <div class="content-section-title">Import word list</div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <textarea class="field" id="bulk-words" rows="5" style="flex:1"
+          placeholder="One word or phrase per line:&#10;ambitious&#10;perseverance&#10;come up with&#10;take into account"></textarea>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn primary" onclick="bulkImport()" style="white-space:nowrap">Look up &amp; import</button>
+          <button class="btn" onclick="document.getElementById('bulk-words').value=''" style="font-size:12px">Clear</button>
         </div>
-        <label class="toggle-wrap">
-          <input type="checkbox" class="toggle-inp" id="lock-toggle" onchange="toggleLock()">
-          <span class="toggle-slider"></span>
-        </label>
       </div>
-
-      <!-- Questions list -->
-      <div id="questions-list"></div>
-      <button class="add-q-btn" onclick="addQuestion()">+ Add new question to this homework</button>
-    </div>
-
-    <!-- SETUP -->
-    <div class="page" id="page-setup">
-      <div class="ph"><h1>Setup</h1><p>Supabase connection — already configured</p></div>
-      <div class="card">
-        <div class="card-title">Connection details</div>
-        <div style="margin-bottom:.75rem">
-          <div class="qfield-label">Supabase URL</div>
-          <input class="qfield" id="sb-url" value="https://jjlzimjfnwywsmodobct.supabase.co" style="font-size:12px">
+      <!-- PROGRESS -->
+      <div id="bulk-progress" style="display:none;margin-top:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px" id="bulk-status">Looking up…</div>
+        <div id="bulk-progress-bar-wrap" style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px">
+          <div id="bulk-progress-bar" style="height:100%;background:var(--checked-text);border-radius:2px;width:0%;transition:width .3s"></div>
         </div>
-        <div style="margin-bottom:.75rem">
-          <div class="qfield-label">Anon key</div>
-          <input class="qfield" id="sb-key" style="font-size:11px">
-        </div>
-        <button class="tbtn pri" onclick="testConn()" style="margin-top:.25rem">Test connection</button>
-        <div id="setup-fb" style="font-size:12px;margin-top:.5rem;color:var(--muted2)"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Run this SQL if tables are missing</div>
-        <div style="font-size:12px;color:var(--muted2);line-height:1.7">
-          Go to <strong style="color:var(--text)">Supabase → SQL Editor</strong> and run the <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">setup.sql</code> file provided alongside these HTML files. This creates the <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">hw_questions</code> and <code style="background:var(--surf2);padding:1px 5px;border-radius:3px;color:var(--green)">hw_status</code> tables and seeds HW 1 with all questions.
+        <div id="bulk-preview" style="display:flex;flex-direction:column;gap:6px"></div>
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+          <button class="btn primary" id="bulk-save-btn" onclick="saveImported()" style="display:none">Save all to dictionary</button>
+          <span id="bulk-save-count" style="font-size:12px;color:var(--muted)"></span>
         </div>
       </div>
     </div>
 
-  </main>
+    <!-- MANUAL ADD -->
+    <div class="content-section">
+      <div class="content-section-title">Add single word manually</div>
+      <div class="add-form">
+        <div class="fgroup" style="flex:1.2">
+          <label>Word / phrase</label>
+          <input class="field" id="v-word" placeholder="e.g. ambitious">
+        </div>
+        <div class="fgroup" style="flex:1.2">
+          <label>Translation</label>
+          <input class="field" id="v-trans" placeholder="e.g. амбициозный">
+        </div>
+        <div class="fgroup" style="flex:2">
+          <label>Example sentence</label>
+          <input class="field" id="v-example" placeholder="e.g. She is very ambitious in her career.">
+        </div>
+        <button class="btn primary" style="align-self:flex-end" onclick="addVocab()">Add</button>
+      </div>
+      <div id="vocab-fb" style="font-size:12px;color:var(--muted);margin-bottom:4px"></div>
+    </div>
+
+    <!-- WORD LIST -->
+    <div class="content-section">
+      <div class="content-section-title">Word list <span id="vocab-count" style="font-weight:400;color:var(--muted2)"></span></div>
+      <div class="item-list" id="vocab-list"><div class="empty-state">No words added yet.</div></div>
+    </div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="tab-panel" id="panel-grammar">
+
+    <!-- API KEY -->
+    <div id="apikey-section" class="content-section" style="padding-bottom:16px">
+      <div class="content-section-title">Claude API key <span id="apikey-status" style="font-weight:400;text-transform:none;letter-spacing:0"></span></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="field" id="claude-apikey" type="password" placeholder="sk-ant-…" style="max-width:380px;font-size:12px">
+        <button class="btn" onclick="saveApiKey()">Save key</button>
+        <span id="apikey-fb" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:6px">Key is stored only in your browser (localStorage). Never sent anywhere except Anthropic.</div>
+    </div>
+
+    <!-- BULK GENERATE -->
+    <div class="content-section">
+      <div class="content-section-title">Generate from topics or errors</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
+        Each line can be a grammar topic (<em>present perfect</em>) or a student's error (<em>i want be hero</em>).
+        Claude will generate a structured explanation with examples.
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <textarea class="field" id="bulk-grammar" rows="6" style="flex:1"
+          placeholder="present perfect&#10;i want be hero&#10;past simple vs present perfect&#10;i am go to school yesterday&#10;articles a / an / the"></textarea>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn primary" onclick="bulkGrammar()" style="white-space:nowrap">Generate &amp; import</button>
+          <button class="btn" onclick="document.getElementById('bulk-grammar').value=''" style="font-size:12px">Clear</button>
+        </div>
+      </div>
+      <!-- PROGRESS -->
+      <div id="grammar-bulk-progress" style="display:none;margin-top:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px" id="grammar-bulk-status">Generating…</div>
+        <div id="grammar-bulk-bar-wrap" style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px">
+          <div id="grammar-bulk-bar" style="height:100%;background:var(--sent-text);border-radius:2px;width:0%;transition:width .3s"></div>
+        </div>
+        <div id="grammar-bulk-preview" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+          <button class="btn primary" id="grammar-save-btn" onclick="saveGrammarImported()" style="display:none">Save all rules</button>
+          <span id="grammar-save-count" style="font-size:12px;color:var(--muted)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANUAL ADD -->
+    <div class="content-section">
+      <div class="content-section-title">Add rule manually</div>
+      <div class="add-form" style="flex-direction:column;align-items:stretch">
+        <div class="fgroup" style="flex:none">
+          <label>Structure / title</label>
+          <input class="field" id="g-title" placeholder="e.g. Present Perfect with 'since' and 'for'">
+        </div>
+        <div class="fgroup" style="flex:none">
+          <label>Explanation</label>
+          <textarea class="field" id="g-explanation" rows="4"
+            placeholder="Explanation with examples…"></textarea>
+        </div>
+        <div><button class="btn primary" onclick="addGrammar()">Add</button></div>
+      </div>
+      <div id="grammar-fb" style="font-size:12px;color:var(--muted);margin-top:8px;margin-bottom:4px"></div>
+    </div>
+
+    <!-- RULES LIST -->
+    <div class="content-section">
+      <div class="content-section-title">Grammar rules <span id="grammar-count" style="font-weight:400;color:var(--muted2)"></span></div>
+      <div class="item-list" id="grammar-list"><div class="empty-state">No rules added yet.</div></div>
+    </div>
+  </div>
 </div>
 
 <script>
 const SB_URL = 'https://jjlzimjfnwywsmodobct.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
-const HEADERS = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+const H = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
-// ── SUPABASE HELPERS ──────────────────────────────────────────
-async function sb(path, method='GET', body=null) {
-  const opts = { method, headers: HEADERS };
+async function sb(path, method = 'GET', body = null) {
+  const opts = { method, headers: H };
   if (body) opts.body = JSON.stringify(body);
   const r = await fetch(SB_URL + '/rest/v1/' + path, opts);
-  if (!r.ok) { const e = await r.text(); throw new Error(e); }
+  if (!r.ok) throw new Error(await r.text());
   return r.status === 204 ? null : r.json();
 }
 
-// ── LOAD ALL DATA ─────────────────────────────────────────────
-let hwStatusData = {};
-let currentHW = 1;
-let questionsData = [];
-let resultsData = [];
-let studentsData = [];
-let selectedStudent = null;
+// ── LESSON CONFIG ──
+const LESSONS_H1 = [
+  { key: 'hw1',     label: 'HW 1',    exam: false },
+  { key: 'hw2',     label: 'HW 2',    exam: false },
+  { key: 'hw3',     label: 'HW 3',    exam: false },
+  { key: 'hw4',     label: 'HW 4',    exam: false },
+  { key: 'hw5',     label: 'HW 5',    exam: false },
+  { key: 'hw6',     label: 'HW 6',    exam: false },
+  { key: 'midterm', label: 'Midterm', exam: true  },
+];
+const LESSONS_H2 = [
+  { key: 'hw7',   label: 'HW 7',  exam: false },
+  { key: 'hw8',   label: 'HW 8',  exam: false },
+  { key: 'hw9',   label: 'HW 9',  exam: false },
+  { key: 'hw10',  label: 'HW 10', exam: false },
+  { key: 'hw11',  label: 'HW 11', exam: false },
+  { key: 'hw12',  label: 'HW 12', exam: false },
+  { key: 'final', label: 'Final', exam: true  },
+];
+const ALL_LESSONS = [...LESSONS_H1, ...LESSONS_H2];
+const STATES = ['empty', 'sent', 'checked'];
+const STATUS_LABEL = { empty: 'Unsent', sent: 'Sent', checked: 'Checked ✓' };
 
-async function loadAll() {
-  try {
-    const [results, statuses, questions, students] = await Promise.all([
-      sb('hw_results?order=submitted_at.desc'),
-      sb('hw_status?order=hw_number.asc'),
-      sb('hw_questions?order=hw_number.asc,ex_number.asc'),
-      sb('students?order=added_at.asc')
-    ]);
-    resultsData = results || [];
-    questionsData = questions || [];
-    studentsData = students || [];
-    statuses.forEach(s => hwStatusData[s.hw_number] = s);
-    renderOverview();
-    renderFeed(resultsData);
-    renderHWTabs();
-    renderQuestions(currentHW);
-    renderStudentSidebar();
-    setBadge(true);
-  } catch(e) {
-    setBadge(false, e.message);
-    showToast('Connection failed: ' + e.message, 'err');
-  }
+let students = [];
+let currentStudent = null;
+
+// ── LESSON STATUS (localStorage) ──
+function lsKey(id) { return `ls_${id}`; }
+function loadStatus(id) { try { return JSON.parse(localStorage.getItem(lsKey(id)) || '{}'); } catch { return {}; } }
+function saveStatus(id, data) { localStorage.setItem(lsKey(id), JSON.stringify(data)); }
+function getStatus(id, key) { return loadStatus(id)[key] || 'empty'; }
+function setStatus(id, key, val) { const d = loadStatus(id); d[key] = val; saveStatus(id, d); }
+function cycleStatus(id, key) {
+  const cur = getStatus(id, key);
+  const next = STATES[(STATES.indexOf(cur) + 1) % STATES.length];
+  setStatus(id, key, next);
+  return next;
+}
+function countStatuses(id) {
+  const d = loadStatus(id);
+  let sent = 0, checked = 0;
+  ALL_LESSONS.forEach(l => { const s = d[l.key] || 'empty'; if (s==='sent') sent++; if (s==='checked') checked++; });
+  return { sent, checked, total: ALL_LESSONS.length };
 }
 
-function setBadge(ok, msg) {
-  const el = document.getElementById('conn-badge');
-  if (ok) { el.textContent = '🟢 Connected'; el.className = 'tbadge ok'; }
-  else { el.textContent = '🔴 ' + (msg||'Error'); el.className = 'tbadge err'; }
-}
-
-// ── STUDENT SIDEBAR ───────────────────────────────────────────
-function renderStudentSidebar() {
-  const container = document.getElementById('student-nav-items');
-  container.innerHTML = studentsData.map(s =>
-    `<div class="sni" data-page="student-${s.name.toLowerCase()}" onclick="showStudent('${s.name}')">
-      <span class="sni-dot"></span>${s.name}
-    </div>`
-  ).join('');
-}
-
-// ── OVERVIEW ──────────────────────────────────────────────────
-function renderOverview() {
-  const wrap = document.getElementById('students-wrap');
-  wrap.innerHTML = '';
-
-  const totalHW = resultsData.length;
-  const scores = resultsData.map(r=>r.score_pct);
-  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
-  document.getElementById('st-students').textContent = studentsData.length;
-  document.getElementById('st-hw').textContent = totalHW;
-  document.getElementById('st-avg').textContent = avg !== null ? avg+'%' : '—';
-
-  if (!studentsData.length) {
-    document.getElementById('no-data-msg').style.display = 'block';
+// ── HOME ──
+function renderHome() {
+  const grid = document.getElementById('students-grid');
+  document.getElementById('students-count-label').textContent = `Students · ${students.length}`;
+  if (!students.length) {
+    grid.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:16px 0;grid-column:1/-1">No students yet. Add one below.</div>`;
     return;
   }
-  document.getElementById('no-data-msg').style.display = 'none';
-
-  studentsData.forEach(student => {
-    const rows = resultsData.filter(r => r.student === student.name);
-    wrap.appendChild(buildStudentCard(student, rows));
+  grid.innerHTML = '';
+  students.forEach(s => {
+    const { sent, checked, total } = countStatuses(s.id);
+    const data = loadStatus(s.id);
+    const box = document.createElement('div');
+    box.className = 'student-box';
+    box.onclick = () => showStudent(s);
+    const dots = ALL_LESSONS.map(l => {
+      const st = data[l.key] || 'empty';
+      return `<div class="mini-dot ${st === 'empty' ? '' : st}"></div>`;
+    }).join('');
+    box.innerHTML = `
+      <div class="student-box-name">${s.name}</div>
+      <div class="student-box-progress">${sent + checked}/${total} lessons</div>
+      <div class="student-box-dots">${dots}</div>`;
+    grid.appendChild(box);
   });
 }
 
-function buildStudentCard(student, rows) {
-  const scores = rows.map(r=>r.score_pct);
-  const avgSc = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
-  const statusTxt = avgSc===null?'No submissions yet':avgSc>=80?'On track':avgSc>=60?'Needs attention':'Struggling';
-  const statusSty = avgSc===null?'background:var(--surf2);color:var(--muted2)':avgSc>=80?'background:var(--gl);color:var(--green)':avgSc>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
-
-  // avatar initials + color
-  const initials = student.name.slice(0,2).toUpperCase();
-  const avatarColors = ['#130f22|#9b6dff','#0a2018|#22d97a','#1a1200|#f5b642','#0a1628|#4f9eff','#200a0a|#f05252','#051a12|#34d399'];
-  const ac = avatarColors[student.id % avatarColors.length] || '#130f22|#9b6dff';
-  const [avBg, avCol] = ac.split('|');
-
-  let pills = '';
-  for (let i=1;i<=6;i++){
-    const hw=rows.find(r=>r.hw_number===i);
-    if(hw){const c=hw.score_pct>=80?'great':hw.score_pct>=60?'okk':'bad';pills+=`<div class="hwp ${c}">HW${i}<br>${hw.score_pct}%</div>`;}
-    else{const st=hwStatusData[i];pills+=`<div class="hwp ${st&&!st.is_locked?'open':'locked'}">HW${i}</div>`;}
-  }
-  pills += `<div class="hwp mid">Mid<br>term</div>`;
-
-  const lastRow = rows[0];
-  const lastT = lastRow ? new Date(lastRow.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'}) : 'None yet';
-  const mastered = lastRow ? lastRow.vocab_mastered||0 : 0;
-  const practicing = lastRow ? lastRow.vocab_practicing||0 : 0;
-  const total = 80;
-
-  const sc = document.createElement('div');
-  sc.className = 'sc';
-  sc.innerHTML = `
-    <div class="sc-head">
-      <div class="sc-av" style="background:${avBg};color:${avCol}">${initials}</div>
-      <div>
-        <div class="sc-name">${student.name}</div>
-        <div class="sc-meta">${rows.length}/6 submitted · avg ${avgSc!==null?avgSc+'%':'—'}</div>
-      </div>
-      <div class="sc-status" style="${statusSty}">${statusTxt}</div>
-    </div>
-    <div class="sc-body">
-      <div class="hw-pills">${pills}</div>
-      <div class="pbar-row"><div class="pbar-lbl">Mastered</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${Math.round(mastered/total*100)}%"></div></div><div class="pbar-val">${mastered}</div></div>
-      <div class="pbar-row"><div class="pbar-lbl">Practicing</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${Math.round(practicing/total*100)}%"></div></div><div class="pbar-val">${practicing}</div></div>
-    </div>
-    <div class="sc-foot">
-      <div class="sc-last">Last submission: ${lastT}</div>
-      ${student.repo_url ? `<a href="${student.repo_url}" target="_blank" style="font-size:11px;color:var(--muted2);text-decoration:none;padding:4px 10px;border:1px solid var(--bord2);border-radius:5px;transition:all .15s" onmouseover="this.style.color='var(--green)';this.style.borderColor='var(--green)'" onmouseout="this.style.color='var(--muted2)';this.style.borderColor='var(--bord2)'">Open site ↗</a>` : ''}
-      <button class="sc-btn" onclick="showStudent('${student.name}')">View detail →</button>
-    </div>`;
-  return sc;
-}
-
-// ── STUDENT DETAIL PAGE ───────────────────────────────────────
-function showStudent(name) {
-  selectedStudent = name;
-  const student = studentsData.find(s=>s.name===name);
-  const rows = resultsData.filter(r=>r.student===name);
-
-  // Build/update a dynamic student detail page
-  let page = document.getElementById('page-student-'+name.toLowerCase());
-  if (!page) {
-    page = document.createElement('div');
-    page.className = 'page';
-    page.id = 'page-student-'+name.toLowerCase();
-    document.querySelector('.main').appendChild(page);
-  }
-
-  const scores = rows.map(r=>r.score_pct);
-  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
-  const best = scores.length ? Math.max(...scores) : null;
-  const lastRow = rows[0];
-  const labels = ['','Vocabulary & passive','Personality & body','Past tenses','Present Perfect','Modals & Passive','Future & articles'];
-
-  const rowsHtml = rows.length ? rows.map(r => {
-    const cs = r.score_pct>=80?'background:var(--gl);color:var(--green)':r.score_pct>=60?'background:var(--al);color:var(--amber)':'background:var(--rl);color:var(--red)';
-    const st = r.score_pct>=80?'✓ Good':r.score_pct>=60?'△ Ok':'✗ Needs redo';
-    const stc = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
-    const d = new Date(r.submitted_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<tr><td><strong>HW ${r.hw_number}</strong> <span style="color:var(--muted2);font-size:11px">${labels[r.hw_number]||''}</span></td><td><span class="chip" style="${cs}">${r.score_pct}%</span></td><td style="color:var(--green)">${r.correct}</td><td style="color:var(--muted2)">${r.total}</td><td style="color:${stc}">${st}</td><td style="color:var(--muted2);font-size:12px">${d}</td></tr>`;
-  }).join('') : `<tr><td colspan="6" style="color:var(--muted2);padding:.75rem 0">No submissions yet</td></tr>`;
-
-  const mastered=lastRow?lastRow.vocab_mastered||0:0;
-  const practicing=lastRow?lastRow.vocab_practicing||0:0;
-  const review=lastRow?lastRow.vocab_review||0:0;
-
-  page.innerHTML = `
-    <div class="ph">
-      <h1>${name}</h1>
-      <p>Full homework history and progress · ${student?.repo_url ? `<a href="${student.repo_url}" target="_blank" style="color:var(--green);text-decoration:none">Open student site ↗</a>` : 'No site URL set'}</p>
-    </div>
-    <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-      <div class="stat"><div class="sv" style="color:var(--green)">${rows.length}/6</div><div class="sl">HW done</div></div>
-      <div class="stat"><div class="sv" style="color:var(--amber)">${avg!==null?avg+'%':'—'}</div><div class="sl">Avg score</div></div>
-      <div class="stat"><div class="sv" style="color:var(--blue)">${best!==null?best+'%':'—'}</div><div class="sl">Best score</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Homework results</div>
-      <table class="rtable">
-        <thead><tr><th>Homework</th><th>Score</th><th>Correct</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
-        <tbody>${rowsHtml}</tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title">Vocabulary mastery</div>
-      <div class="pbar-row"><div class="pbar-lbl">Mastered ★★★★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--green);width:${Math.round(mastered/80*100)}%"></div></div><div class="pbar-val">${mastered}</div></div>
-      <div class="pbar-row"><div class="pbar-lbl">Practicing ★★★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--amber);width:${Math.round(practicing/80*100)}%"></div></div><div class="pbar-val">${practicing}</div></div>
-      <div class="pbar-row"><div class="pbar-lbl">Needs review ★</div><div class="pbar-track"><div class="pbar-fill" style="background:var(--red);width:${Math.round(review/80*100)}%"></div></div><div class="pbar-val">${review}</div></div>
-    </div>`;
-
-  goPage('student-'+name.toLowerCase());
-}
-
-// ── ADD STUDENT ───────────────────────────────────────────────
 async function addStudent() {
-  const name = document.getElementById('new-student-name').value.trim();
-  const url = document.getElementById('new-student-url').value.trim();
-  const fb = document.getElementById('add-student-fb');
-  if (!name) { fb.style.color='var(--red)'; fb.textContent='Please enter a student name.'; return; }
-  fb.style.color='var(--amber)'; fb.textContent='Saving…';
+  const name = document.getElementById('new-name').value.trim();
+  const url  = document.getElementById('new-url').value.trim();
+  const fb   = document.getElementById('add-fb');
+  if (!name) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Enter a name.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
   try {
-    const [created] = await sb('students', 'POST', { name, repo_url: url });
-    studentsData.push(created);
-    renderOverview();
-    renderStudentSidebar();
-    renderStudentsManage();
-    document.getElementById('new-student-name').value = '';
-    document.getElementById('new-student-url').value = '';
-    fb.style.color='var(--green)'; fb.textContent='✓ '+name+' added! They will appear on the overview.';
-    showToast(name + ' added ✓');
-  } catch(e) {
-    fb.style.color='var(--red)'; fb.textContent='✗ '+e.message;
-  }
+    const [created] = await sb('students', 'POST', { name, repo_url: url || null });
+    students.push(created);
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-url').value  = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `${name} added.`;
+    renderHome();
+    toast(`${name} added`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
 }
 
-async function deleteStudent(id, name) {
-  if (!confirm('Remove '+name+' from the dashboard? Their submission history will remain.')) return;
-  try {
-    await sb('students?id=eq.'+id, 'DELETE');
-    studentsData = studentsData.filter(s=>s.id!==id);
-    renderOverview();
-    renderStudentSidebar();
-    renderStudentsManage();
-    showToast(name+' removed');
-  } catch(e) { showToast('Error: '+e.message,'err'); }
+// ── STUDENT DETAIL ──
+function showStudent(student) {
+  currentStudent = student;
+  document.getElementById('detail-name').textContent = student.name;
+  document.getElementById('student-frame').src = 'about:blank';
+  switchTab('lessons');
+  renderLessonGrid('grid-half1', LESSONS_H1, student.id);
+  renderLessonGrid('grid-half2', LESSONS_H2, student.id);
+  document.getElementById('view-home').classList.remove('active');
+  document.getElementById('view-student').classList.add('active');
+  window.scrollTo(0, 0);
 }
 
-function renderStudentsManage() {
-  const el = document.getElementById('students-list-manage');
-  if (!el) return;
-  if (!studentsData.length) { el.innerHTML='<div style="color:var(--muted2);font-size:13px">No students yet.</div>'; return; }
-  el.innerHTML = studentsData.map(s => `
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bord)">
-      <span style="font-size:13px;font-weight:500;flex:1">${s.name}</span>
-      ${s.repo_url ? `<a href="${s.repo_url}" target="_blank" style="font-size:11px;color:var(--muted2);">${s.repo_url}</a>` : '<span style="font-size:11px;color:var(--muted)">No URL</span>'}
-      <button class="qbtn del" onclick="deleteStudent(${s.id},'${s.name}')">Remove</button>
-    </div>`).join('');
+function showHome() {
+  document.getElementById('view-student').classList.remove('active');
+  document.getElementById('view-home').classList.add('active');
+  renderHome();
+  window.scrollTo(0, 0);
 }
 
-// ── FEED ──────────────────────────────────────────────────────
-function renderFeed(rows) {
-  const card = document.getElementById('feed-card');
-  if (!rows.length) { card.innerHTML = `<div style="color:var(--muted2)">No submissions yet.</div>`; return; }
-  card.innerHTML = rows.map(r => {
-    const c = r.score_pct>=80?'var(--green)':r.score_pct>=60?'var(--amber)':'var(--red)';
-    const cs = r.score_pct>=80?`background:var(--gl);color:var(--green)`:r.score_pct>=60?`background:var(--al);color:var(--amber)`:`background:var(--rl);color:var(--red)`;
-    const d = new Date(r.submitted_at).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    return `<div class="feed-item"><div class="feed-dot" style="background:${c}"></div><div class="feed-body"><div class="feed-title"><strong>${r.student}</strong> submitted <strong>Homework ${r.hw_number}</strong></div><div class="feed-time">${d}</div></div><div class="feed-chip" style="${cs}">${r.score_pct}% · ${r.correct}/${r.total}</div></div>`;
-  }).join('');
+function switchTab(tab) {
+  ['lessons','site','vocab','grammar'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'site')    loadFrame();
+  if (tab === 'vocab')   loadVocab();
+  if (tab === 'grammar') { initApiKeyUI(); loadGrammar(); }
 }
 
-// ── HW EDITOR ─────────────────────────────────────────────────
-function renderHWTabs() {
-  const tabs = document.getElementById('hw-tabs');
-  tabs.innerHTML = '';
-  for (let i=1;i<=6;i++) {
-    const st = hwStatusData[i];
-    const locked = st ? st.is_locked : true;
-    const count = questionsData.filter(q=>q.hw_number===i).length;
-    const btn = document.createElement('button');
-    btn.className = 'hw-tab' + (i===currentHW?' active':'') + (locked?' locked-tab':'');
-    btn.innerHTML = `HW ${i} <span style="font-size:10px;color:var(--muted)">(${count})</span>`;
-    btn.onclick = () => { currentHW = i; renderHWTabs(); renderQuestions(i); };
-    tabs.appendChild(btn);
-  }
+// ── LESSON GRID ──
+function renderLessonGrid(gridId, lessons, studentId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  lessons.forEach(lesson => {
+    const status = getStatus(studentId, lesson.key);
+    const box = document.createElement('div');
+    box.className = `lesson-box ${status}${lesson.exam ? ' exam' : ''}`;
+    box.innerHTML = `
+      <div class="lesson-box-label">${lesson.label}</div>
+      <div class="lesson-box-status">${STATUS_LABEL[status]}</div>`;
+    box.onclick = () => {
+      const next = cycleStatus(studentId, lesson.key);
+      box.className = `lesson-box ${next}${lesson.exam ? ' exam' : ''}`;
+      box.querySelector('.lesson-box-status').textContent = STATUS_LABEL[next];
+    };
+    grid.appendChild(box);
+  });
 }
 
-function renderQuestions(hwNum) {
-  const list = document.getElementById('questions-list');
-  const qs = questionsData.filter(q=>q.hw_number===hwNum).sort((a,b)=>a.ex_number-b.ex_number);
-  const st = hwStatusData[hwNum];
-  const locked = st ? st.is_locked : true;
+// ── SITE EMBED ──
+function loadFrame() {
+  const frame   = document.getElementById('student-frame');
+  const blocked = document.getElementById('frame-blocked');
+  const link    = document.getElementById('frame-fallback-link');
+  const msg     = document.getElementById('frame-blocked-msg');
 
-  document.getElementById('lock-lbl').textContent = `HW ${hwNum}`;
-  document.getElementById('lock-sub').textContent = locked ? '🔒 Locked — not visible to student' : '🔓 Unlocked — visible to student';
-  document.getElementById('lock-toggle').checked = !locked;
-
-  if (!qs.length) {
-    list.innerHTML = `<div class="alert alert-warn">No questions yet for HW ${hwNum}. Click "+ Add question" to create the first one, or run setup.sql to seed HW 1.</div>`;
+  if (!currentStudent?.repo_url) {
+    frame.style.display = 'none';
+    blocked.style.display = 'flex';
+    msg.textContent = 'No site URL set for this student.';
     return;
   }
-  list.innerHTML = qs.map((q,idx) => buildQuestionCard(q, idx+1)).join('');
+
+  link.href = currentStudent.repo_url;
+  if (frame.dataset.loaded === currentStudent.id + '') return;
+  frame.dataset.loaded = currentStudent.id;
+  blocked.style.display = 'none';
+  frame.style.display = 'block';
+  frame.src = currentStudent.repo_url;
+  frame.onload = () => {
+    try { void frame.contentDocument?.title; }
+    catch {
+      frame.style.display = 'none';
+      blocked.style.display = 'flex';
+      msg.innerHTML = 'This site blocks embedding.<br>Open it directly instead.';
+    }
+  };
 }
 
-function buildQuestionCard(q, displayNum) {
-  const typeCls = `qtype-${q.type}`;
-  const typeLabel = {translate:'Translate',fillin:'Fill in',multiple:'Multiple choice',sentence:'Free writing'}[q.type]||q.type;
-  const opts = Array.isArray(q.options) ? q.options : (q.options ? JSON.parse(q.options) : []);
-  const optionsHtml = q.type==='multiple' ? `
-    <div class="qfield-label" style="margin-bottom:4px">Answer options <span style="color:var(--muted2)">(click "✓ correct" to mark the right answer)</span></div>
-    <div class="options-list" id="opts-${q.id}">
-      ${opts.map((o,i) => `
-        <div class="option-row" id="orow-${q.id}-${i}">
-          <input value="${o}" onchange="updateOpt(${q.id},${i},this.value)" placeholder="Option ${i+1}">
-          <button class="option-correct ${o===q.answer?'selected':''}" onclick="setCorrect(${q.id},'${o.replace(/'/g,"\\'")}',this)">✓ correct</button>
-          <button class="opt-del" onclick="removeOpt(${q.id},${i})">✕</button>
-        </div>`).join('')}
-    </div>
-    <button class="qbtn" style="font-size:11px;margin-bottom:.5rem" onclick="addOpt(${q.id})">+ Add option</button>` : '';
+// ── BULK IMPORT ──
+let importedWords = [];
 
-  return `<div class="qcard" id="qcard-${q.id}">
-    <div class="qcard-top">
-      <span class="qnum">Ex ${displayNum}</span>
-      <span class="qsec">${q.section||''}</span>
-      <span class="qtype-badge ${typeCls}">${typeLabel}</span>
-      <div class="qcard-actions">
-        <button class="qbtn save-q" onclick="saveQuestion(${q.id})">Save</button>
-        <button class="qbtn del" onclick="deleteQuestion(${q.id})">Delete</button>
-      </div>
-    </div>
-    <div class="qfield-row">
-      <div class="qfield-group" style="flex:2">
-        <div class="qfield-label">Question / prompt</div>
-        <textarea class="qfield" id="q-question-${q.id}" rows="2">${q.question}</textarea>
-      </div>
-      <div class="qfield-group">
-        <div class="qfield-label">Section label</div>
-        <input class="qfield" id="q-section-${q.id}" value="${q.section||''}">
-      </div>
-    </div>
-    ${q.type!=='multiple'?`
-    <div class="qfield-row">
-      <div class="qfield-group">
-        <div class="qfield-label">Correct answer</div>
-        <input class="qfield" id="q-answer-${q.id}" value="${q.answer}">
-      </div>
-      <div class="qfield-group">
-        <div class="qfield-label">Tip for student (optional)</div>
-        <input class="qfield" id="q-tip-${q.id}" value="${q.tip||''}">
-      </div>
-    </div>`:''}
-    ${optionsHtml}
-    <div class="qfield-row">
-      <div class="qfield-group">
-        <div class="qfield-label">Type</div>
-        <select class="qfield" id="q-type-${q.id}" onchange="changeType(${q.id},this.value)" style="cursor:pointer">
-          <option value="translate" ${q.type==='translate'?'selected':''}>Translate</option>
-          <option value="fillin" ${q.type==='fillin'?'selected':''}>Fill in</option>
-          <option value="multiple" ${q.type==='multiple'?'selected':''}>Multiple choice</option>
-          <option value="sentence" ${q.type==='sentence'?'selected':''}>Free writing</option>
-        </select>
-      </div>
-      ${q.type==='sentence'?`<div class="qfield-group"><div class="qfield-label">Min words required</div><input class="qfield" type="number" id="q-minw-${q.id}" value="${q.min_words||0}" min="0"></div>`:''}
-    </div>
-  </div>`;
+async function lookupDefinition(word) {
+  const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+  if (!r.ok) return null;
+  const data = await r.json();
+  if (!Array.isArray(data) || !data[0]) return null;
+  const meaning = data[0].meanings?.[0];
+  const def = meaning?.definitions?.[0];
+  return {
+    definition: def?.definition || '',
+    example:    def?.example    || '',
+    pos:        meaning?.partOfSpeech || '',
+  };
 }
 
-// ── QUESTION CRUD ─────────────────────────────────────────────
-async function saveQuestion(id) {
-  const q = questionsData.find(x=>x.id===id);
-  if (!q) return;
-  const type = document.getElementById(`q-type-${id}`).value;
-  const question = document.getElementById(`q-question-${id}`).value.trim();
-  const section = document.getElementById(`q-section-${id}`).value.trim();
-  let answer = type!=='multiple' ? (document.getElementById(`q-answer-${id}`)?.value.trim()||'') : q.answer;
-  const tip = type!=='multiple' ? (document.getElementById(`q-tip-${id}`)?.value.trim()||'') : '';
-  const min_words = type==='sentence' ? parseInt(document.getElementById(`q-minw-${id}`)?.value||0) : 0;
-  const opts = type==='multiple' ? (Array.isArray(q.options)?q.options:JSON.parse(q.options||'[]')) : null;
-  if (!question) { showToast('Question text cannot be empty','err'); return; }
+async function translateWord(word) {
   try {
-    await sb(`hw_questions?id=eq.${id}`, 'PATCH', { type, question, section, answer, tip, min_words, options: opts, updated_at: new Date().toISOString() });
-    Object.assign(q, { type, question, section, answer, tip, min_words, options: opts });
-    showToast('Saved ✓');
-  } catch(e) { showToast('Save failed: '+e.message,'err'); }
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ru`);
+    const d = await r.json();
+    return d?.responseData?.translatedText || '';
+  } catch { return ''; }
 }
 
-async function deleteQuestion(id) {
-  if (!confirm('Delete this question?')) return;
+async function bulkImport() {
+  const raw = document.getElementById('bulk-words').value;
+  const words = raw.split('\n').map(w => w.trim()).filter(Boolean);
+  if (!words.length) { toast('Paste some words first'); return; }
+
+  importedWords = [];
+  const progress   = document.getElementById('bulk-progress');
+  const statusEl   = document.getElementById('bulk-status');
+  const bar        = document.getElementById('bulk-progress-bar');
+  const previewEl  = document.getElementById('bulk-preview');
+  const saveBtn    = document.getElementById('bulk-save-btn');
+  const saveCount  = document.getElementById('bulk-save-count');
+
+  progress.style.display = 'block';
+  previewEl.innerHTML = '';
+  saveBtn.style.display = 'none';
+  saveCount.textContent = '';
+  bar.style.width = '0%';
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    statusEl.textContent = `Looking up "${word}"… (${i + 1}/${words.length})`;
+    bar.style.width = ((i / words.length) * 100) + '%';
+
+    const [dict, translation] = await Promise.all([
+      lookupDefinition(word),
+      translateWord(word),
+    ]);
+
+    const entry = {
+      word,
+      translation: translation || '',
+      definition:  dict?.definition || '',
+      example:     dict?.example    || '',
+      pos:         dict?.pos        || '',
+      ok:          true,
+    };
+    importedWords.push(entry);
+
+    const idx = importedWords.length - 1;
+    const card = document.createElement('div');
+    card.className = 'import-preview-card';
+    card.id = `ipc-${idx}`;
+    card.innerHTML = `
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">WORD</div>
+          <div style="font-weight:600;font-size:14px">${esc(word)}${entry.pos ? `<span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:5px">${esc(entry.pos)}</span>` : ''}</div>
+        </div>
+        <div style="flex:1;min-width:140px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TRANSLATION</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="translation" value="${esc(entry.translation)}" placeholder="translation" style="font-size:13px;padding:5px 8px">
+        </div>
+        <div style="flex:2;min-width:200px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">DEFINITION</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="definition" value="${esc(entry.definition)}" placeholder="definition" style="font-size:13px;padding:5px 8px">
+        </div>
+        <div style="flex:2;min-width:200px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXAMPLE</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="example" value="${esc(entry.example)}" placeholder="example sentence" style="font-size:13px;padding:5px 8px">
+        </div>
+        <button onclick="removeImportEntry(${idx})" style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:18px;transition:color .15s" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+      </div>`;
+    previewEl.appendChild(card);
+
+    // live-update importedWords when fields are edited
+    card.querySelectorAll('.ipc-field').forEach(inp => {
+      inp.addEventListener('input', e => {
+        importedWords[e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+      });
+    });
+
+    if (dict === null) card.style.opacity = '0.5';
+  }
+
+  bar.style.width = '100%';
+  const found = importedWords.filter(e => e.ok).length;
+  statusEl.textContent = `Done — ${found} word${found !== 1 ? 's' : ''} ready to save`;
+  saveBtn.style.display = 'inline-block';
+  saveCount.textContent = `${found} word${found !== 1 ? 's' : ''} will be added`;
+}
+
+function removeImportEntry(idx) {
+  importedWords[idx].ok = false;
+  const card = document.getElementById(`ipc-${idx}`);
+  if (card) card.style.display = 'none';
+  const remaining = importedWords.filter(e => e.ok).length;
+  document.getElementById('bulk-save-count').textContent = `${remaining} word${remaining !== 1 ? 's' : ''} will be added`;
+  if (!remaining) document.getElementById('bulk-save-btn').style.display = 'none';
+}
+
+async function saveImported() {
+  const toSave = importedWords.filter(e => e.ok);
+  if (!toSave.length) return;
+  const btn = document.getElementById('bulk-save-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
   try {
-    await sb(`hw_questions?id=eq.${id}`, 'DELETE');
-    questionsData = questionsData.filter(q=>q.id!==id);
-    document.getElementById(`qcard-${id}`)?.remove();
-    renderHWTabs();
-    showToast('Deleted');
-  } catch(e) { showToast('Delete failed: '+e.message,'err'); }
+    for (const e of toSave) {
+      await sb('vocab_words', 'POST', {
+        student_id:  currentStudent.id,
+        word:        e.word,
+        translation: e.translation || null,
+        example:     e.example || e.definition || null,
+      });
+    }
+    toast(`${toSave.length} word${toSave.length !== 1 ? 's' : ''} added to ${currentStudent.name}'s dictionary`);
+    document.getElementById('bulk-words').value = '';
+    document.getElementById('bulk-progress').style.display = 'none';
+    importedWords = [];
+    await loadVocab();
+  } catch(e) {
+    toast('Save failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Save all to dictionary'; btn.disabled = false;
+  }
 }
 
-async function addQuestion() {
-  const maxEx = questionsData.filter(q=>q.hw_number===currentHW).reduce((m,q)=>Math.max(m,q.ex_number),0);
-  const newQ = { hw_number: currentHW, ex_number: maxEx+1, section: '', type: 'translate', question: 'New question', answer: '', options: null, tip: '', min_words: 0 };
+// ── VOCABULARY ──
+async function loadVocab() {
+  const list = document.getElementById('vocab-list');
+  const count = document.getElementById('vocab-count');
+  list.innerHTML = `<div class="empty-state">Loading…</div>`;
   try {
-    const [created] = await sb('hw_questions', 'POST', newQ);
-    questionsData.push(created);
-    renderHWTabs();
-    renderQuestions(currentHW);
-    showToast('Question added');
-    setTimeout(()=>{ document.getElementById(`qcard-${created.id}`)?.scrollIntoView({behavior:'smooth',block:'nearest'}); }, 100);
-  } catch(e) { showToast('Add failed: '+e.message,'err'); }
+    const rows = await sb(`vocab_words?student_id=eq.${currentStudent.id}&order=created_at.asc`) || [];
+    count.textContent = rows.length ? `· ${rows.length}` : '';
+    if (!rows.length) { list.innerHTML = `<div class="empty-state">No words added yet.</div>`; return; }
+    list.innerHTML = rows.map(r => `
+      <div class="item-card" id="vocab-${r.id}">
+        <div class="item-card-body">
+          <div class="item-card-main">${esc(r.word)}</div>
+          <div class="item-card-secondary">${esc(r.translation)}</div>
+          ${r.example ? `<div class="item-card-example">${esc(r.example)}</div>` : ''}
+        </div>
+        <button class="item-card-del" onclick="deleteVocab(${r.id})" title="Delete">×</button>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty-state" style="color:#f87171">${e.message}</div>`;
+  }
 }
 
-function updateOpt(qid, idx, val) {
-  const q = questionsData.find(x=>x.id===qid);
-  if (!q) return;
-  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
-  opts[idx] = val;
-  q.options = opts;
-}
-
-function setCorrect(qid, val, btn) {
-  const q = questionsData.find(x=>x.id===qid);
-  if (!q) return;
-  q.answer = val;
-  document.querySelectorAll(`#opts-${qid} .option-correct`).forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  const ansEl = document.getElementById(`q-answer-${qid}`);
-  if (ansEl) ansEl.value = val;
-}
-
-function removeOpt(qid, idx) {
-  const q = questionsData.find(x=>x.id===qid);
-  if (!q) return;
-  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
-  opts.splice(idx,1);
-  q.options = opts;
-  document.getElementById(`orow-${qid}-${idx}`)?.remove();
-  const rows = document.querySelectorAll(`#opts-${qid} .option-row`);
-  rows.forEach((r,i)=>r.id=`orow-${qid}-${i}`);
-}
-
-function addOpt(qid) {
-  const q = questionsData.find(x=>x.id===qid);
-  if (!q) return;
-  const opts = Array.isArray(q.options)?[...q.options]:JSON.parse(q.options||'[]');
-  opts.push('New option');
-  q.options = opts;
-  const container = document.getElementById(`opts-${qid}`);
-  const i = opts.length-1;
-  const div = document.createElement('div');
-  div.className = 'option-row';
-  div.id = `orow-${qid}-${i}`;
-  div.innerHTML = `<input value="New option" onchange="updateOpt(${qid},${i},this.value)"><button class="option-correct" onclick="setCorrect(${qid},'New option',this)">✓ correct</button><button class="opt-del" onclick="removeOpt(${qid},${i})">✕</button>`;
-  container.appendChild(div);
-}
-
-function changeType(qid, newType) {
-  const q = questionsData.find(x=>x.id===qid);
-  if (!q) return;
-  q.type = newType;
-  renderQuestions(currentHW);
-}
-
-// ── LOCK TOGGLE ───────────────────────────────────────────────
-async function toggleLock() {
-  const unlocked = document.getElementById('lock-toggle').checked;
-  const sub = document.getElementById('lock-sub');
+async function addVocab() {
+  const word    = document.getElementById('v-word').value.trim();
+  const trans   = document.getElementById('v-trans').value.trim();
+  const example = document.getElementById('v-example').value.trim();
+  const fb      = document.getElementById('vocab-fb');
+  if (!word || !trans) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Word and translation are required.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
   try {
-    await sb(`hw_status?hw_number=eq.${currentHW}`, 'PATCH', { is_locked: !unlocked });
-    if (hwStatusData[currentHW]) hwStatusData[currentHW].is_locked = !unlocked;
-    sub.textContent = unlocked ? '🔓 Unlocked — visible to student' : '🔒 Locked — not visible to student';
-    renderHWTabs();
-    showToast(unlocked ? `HW ${currentHW} unlocked for Sandugash` : `HW ${currentHW} locked`);
-  } catch(e) { showToast('Failed: '+e.message,'err'); }
+    await sb('vocab_words', 'POST', {
+      student_id: currentStudent.id,
+      word, translation: trans, example: example || null
+    });
+    document.getElementById('v-word').value    = '';
+    document.getElementById('v-trans').value   = '';
+    document.getElementById('v-example').value = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `"${word}" added.`;
+    await loadVocab();
+    toast(`"${word}" added to ${currentStudent.name}'s dictionary`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
 }
 
-// ── SETUP TEST ────────────────────────────────────────────────
-async function testConn() {
-  const fb = document.getElementById('setup-fb');
-  fb.style.color = 'var(--amber)'; fb.textContent = 'Testing…';
+async function deleteVocab(id) {
+  if (!confirm('Remove this word?')) return;
   try {
-    await sb('hw_results?limit=1');
-    fb.style.color = 'var(--green)'; fb.textContent = '✓ Connected successfully';
-    setBadge(true);
-  } catch(e) { fb.style.color = 'var(--red)'; fb.textContent = '✗ '+e.message; setBadge(false); }
+    await sb(`vocab_words?id=eq.${id}`, 'DELETE');
+    document.getElementById(`vocab-${id}`)?.remove();
+    toast('Word removed');
+    await loadVocab();
+  } catch(e) { toast('Error: ' + e.message); }
 }
 
-// ── TOAST ─────────────────────────────────────────────────────
-let toastTimer;
-function showToast(msg, type='ok') {
+// ── API KEY ──
+function saveApiKey() {
+  const key = document.getElementById('claude-apikey').value.trim();
+  const fb  = document.getElementById('apikey-fb');
+  if (!key.startsWith('sk-ant-')) { fb.style.color='#f87171'; fb.textContent = 'Key should start with sk-ant-'; return; }
+  localStorage.setItem('claude_api_key', key);
+  document.getElementById('claude-apikey').value = '';
+  document.getElementById('apikey-status').innerHTML = '<span style="color:var(--checked-text)">· saved</span>';
+  fb.style.color = 'var(--checked-text)'; fb.textContent = 'Saved.';
+}
+
+function getApiKey() { return localStorage.getItem('claude_api_key') || ''; }
+
+function initApiKeyUI() {
+  const key = getApiKey();
+  const status = document.getElementById('apikey-status');
+  if (key) status.innerHTML = '<span style="color:var(--checked-text)">· saved</span>';
+  else status.innerHTML = '<span style="color:var(--muted2)">· not set</span>';
+}
+
+// ── GRAMMAR BULK GENERATE ──
+let importedRules = [];
+
+async function generateGrammarRule(input) {
+  const key = getApiKey();
+  if (!key) throw new Error('No API key — save your Claude API key first.');
+
+  const prompt = `You are an English teacher creating grammar notes for a student.
+
+Input: "${input}"
+
+This is either a grammar topic name OR a student's error sentence.
+
+Respond with ONLY a JSON object, no other text:
+{
+  "title": "short title for the rule (max 60 chars)",
+  "explanation": "clear explanation with the rule, why it matters, correct form if it was an error, and 2-3 short example sentences. Keep it under 200 words. Use simple language."
+}
+
+If it is an error sentence: identify the mistake, name it, show the corrected version, explain the rule.
+If it is a topic: explain the rule clearly with examples.`;
+
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `API error ${r.status}`);
+  }
+
+  const data = await r.json();
+  const text = data.content?.[0]?.text || '';
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Unexpected response format');
+  return JSON.parse(match[0]);
+}
+
+async function bulkGrammar() {
+  const key = getApiKey();
+  if (!key) { toast('Save your Claude API key first (at the top of the Grammar tab)'); return; }
+
+  const raw   = document.getElementById('bulk-grammar').value;
+  const items = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!items.length) { toast('Paste some topics or errors first'); return; }
+
+  importedRules = [];
+  const progress  = document.getElementById('grammar-bulk-progress');
+  const statusEl  = document.getElementById('grammar-bulk-status');
+  const bar       = document.getElementById('grammar-bulk-bar');
+  const previewEl = document.getElementById('grammar-bulk-preview');
+  const saveBtn   = document.getElementById('grammar-save-btn');
+  const saveCount = document.getElementById('grammar-save-count');
+
+  progress.style.display = 'block';
+  previewEl.innerHTML = '';
+  saveBtn.style.display = 'none';
+  saveCount.textContent = '';
+  bar.style.width = '0%';
+
+  for (let i = 0; i < items.length; i++) {
+    const input = items[i];
+    statusEl.textContent = `Generating "${input}"… (${i + 1}/${items.length})`;
+    bar.style.width = ((i / items.length) * 100) + '%';
+
+    let rule = { title: input, explanation: '', ok: true, error: null };
+    try {
+      const result = await generateGrammarRule(input);
+      rule.title       = result.title || input;
+      rule.explanation = result.explanation || '';
+    } catch(e) {
+      rule.error = e.message;
+      rule.ok    = false;
+    }
+    importedRules.push(rule);
+
+    const idx  = importedRules.length - 1;
+    const card = document.createElement('div');
+    card.className = 'import-preview-card';
+    card.id = `igc-${idx}`;
+
+    if (rule.error) {
+      card.style.borderColor = '#7f1d1d';
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:4px">${esc(input)}</div>
+            <div style="font-size:12px;color:#f87171">${esc(rule.error)}</div>
+          </div>
+          <button onclick="retryRule(${idx},'${esc(input).replace(/'/g,"\\'")}')" class="btn" style="font-size:11px;flex-shrink:0">Retry</button>
+        </div>`;
+    } else {
+      card.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TITLE</div>
+            <input class="field igc-field" data-idx="${idx}" data-field="title"
+              value="${esc(rule.title)}" style="font-size:13px;padding:5px 8px;margin-bottom:8px;font-weight:600">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXPLANATION</div>
+            <textarea class="field igc-field" data-idx="${idx}" data-field="explanation"
+              rows="4" style="font-size:13px;padding:5px 8px;line-height:1.6;white-space:pre-wrap">${esc(rule.explanation)}</textarea>
+          </div>
+          <button onclick="removeGrammarEntry(${idx})"
+            style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:16px;transition:color .15s"
+            onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+        </div>`;
+      card.querySelectorAll('.igc-field').forEach(inp => {
+        inp.addEventListener('input', e => {
+          importedRules[+e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+        });
+      });
+    }
+
+    previewEl.appendChild(card);
+  }
+
+  bar.style.width = '100%';
+  const ok = importedRules.filter(r => r.ok).length;
+  statusEl.textContent = `Done — ${ok} rule${ok !== 1 ? 's' : ''} ready to save`;
+  if (ok) { saveBtn.style.display = 'inline-block'; saveCount.textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`; }
+}
+
+async function retryRule(idx, input) {
+  const card = document.getElementById(`igc-${idx}`);
+  card.innerHTML = `<div style="font-size:12px;color:var(--muted)">Retrying "${esc(input)}"…</div>`;
+  try {
+    const result = await generateGrammarRule(input);
+    importedRules[idx] = { title: result.title || input, explanation: result.explanation || '', ok: true, error: null };
+    const r = importedRules[idx];
+    card.style.borderColor = '';
+    card.innerHTML = `
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TITLE</div>
+          <input class="field igc-field" data-idx="${idx}" data-field="title"
+            value="${esc(r.title)}" style="font-size:13px;padding:5px 8px;margin-bottom:8px;font-weight:600">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXPLANATION</div>
+          <textarea class="field igc-field" data-idx="${idx}" data-field="explanation"
+            rows="4" style="font-size:13px;padding:5px 8px;line-height:1.6">${esc(r.explanation)}</textarea>
+        </div>
+        <button onclick="removeGrammarEntry(${idx})"
+          style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:16px"
+          onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+      </div>`;
+    card.querySelectorAll('.igc-field').forEach(inp => {
+      inp.addEventListener('input', e => {
+        importedRules[+e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+      });
+    });
+    const ok = importedRules.filter(r => r.ok).length;
+    document.getElementById('grammar-save-btn').style.display = ok ? 'inline-block' : 'none';
+    document.getElementById('grammar-save-count').textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`;
+  } catch(e) {
+    card.innerHTML = `<div style="font-size:12px;color:#f87171">Failed: ${esc(e.message)}</div>`;
+  }
+}
+
+function removeGrammarEntry(idx) {
+  importedRules[idx].ok = false;
+  document.getElementById(`igc-${idx}`)?.style && (document.getElementById(`igc-${idx}`).style.display = 'none');
+  const ok = importedRules.filter(r => r.ok).length;
+  document.getElementById('grammar-save-count').textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`;
+  if (!ok) document.getElementById('grammar-save-btn').style.display = 'none';
+}
+
+async function saveGrammarImported() {
+  const toSave = importedRules.filter(r => r.ok && r.explanation);
+  if (!toSave.length) return;
+  const btn = document.getElementById('grammar-save-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  try {
+    for (const r of toSave) {
+      await sb('grammar_rules', 'POST', {
+        student_id:  currentStudent.id,
+        title:       r.title,
+        explanation: r.explanation,
+      });
+    }
+    toast(`${toSave.length} rule${toSave.length !== 1 ? 's' : ''} added for ${currentStudent.name}`);
+    document.getElementById('bulk-grammar').value = '';
+    document.getElementById('grammar-bulk-progress').style.display = 'none';
+    importedRules = [];
+    await loadGrammar();
+  } catch(e) {
+    toast('Save failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Save all rules'; btn.disabled = false;
+  }
+}
+
+// ── GRAMMAR ──
+async function loadGrammar() {
+  const list  = document.getElementById('grammar-list');
+  const count = document.getElementById('grammar-count');
+  list.innerHTML = `<div class="empty-state">Loading…</div>`;
+  try {
+    const rows = await sb(`grammar_rules?student_id=eq.${currentStudent.id}&order=created_at.asc`) || [];
+    count.textContent = rows.length ? `· ${rows.length}` : '';
+    if (!rows.length) { list.innerHTML = `<div class="empty-state">No rules added yet.</div>`; return; }
+    list.innerHTML = rows.map(r => `
+      <div class="item-card" id="grammar-${r.id}">
+        <div class="item-card-body">
+          <div class="item-card-main">${esc(r.title)}</div>
+          <div class="item-card-example" style="font-style:normal;margin-top:4px;white-space:pre-wrap;line-height:1.6">${esc(r.explanation)}</div>
+        </div>
+        <button class="item-card-del" onclick="deleteGrammar(${r.id})" title="Delete">×</button>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty-state" style="color:#f87171">${e.message}</div>`;
+  }
+}
+
+async function addGrammar() {
+  const title  = document.getElementById('g-title').value.trim();
+  const expl   = document.getElementById('g-explanation').value.trim();
+  const fb     = document.getElementById('grammar-fb');
+  if (!title || !expl) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Title and explanation are required.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
+  try {
+    await sb('grammar_rules', 'POST', {
+      student_id: currentStudent.id,
+      title, explanation: expl
+    });
+    document.getElementById('g-title').value       = '';
+    document.getElementById('g-explanation').value = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `"${title}" added.`;
+    await loadGrammar();
+    toast(`Rule added for ${currentStudent.name}`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
+}
+
+async function deleteGrammar(id) {
+  if (!confirm('Remove this rule?')) return;
+  try {
+    await sb(`grammar_rules?id=eq.${id}`, 'DELETE');
+    document.getElementById(`grammar-${id}`)?.remove();
+    toast('Rule removed');
+    await loadGrammar();
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
+// ── UTILS ──
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let _toastTimer;
+function toast(msg) {
   document.querySelector('.toast')?.remove();
-  clearTimeout(toastTimer);
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.textContent = type==='ok' ? '✓ ' + msg : '✗ ' + msg;
-  document.body.appendChild(t);
-  toastTimer = setTimeout(()=>t.remove(), 3000);
+  clearTimeout(_toastTimer);
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  _toastTimer = setTimeout(() => el.remove(), 2600);
 }
 
-// ── NAV ───────────────────────────────────────────────────────
-function goPage(id) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.sni').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+id)?.classList.add('active');
-  document.querySelector(`[data-page="${id}"]`)?.classList.add('active');
-  document.querySelector('.main').scrollTop = 0;
-  if (id === 'add-student') renderStudentsManage();
+// ── INIT ──
+async function init() {
+  const dot = document.getElementById('conn-dot');
+  const txt = document.getElementById('conn-text');
+  try {
+    students = await sb('students?order=added_at.asc') || [];
+    dot.className = 'ok'; txt.textContent = 'Connected';
+    renderHome();
+  } catch(e) {
+    dot.className = 'err'; txt.textContent = 'Offline';
+    renderHome();
+  }
 }
-document.querySelectorAll('.sni').forEach(n => n.addEventListener('click', ()=>goPage(n.getAttribute('data-page'))));
 
-// ── INIT ──────────────────────────────────────────────────────
-loadAll();
+init();
 </script>
 </body>
 </html>
