@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: #262626;
+  --border-hover: #404040;
+  --text: #e5e5e5;
+  --muted: #737373;
+  --muted2: #525252;
+
+  --empty-bg: #161616;
+  --empty-border: #303030;
+  --empty-text: #404040;
+
+  --sent-bg: #0f1a2e;
+  --sent-border: #1e3a5f;
+  --sent-text: #60a5fa;
+
+  --checked-bg: #0a1f12;
+  --checked-border: #166534;
+  --checked-text: #4ade80;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.logo { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+#conn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-hover); display: inline-block; margin-right: 6px; }
+#conn-dot.ok { background: #4ade80; }
+#conn-dot.err { background: #f87171; }
+
+.view { display: none; padding: 32px; max-width: 960px; margin: 0 auto; }
+.view.active { display: block; }
+
+/* ── HOME ── */
+.section-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
+
+.students-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+
+.student-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s;
+  user-select: none;
+}
+.student-box:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+.student-box-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.student-box-progress { font-size: 12px; color: var(--muted); }
+.student-box-dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 14px; }
+.mini-dot { width: 8px; height: 8px; border-radius: 2px; background: var(--empty-border); }
+.mini-dot.sent { background: var(--sent-border); }
+.mini-dot.checked { background: var(--checked-border); }
+
+.student-portal-row { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.student-portal-link {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sent-text);
+  text-decoration: none;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 5px;
+  transition: background .15s;
+}
+.student-portal-link:hover { background: var(--sent-bg); }
+.student-portal-link.student-portal-missing {
+  color: var(--muted2);
+  cursor: default;
+  font-weight: 400;
+}
+.student-portal-link.student-portal-missing:hover { background: transparent; }
+
+/* ── STUDENT DETAIL ── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--muted); cursor: pointer;
+  border: none; background: none; padding: 0;
+  margin-bottom: 20px; font-family: inherit;
+  transition: color .15s;
+}
+.back-btn:hover { color: var(--text); }
+.student-title { font-size: 24px; font-weight: 600; margin-bottom: 20px; }
+
+/* ── TABS ── */
+.tab-bar { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.tab {
+  padding: 9px 16px; font-size: 13px; font-weight: 500;
+  color: var(--muted); cursor: pointer; border: none; background: none;
+  font-family: inherit; border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── LESSON GRID ── */
+.half-label {
+  font-size: 11px; font-weight: 500; color: var(--muted2);
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 10px; margin-top: 28px;
+}
+.half-label:first-of-type { margin-top: 0; }
+.lessons-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+
+.lesson-box {
+  border-radius: 8px; padding: 14px 10px; text-align: center;
+  cursor: pointer; transition: all .15s; user-select: none;
+  border: 1px solid var(--empty-border); background: var(--empty-bg);
+}
+.lesson-box:hover { border-color: var(--border-hover); }
+.lesson-box.sent  { background: var(--sent-bg);    border-color: var(--sent-border); }
+.lesson-box.checked { background: var(--checked-bg); border-color: var(--checked-border); }
+.lesson-box.exam { border-style: dashed; }
+.lesson-box.exam.sent, .lesson-box.exam.checked { border-style: solid; }
+.lesson-box-label { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--empty-text); margin-bottom: 6px; }
+.lesson-box.sent    .lesson-box-label { color: var(--sent-text); }
+.lesson-box.checked .lesson-box-label { color: var(--checked-text); }
+.lesson-box-status { font-size: 10px; color: var(--muted2); }
+.lesson-box.sent    .lesson-box-status { color: var(--sent-text); opacity: .7; }
+.lesson-box.checked .lesson-box-status { color: var(--checked-text); opacity: .8; }
+
+/* ── SITE FRAME ── */
+.site-frame-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; height: 78vh; position: relative; }
+.site-frame-wrap iframe { width: 100%; height: 100%; border: none; background: #fff; }
+.site-frame-blocked {
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center; height: 100%; gap: 12px;
+  color: var(--muted); font-size: 13px; text-align: center;
+}
+
+/* ── ADD CONTENT ── */
+.content-section { margin-bottom: 36px; }
+.content-section-title {
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--muted); margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+
+.add-form { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; align-items: flex-end; }
+.add-form .fgroup { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 120px; }
+.add-form .fgroup label { font-size: 11px; color: var(--muted); }
+
+.field {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 11px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+  width: 100%;
+}
+.field:focus { border-color: var(--border-hover); }
+textarea.field { resize: vertical; min-height: 68px; }
+
+.btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--border-hover); color: var(--text); }
+.btn.primary { background: var(--text); color: #000; border-color: var(--text); font-weight: 500; }
+.btn.primary:hover { opacity: .85; }
+.btn.danger:hover { border-color: #7f1d1d; color: #f87171; }
+
+/* ── ITEM CARDS ── */
+.item-list { display: flex; flex-direction: column; gap: 8px; }
+
+.item-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.item-card-body { flex: 1; min-width: 0; }
+.item-card-main { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.item-card-secondary { font-size: 13px; color: var(--sent-text); margin-bottom: 3px; }
+.item-card-example { font-size: 12px; color: var(--muted); font-style: italic; }
+.item-card-del {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted2); font-size: 16px; padding: 0 2px;
+  transition: color .15s; line-height: 1; flex-shrink: 0;
+}
+.item-card-del:hover { color: #f87171; }
+
+.empty-state { font-size: 13px; color: var(--muted2); padding: 16px 0; }
+
+/* ── HOME ADD STRIP ── */
+.manage-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+.manage-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--surface); border: 1px solid var(--border-hover);
+  border-radius: 8px; padding: 10px 16px; font-size: 13px; z-index: 999;
+  animation: fadeup .2s ease;
+}
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .lessons-grid { grid-template-columns: repeat(4, 1fr); }
+  header { padding: 16px 20px; }
+  .view { padding: 20px; }
+}
+
+.import-preview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  animation: fadeup .2s ease;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Teacher</div>
+  <div style="font-size:12px;color:var(--muted)">
+    <span id="conn-dot"></span><span id="conn-text">Connecting…</span>
+  </div>
+</header>
+
+<!-- ══ HOME VIEW ══ -->
+<div class="view active" id="view-home">
+  <div class="section-label" id="students-count-label">Students</div>
+  <div class="students-grid" id="students-grid"></div>
+
+  <div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--border)">
+    <div class="manage-label">Add student</div>
+    <div class="manage-row">
+      <input class="field" id="new-name" placeholder="Name" style="max-width:180px">
+      <input class="field" id="new-url" placeholder="Site URL (optional)">
+      <button class="btn primary" onclick="addStudent()">Add</button>
+    </div>
+    <div id="add-fb" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
+  </div>
+</div>
+
+<!-- ══ STUDENT DETAIL VIEW ══ -->
+<div class="view" id="view-student">
+  <button class="back-btn" onclick="showHome()">← All students</button>
+  <div class="student-title" id="detail-name"></div>
+
+  <div class="tab-bar">
+    <button class="tab active" id="tab-lessons"  onclick="switchTab('lessons')">Lessons</button>
+    <button class="tab"        id="tab-site"     onclick="switchTab('site')">Student Site</button>
+    <button class="tab"        id="tab-vocab"    onclick="switchTab('vocab')">Dictionary</button>
+    <button class="tab"        id="tab-grammar"  onclick="switchTab('grammar')">Grammar</button>
+  </div>
+
+  <!-- LESSONS -->
+  <div class="tab-panel active" id="panel-lessons">
+    <div class="half-label">First half · HW 1–6 + Midterm</div>
+    <div class="lessons-grid" id="grid-half1"></div>
+    <div class="half-label">Second half · HW 7–12 + Final</div>
+    <div class="lessons-grid" id="grid-half2"></div>
+  </div>
+
+  <!-- STUDENT SITE EMBED -->
+  <div class="tab-panel" id="panel-site">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <input class="field" id="site-url-input" placeholder="https://example.com/Student.html" style="flex:1;min-width:240px;font-size:12px">
+      <button class="btn primary" onclick="saveSiteUrl()">Save URL</button>
+      <button class="btn" onclick="reloadSite()">Reload</button>
+      <a class="btn" id="site-open-new" href="#" target="_blank" style="text-decoration:none">Open ↗</a>
+    </div>
+    <div id="site-url-fb" style="font-size:11px;color:var(--muted);margin-bottom:10px;min-height:14px"></div>
+    <div class="site-frame-wrap">
+      <iframe id="student-frame" src="about:blank"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      <div class="site-frame-blocked" id="frame-blocked">
+        <div style="font-size:28px">🔒</div>
+        <div id="frame-blocked-msg">This site can't be embedded.</div>
+        <a id="frame-fallback-link" href="#" target="_blank"
+           class="btn" style="margin-top:4px;text-decoration:none">Open in new tab ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DICTIONARY -->
+  <div class="tab-panel" id="panel-vocab">
+
+    <!-- BULK IMPORT -->
+    <div class="content-section">
+      <div class="content-section-title">Import word list</div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <textarea class="field" id="bulk-words" rows="5" style="flex:1"
+          placeholder="One word or phrase per line:&#10;ambitious&#10;perseverance&#10;come up with&#10;take into account"></textarea>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn primary" onclick="bulkImport()" style="white-space:nowrap">Look up &amp; import</button>
+          <button class="btn" onclick="document.getElementById('bulk-words').value=''" style="font-size:12px">Clear</button>
+        </div>
+      </div>
+      <!-- PROGRESS -->
+      <div id="bulk-progress" style="display:none;margin-top:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px" id="bulk-status">Looking up…</div>
+        <div id="bulk-progress-bar-wrap" style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px">
+          <div id="bulk-progress-bar" style="height:100%;background:var(--checked-text);border-radius:2px;width:0%;transition:width .3s"></div>
+        </div>
+        <div id="bulk-preview" style="display:flex;flex-direction:column;gap:6px"></div>
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+          <button class="btn primary" id="bulk-save-btn" onclick="saveImported()" style="display:none">Save all to dictionary</button>
+          <span id="bulk-save-count" style="font-size:12px;color:var(--muted)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANUAL ADD -->
+    <div class="content-section">
+      <div class="content-section-title">Add single word manually</div>
+      <div class="add-form">
+        <div class="fgroup" style="flex:1.2">
+          <label>Word / phrase</label>
+          <input class="field" id="v-word" placeholder="e.g. ambitious">
+        </div>
+        <div class="fgroup" style="flex:1.2">
+          <label>Translation</label>
+          <input class="field" id="v-trans" placeholder="e.g. амбициозный">
+        </div>
+        <div class="fgroup" style="flex:2">
+          <label>Example sentence</label>
+          <input class="field" id="v-example" placeholder="e.g. She is very ambitious in her career.">
+        </div>
+        <button class="btn primary" style="align-self:flex-end" onclick="addVocab()">Add</button>
+      </div>
+      <div id="vocab-fb" style="font-size:12px;color:var(--muted);margin-bottom:4px"></div>
+    </div>
+
+    <!-- WORD LIST -->
+    <div class="content-section">
+      <div class="content-section-title">Word list <span id="vocab-count" style="font-weight:400;color:var(--muted2)"></span></div>
+      <div class="item-list" id="vocab-list"><div class="empty-state">No words added yet.</div></div>
+    </div>
+  </div>
+
+  <!-- GRAMMAR -->
+  <div class="tab-panel" id="panel-grammar">
+
+    <!-- API KEY -->
+    <div id="apikey-section" class="content-section" style="padding-bottom:16px">
+      <div class="content-section-title">Claude API key <span id="apikey-status" style="font-weight:400;text-transform:none;letter-spacing:0"></span></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="field" id="claude-apikey" type="password" placeholder="sk-ant-…" style="max-width:380px;font-size:12px">
+        <button class="btn" onclick="saveApiKey()">Save key</button>
+        <span id="apikey-fb" style="font-size:12px;color:var(--muted)"></span>
+      </div>
+      <div style="font-size:11px;color:var(--muted2);margin-top:6px">Key is stored only in your browser (localStorage). Never sent anywhere except Anthropic.</div>
+    </div>
+
+    <!-- BULK GENERATE -->
+    <div class="content-section">
+      <div class="content-section-title">Generate from topics or errors</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">
+        Each line can be a grammar topic (<em>present perfect</em>) or a student's error (<em>i want be hero</em>).
+        Claude will generate a structured explanation with examples.
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <textarea class="field" id="bulk-grammar" rows="6" style="flex:1"
+          placeholder="present perfect&#10;i want be hero&#10;past simple vs present perfect&#10;i am go to school yesterday&#10;articles a / an / the"></textarea>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn primary" onclick="bulkGrammar()" style="white-space:nowrap">Generate &amp; import</button>
+          <button class="btn" onclick="document.getElementById('bulk-grammar').value=''" style="font-size:12px">Clear</button>
+        </div>
+      </div>
+      <!-- PROGRESS -->
+      <div id="grammar-bulk-progress" style="display:none;margin-top:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px" id="grammar-bulk-status">Generating…</div>
+        <div id="grammar-bulk-bar-wrap" style="height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:14px">
+          <div id="grammar-bulk-bar" style="height:100%;background:var(--sent-text);border-radius:2px;width:0%;transition:width .3s"></div>
+        </div>
+        <div id="grammar-bulk-preview" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px">
+          <button class="btn primary" id="grammar-save-btn" onclick="saveGrammarImported()" style="display:none">Save all rules</button>
+          <span id="grammar-save-count" style="font-size:12px;color:var(--muted)"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANUAL ADD -->
+    <div class="content-section">
+      <div class="content-section-title">Add rule manually</div>
+      <div class="add-form" style="flex-direction:column;align-items:stretch">
+        <div class="fgroup" style="flex:none">
+          <label>Structure / title</label>
+          <input class="field" id="g-title" placeholder="e.g. Present Perfect with 'since' and 'for'">
+        </div>
+        <div class="fgroup" style="flex:none">
+          <label>Explanation</label>
+          <textarea class="field" id="g-explanation" rows="4"
+            placeholder="Explanation with examples…"></textarea>
+        </div>
+        <div><button class="btn primary" onclick="addGrammar()">Add</button></div>
+      </div>
+      <div id="grammar-fb" style="font-size:12px;color:var(--muted);margin-top:8px;margin-bottom:4px"></div>
+    </div>
+
+    <!-- RULES LIST -->
+    <div class="content-section">
+      <div class="content-section-title">Grammar rules <span id="grammar-count" style="font-weight:400;color:var(--muted2)"></span></div>
+      <div class="item-list" id="grammar-list"><div class="empty-state">No rules added yet.</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://jjlzimjfnwywsmodobct.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
+const H = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+
+async function sb(path, method = 'GET', body = null) {
+  const opts = { method, headers: H };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(SB_URL + '/rest/v1/' + path, opts);
+  if (!r.ok) throw new Error(await r.text());
+  return r.status === 204 ? null : r.json();
+}
+
+// ── LESSON CONFIG ──
+const LESSONS_H1 = [
+  { key: 'hw1',     label: 'HW 1',    exam: false },
+  { key: 'hw2',     label: 'HW 2',    exam: false },
+  { key: 'hw3',     label: 'HW 3',    exam: false },
+  { key: 'hw4',     label: 'HW 4',    exam: false },
+  { key: 'hw5',     label: 'HW 5',    exam: false },
+  { key: 'hw6',     label: 'HW 6',    exam: false },
+  { key: 'midterm', label: 'Midterm', exam: true  },
+];
+const LESSONS_H2 = [
+  { key: 'hw7',   label: 'HW 7',  exam: false },
+  { key: 'hw8',   label: 'HW 8',  exam: false },
+  { key: 'hw9',   label: 'HW 9',  exam: false },
+  { key: 'hw10',  label: 'HW 10', exam: false },
+  { key: 'hw11',  label: 'HW 11', exam: false },
+  { key: 'hw12',  label: 'HW 12', exam: false },
+  { key: 'final', label: 'Final', exam: true  },
+];
+const ALL_LESSONS = [...LESSONS_H1, ...LESSONS_H2];
+const STATES = ['empty', 'sent', 'checked'];
+const STATUS_LABEL = { empty: 'Unsent', sent: 'Sent', checked: 'Checked ✓' };
+
+let students = [];
+let currentStudent = null;
+
+// ── LESSON STATUS (localStorage) ──
+function lsKey(id) { return `ls_${id}`; }
+function loadStatus(id) { try { return JSON.parse(localStorage.getItem(lsKey(id)) || '{}'); } catch { return {}; } }
+function saveStatus(id, data) { localStorage.setItem(lsKey(id), JSON.stringify(data)); }
+function getStatus(id, key) { return loadStatus(id)[key] || 'empty'; }
+function setStatus(id, key, val) { const d = loadStatus(id); d[key] = val; saveStatus(id, d); }
+function cycleStatus(id, key) {
+  const cur = getStatus(id, key);
+  const next = STATES[(STATES.indexOf(cur) + 1) % STATES.length];
+  setStatus(id, key, next);
+  return next;
+}
+function countStatuses(id) {
+  const d = loadStatus(id);
+  let sent = 0, checked = 0;
+  ALL_LESSONS.forEach(l => { const s = d[l.key] || 'empty'; if (s==='sent') sent++; if (s==='checked') checked++; });
+  return { sent, checked, total: ALL_LESSONS.length };
+}
+
+// ── HOME ──
+function renderHome() {
+  const grid = document.getElementById('students-grid');
+  document.getElementById('students-count-label').textContent = `Students · ${students.length}`;
+  if (!students.length) {
+    grid.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:16px 0;grid-column:1/-1">No students yet. Add one below.</div>`;
+    return;
+  }
+  grid.innerHTML = '';
+  students.forEach(s => {
+    const { sent, checked, total } = countStatuses(s.id);
+    const data = loadStatus(s.id);
+    const box = document.createElement('div');
+    box.className = 'student-box';
+    box.onclick = (e) => {
+      // Don't navigate to detail if they clicked the portal link
+      if (e.target.closest('.student-portal-link')) return;
+      showStudent(s);
+    };
+    const dots = ALL_LESSONS.map(l => {
+      const st = data[l.key] || 'empty';
+      return `<div class="mini-dot ${st === 'empty' ? '' : st}"></div>`;
+    }).join('');
+    const portalLink = s.repo_url
+      ? `<a href="${esc(s.repo_url)}" target="_blank" class="student-portal-link" onclick="event.stopPropagation()" title="Open ${esc(s.name)}'s portal in new tab">Visit portal ↗</a>`
+      : `<span class="student-portal-link student-portal-missing" title="No URL set — click the card to add one">No URL</span>`;
+    box.innerHTML = `
+      <div class="student-box-name">${esc(s.name)}</div>
+      <div class="student-box-progress">${sent + checked}/${total} lessons</div>
+      <div class="student-box-dots">${dots}</div>
+      <div class="student-portal-row">${portalLink}</div>`;
+    grid.appendChild(box);
+  });
+}
+
+async function addStudent() {
+  const name = document.getElementById('new-name').value.trim();
+  const url  = document.getElementById('new-url').value.trim();
+  const fb   = document.getElementById('add-fb');
+  if (!name) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Enter a name.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
+  try {
+    const [created] = await sb('students', 'POST', { name, repo_url: url || null });
+    students.push(created);
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-url').value  = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `${name} added.`;
+    renderHome();
+    toast(`${name} added`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
+}
+
+// ── STUDENT DETAIL ──
+function showStudent(student) {
+  currentStudent = student;
+  document.getElementById('detail-name').textContent = student.name;
+  const frame = document.getElementById('student-frame');
+  frame.src = 'about:blank';
+  frame.dataset.loaded = '';      // force reload for new student
+  switchTab('lessons');
+  renderLessonGrid('grid-half1', LESSONS_H1, student.id);
+  renderLessonGrid('grid-half2', LESSONS_H2, student.id);
+  document.getElementById('view-home').classList.remove('active');
+  document.getElementById('view-student').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showHome() {
+  document.getElementById('view-student').classList.remove('active');
+  document.getElementById('view-home').classList.add('active');
+  renderHome();
+  window.scrollTo(0, 0);
+}
+
+function switchTab(tab) {
+  ['lessons','site','vocab','grammar'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+    document.getElementById('panel-'+t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'site')    loadFrame();
+  if (tab === 'vocab')   loadVocab();
+  if (tab === 'grammar') { initApiKeyUI(); loadGrammar(); }
+}
+
+// ── LESSON GRID ──
+function renderLessonGrid(gridId, lessons, studentId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  lessons.forEach(lesson => {
+    const status = getStatus(studentId, lesson.key);
+    const box = document.createElement('div');
+    box.className = `lesson-box ${status}${lesson.exam ? ' exam' : ''}`;
+    box.innerHTML = `
+      <div class="lesson-box-label">${lesson.label}</div>
+      <div class="lesson-box-status">${STATUS_LABEL[status]}</div>`;
+    box.onclick = () => {
+      const next = cycleStatus(studentId, lesson.key);
+      box.className = `lesson-box ${next}${lesson.exam ? ' exam' : ''}`;
+      box.querySelector('.lesson-box-status').textContent = STATUS_LABEL[next];
+    };
+    grid.appendChild(box);
+  });
+}
+
+// ── SITE EMBED ──
+function loadFrame() {
+  const frame   = document.getElementById('student-frame');
+  const blocked = document.getElementById('frame-blocked');
+  const link    = document.getElementById('frame-fallback-link');
+  const msg     = document.getElementById('frame-blocked-msg');
+  const urlIn   = document.getElementById('site-url-input');
+  const openBtn = document.getElementById('site-open-new');
+
+  // Populate URL editor with current student's saved URL
+  const currentUrl = currentStudent?.repo_url || '';
+  urlIn.value = currentUrl;
+  openBtn.href = currentUrl || '#';
+  openBtn.style.pointerEvents = currentUrl ? '' : 'none';
+  openBtn.style.opacity = currentUrl ? '' : '0.4';
+  document.getElementById('site-url-fb').textContent = '';
+
+  if (!currentUrl) {
+    frame.style.display = 'none';
+    blocked.style.display = 'flex';
+    msg.textContent = 'No site URL set — enter one above and click Save.';
+    frame.src = 'about:blank';
+    frame.dataset.loaded = '';
+    return;
+  }
+
+  link.href = currentUrl;
+
+  // Always force reload when student changes OR URL changes — no caching
+  const token = currentStudent.id + '|' + currentUrl;
+  if (frame.dataset.loaded === token) return;
+  frame.dataset.loaded = token;
+
+  blocked.style.display = 'none';
+  frame.style.display = 'block';
+  frame.src = 'about:blank';   // clear any previous student's page first
+  setTimeout(() => { frame.src = currentUrl; }, 30);
+
+  frame.onload = () => {
+    try { void frame.contentDocument?.title; }
+    catch {
+      frame.style.display = 'none';
+      blocked.style.display = 'flex';
+      msg.innerHTML = 'This site blocks embedding.<br>Open it directly instead.';
+    }
+  };
+}
+
+async function saveSiteUrl() {
+  if (!currentStudent) return;
+  const url = document.getElementById('site-url-input').value.trim();
+  const fb = document.getElementById('site-url-fb');
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
+  try {
+    await sb(`students?id=eq.${currentStudent.id}`, 'PATCH', { repo_url: url || null });
+    currentStudent.repo_url = url || null;
+    // Reflect in the in-memory students list
+    const s = students.find(x => x.id === currentStudent.id);
+    if (s) s.repo_url = url || null;
+    fb.style.color = 'var(--checked-text)';
+    fb.textContent = url ? 'URL saved — reloading…' : 'URL cleared.';
+    // Force reload
+    document.getElementById('student-frame').dataset.loaded = '';
+    loadFrame();
+    toast('Site URL updated');
+  } catch (e) {
+    fb.style.color = '#f87171';
+    fb.textContent = 'Save failed: ' + e.message;
+  }
+}
+
+function reloadSite() {
+  const frame = document.getElementById('student-frame');
+  frame.dataset.loaded = '';
+  loadFrame();
+}
+
+// ── BULK IMPORT ──
+let importedWords = [];
+
+async function lookupDefinition(word) {
+  const r = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+  if (!r.ok) return null;
+  const data = await r.json();
+  if (!Array.isArray(data) || !data[0]) return null;
+  const meaning = data[0].meanings?.[0];
+  const def = meaning?.definitions?.[0];
+  return {
+    definition: def?.definition || '',
+    example:    def?.example    || '',
+    pos:        meaning?.partOfSpeech || '',
+  };
+}
+
+async function translateWord(word) {
+  try {
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ru`);
+    const d = await r.json();
+    return d?.responseData?.translatedText || '';
+  } catch { return ''; }
+}
+
+async function bulkImport() {
+  const raw = document.getElementById('bulk-words').value;
+  const words = raw.split('\n').map(w => w.trim()).filter(Boolean);
+  if (!words.length) { toast('Paste some words first'); return; }
+
+  importedWords = [];
+  const progress   = document.getElementById('bulk-progress');
+  const statusEl   = document.getElementById('bulk-status');
+  const bar        = document.getElementById('bulk-progress-bar');
+  const previewEl  = document.getElementById('bulk-preview');
+  const saveBtn    = document.getElementById('bulk-save-btn');
+  const saveCount  = document.getElementById('bulk-save-count');
+
+  progress.style.display = 'block';
+  previewEl.innerHTML = '';
+  saveBtn.style.display = 'none';
+  saveCount.textContent = '';
+  bar.style.width = '0%';
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    statusEl.textContent = `Looking up "${word}"… (${i + 1}/${words.length})`;
+    bar.style.width = ((i / words.length) * 100) + '%';
+
+    const [dict, translation] = await Promise.all([
+      lookupDefinition(word),
+      translateWord(word),
+    ]);
+
+    const entry = {
+      word,
+      translation: translation || '',
+      definition:  dict?.definition || '',
+      example:     dict?.example    || '',
+      pos:         dict?.pos        || '',
+      ok:          true,
+    };
+    importedWords.push(entry);
+
+    const idx = importedWords.length - 1;
+    const card = document.createElement('div');
+    card.className = 'import-preview-card';
+    card.id = `ipc-${idx}`;
+    card.innerHTML = `
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">WORD</div>
+          <div style="font-weight:600;font-size:14px">${esc(word)}${entry.pos ? `<span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:5px">${esc(entry.pos)}</span>` : ''}</div>
+        </div>
+        <div style="flex:1;min-width:140px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TRANSLATION</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="translation" value="${esc(entry.translation)}" placeholder="translation" style="font-size:13px;padding:5px 8px">
+        </div>
+        <div style="flex:2;min-width:200px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">DEFINITION</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="definition" value="${esc(entry.definition)}" placeholder="definition" style="font-size:13px;padding:5px 8px">
+        </div>
+        <div style="flex:2;min-width:200px">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXAMPLE</div>
+          <input class="field ipc-field" data-idx="${idx}" data-field="example" value="${esc(entry.example)}" placeholder="example sentence" style="font-size:13px;padding:5px 8px">
+        </div>
+        <button onclick="removeImportEntry(${idx})" style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:18px;transition:color .15s" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+      </div>`;
+    previewEl.appendChild(card);
+
+    // live-update importedWords when fields are edited
+    card.querySelectorAll('.ipc-field').forEach(inp => {
+      inp.addEventListener('input', e => {
+        importedWords[e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+      });
+    });
+
+    if (dict === null) card.style.opacity = '0.5';
+  }
+
+  bar.style.width = '100%';
+  const found = importedWords.filter(e => e.ok).length;
+  statusEl.textContent = `Done — ${found} word${found !== 1 ? 's' : ''} ready to save`;
+  saveBtn.style.display = 'inline-block';
+  saveCount.textContent = `${found} word${found !== 1 ? 's' : ''} will be added`;
+}
+
+function removeImportEntry(idx) {
+  importedWords[idx].ok = false;
+  const card = document.getElementById(`ipc-${idx}`);
+  if (card) card.style.display = 'none';
+  const remaining = importedWords.filter(e => e.ok).length;
+  document.getElementById('bulk-save-count').textContent = `${remaining} word${remaining !== 1 ? 's' : ''} will be added`;
+  if (!remaining) document.getElementById('bulk-save-btn').style.display = 'none';
+}
+
+async function saveImported() {
+  const toSave = importedWords.filter(e => e.ok);
+  if (!toSave.length) return;
+  const btn = document.getElementById('bulk-save-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  try {
+    for (const e of toSave) {
+      await sb('vocab_words', 'POST', {
+        student_id:  currentStudent.id,
+        word:        e.word,
+        translation: e.translation || null,
+        example:     e.example || e.definition || null,
+      });
+    }
+    toast(`${toSave.length} word${toSave.length !== 1 ? 's' : ''} added to ${currentStudent.name}'s dictionary`);
+    document.getElementById('bulk-words').value = '';
+    document.getElementById('bulk-progress').style.display = 'none';
+    importedWords = [];
+    await loadVocab();
+  } catch(e) {
+    toast('Save failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Save all to dictionary'; btn.disabled = false;
+  }
+}
+
+// ── VOCABULARY ──
+async function loadVocab() {
+  const list = document.getElementById('vocab-list');
+  const count = document.getElementById('vocab-count');
+  list.innerHTML = `<div class="empty-state">Loading…</div>`;
+  try {
+    const rows = await sb(`vocab_words?student_id=eq.${currentStudent.id}&order=created_at.asc`) || [];
+    count.textContent = rows.length ? `· ${rows.length}` : '';
+    if (!rows.length) { list.innerHTML = `<div class="empty-state">No words added yet.</div>`; return; }
+    list.innerHTML = rows.map(r => `
+      <div class="item-card" id="vocab-${r.id}">
+        <div class="item-card-body">
+          <div class="item-card-main">${esc(r.word)}</div>
+          <div class="item-card-secondary">${esc(r.translation)}</div>
+          ${r.example ? `<div class="item-card-example">${esc(r.example)}</div>` : ''}
+        </div>
+        <button class="item-card-del" onclick="deleteVocab(${r.id})" title="Delete">×</button>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty-state" style="color:#f87171">${e.message}</div>`;
+  }
+}
+
+async function addVocab() {
+  const word    = document.getElementById('v-word').value.trim();
+  const trans   = document.getElementById('v-trans').value.trim();
+  const example = document.getElementById('v-example').value.trim();
+  const fb      = document.getElementById('vocab-fb');
+  if (!word || !trans) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Word and translation are required.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
+  try {
+    await sb('vocab_words', 'POST', {
+      student_id: currentStudent.id,
+      word, translation: trans, example: example || null
+    });
+    document.getElementById('v-word').value    = '';
+    document.getElementById('v-trans').value   = '';
+    document.getElementById('v-example').value = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `"${word}" added.`;
+    await loadVocab();
+    toast(`"${word}" added to ${currentStudent.name}'s dictionary`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
+}
+
+async function deleteVocab(id) {
+  if (!confirm('Remove this word?')) return;
+  try {
+    await sb(`vocab_words?id=eq.${id}`, 'DELETE');
+    document.getElementById(`vocab-${id}`)?.remove();
+    toast('Word removed');
+    await loadVocab();
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
+// ── API KEY ──
+function saveApiKey() {
+  const key = document.getElementById('claude-apikey').value.trim();
+  const fb  = document.getElementById('apikey-fb');
+  if (!key.startsWith('sk-ant-')) { fb.style.color='#f87171'; fb.textContent = 'Key should start with sk-ant-'; return; }
+  localStorage.setItem('claude_api_key', key);
+  document.getElementById('claude-apikey').value = '';
+  document.getElementById('apikey-status').innerHTML = '<span style="color:var(--checked-text)">· saved</span>';
+  fb.style.color = 'var(--checked-text)'; fb.textContent = 'Saved.';
+}
+
+function getApiKey() { return localStorage.getItem('claude_api_key') || ''; }
+
+function initApiKeyUI() {
+  const key = getApiKey();
+  const status = document.getElementById('apikey-status');
+  if (key) status.innerHTML = '<span style="color:var(--checked-text)">· saved</span>';
+  else status.innerHTML = '<span style="color:var(--muted2)">· not set</span>';
+}
+
+// ── GRAMMAR BULK GENERATE ──
+let importedRules = [];
+
+async function generateGrammarRule(input) {
+  const key = getApiKey();
+  if (!key) throw new Error('No API key — save your Claude API key first.');
+
+  const prompt = `You are an English teacher creating grammar notes for a student.
+
+Input: "${input}"
+
+This is either a grammar topic name OR a student's error sentence.
+
+Respond with ONLY a JSON object, no other text:
+{
+  "title": "short title for the rule (max 60 chars)",
+  "explanation": "clear explanation with the rule, why it matters, correct form if it was an error, and 2-3 short example sentences. Keep it under 200 words. Use simple language."
+}
+
+If it is an error sentence: identify the mistake, name it, show the corrected version, explain the rule.
+If it is a topic: explain the rule clearly with examples.`;
+
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+
+  if (!r.ok) {
+    const err = await r.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `API error ${r.status}`);
+  }
+
+  const data = await r.json();
+  const text = data.content?.[0]?.text || '';
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('Unexpected response format');
+  return JSON.parse(match[0]);
+}
+
+async function bulkGrammar() {
+  const key = getApiKey();
+  if (!key) { toast('Save your Claude API key first (at the top of the Grammar tab)'); return; }
+
+  const raw   = document.getElementById('bulk-grammar').value;
+  const items = raw.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!items.length) { toast('Paste some topics or errors first'); return; }
+
+  importedRules = [];
+  const progress  = document.getElementById('grammar-bulk-progress');
+  const statusEl  = document.getElementById('grammar-bulk-status');
+  const bar       = document.getElementById('grammar-bulk-bar');
+  const previewEl = document.getElementById('grammar-bulk-preview');
+  const saveBtn   = document.getElementById('grammar-save-btn');
+  const saveCount = document.getElementById('grammar-save-count');
+
+  progress.style.display = 'block';
+  previewEl.innerHTML = '';
+  saveBtn.style.display = 'none';
+  saveCount.textContent = '';
+  bar.style.width = '0%';
+
+  for (let i = 0; i < items.length; i++) {
+    const input = items[i];
+    statusEl.textContent = `Generating "${input}"… (${i + 1}/${items.length})`;
+    bar.style.width = ((i / items.length) * 100) + '%';
+
+    let rule = { title: input, explanation: '', ok: true, error: null };
+    try {
+      const result = await generateGrammarRule(input);
+      rule.title       = result.title || input;
+      rule.explanation = result.explanation || '';
+    } catch(e) {
+      rule.error = e.message;
+      rule.ok    = false;
+    }
+    importedRules.push(rule);
+
+    const idx  = importedRules.length - 1;
+    const card = document.createElement('div');
+    card.className = 'import-preview-card';
+    card.id = `igc-${idx}`;
+
+    if (rule.error) {
+      card.style.borderColor = '#7f1d1d';
+      card.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:4px">${esc(input)}</div>
+            <div style="font-size:12px;color:#f87171">${esc(rule.error)}</div>
+          </div>
+          <button onclick="retryRule(${idx},'${esc(input).replace(/'/g,"\\'")}')" class="btn" style="font-size:11px;flex-shrink:0">Retry</button>
+        </div>`;
+    } else {
+      card.innerHTML = `
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TITLE</div>
+            <input class="field igc-field" data-idx="${idx}" data-field="title"
+              value="${esc(rule.title)}" style="font-size:13px;padding:5px 8px;margin-bottom:8px;font-weight:600">
+            <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXPLANATION</div>
+            <textarea class="field igc-field" data-idx="${idx}" data-field="explanation"
+              rows="4" style="font-size:13px;padding:5px 8px;line-height:1.6;white-space:pre-wrap">${esc(rule.explanation)}</textarea>
+          </div>
+          <button onclick="removeGrammarEntry(${idx})"
+            style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:16px;transition:color .15s"
+            onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+        </div>`;
+      card.querySelectorAll('.igc-field').forEach(inp => {
+        inp.addEventListener('input', e => {
+          importedRules[+e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+        });
+      });
+    }
+
+    previewEl.appendChild(card);
+  }
+
+  bar.style.width = '100%';
+  const ok = importedRules.filter(r => r.ok).length;
+  statusEl.textContent = `Done — ${ok} rule${ok !== 1 ? 's' : ''} ready to save`;
+  if (ok) { saveBtn.style.display = 'inline-block'; saveCount.textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`; }
+}
+
+async function retryRule(idx, input) {
+  const card = document.getElementById(`igc-${idx}`);
+  card.innerHTML = `<div style="font-size:12px;color:var(--muted)">Retrying "${esc(input)}"…</div>`;
+  try {
+    const result = await generateGrammarRule(input);
+    importedRules[idx] = { title: result.title || input, explanation: result.explanation || '', ok: true, error: null };
+    const r = importedRules[idx];
+    card.style.borderColor = '';
+    card.innerHTML = `
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">TITLE</div>
+          <input class="field igc-field" data-idx="${idx}" data-field="title"
+            value="${esc(r.title)}" style="font-size:13px;padding:5px 8px;margin-bottom:8px;font-weight:600">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:3px">EXPLANATION</div>
+          <textarea class="field igc-field" data-idx="${idx}" data-field="explanation"
+            rows="4" style="font-size:13px;padding:5px 8px;line-height:1.6">${esc(r.explanation)}</textarea>
+        </div>
+        <button onclick="removeGrammarEntry(${idx})"
+          style="background:none;border:none;color:var(--muted2);cursor:pointer;font-size:18px;padding:0 2px;margin-top:16px"
+          onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--muted2)'">×</button>
+      </div>`;
+    card.querySelectorAll('.igc-field').forEach(inp => {
+      inp.addEventListener('input', e => {
+        importedRules[+e.target.dataset.idx][e.target.dataset.field] = e.target.value;
+      });
+    });
+    const ok = importedRules.filter(r => r.ok).length;
+    document.getElementById('grammar-save-btn').style.display = ok ? 'inline-block' : 'none';
+    document.getElementById('grammar-save-count').textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`;
+  } catch(e) {
+    card.innerHTML = `<div style="font-size:12px;color:#f87171">Failed: ${esc(e.message)}</div>`;
+  }
+}
+
+function removeGrammarEntry(idx) {
+  importedRules[idx].ok = false;
+  document.getElementById(`igc-${idx}`)?.style && (document.getElementById(`igc-${idx}`).style.display = 'none');
+  const ok = importedRules.filter(r => r.ok).length;
+  document.getElementById('grammar-save-count').textContent = `${ok} rule${ok !== 1 ? 's' : ''} will be added`;
+  if (!ok) document.getElementById('grammar-save-btn').style.display = 'none';
+}
+
+async function saveGrammarImported() {
+  const toSave = importedRules.filter(r => r.ok && r.explanation);
+  if (!toSave.length) return;
+  const btn = document.getElementById('grammar-save-btn');
+  btn.textContent = 'Saving…'; btn.disabled = true;
+  try {
+    for (const r of toSave) {
+      await sb('grammar_rules', 'POST', {
+        student_id:  currentStudent.id,
+        title:       r.title,
+        explanation: r.explanation,
+      });
+    }
+    toast(`${toSave.length} rule${toSave.length !== 1 ? 's' : ''} added for ${currentStudent.name}`);
+    document.getElementById('bulk-grammar').value = '';
+    document.getElementById('grammar-bulk-progress').style.display = 'none';
+    importedRules = [];
+    await loadGrammar();
+  } catch(e) {
+    toast('Save failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Save all rules'; btn.disabled = false;
+  }
+}
+
+// ── GRAMMAR ──
+async function loadGrammar() {
+  const list  = document.getElementById('grammar-list');
+  const count = document.getElementById('grammar-count');
+  list.innerHTML = `<div class="empty-state">Loading…</div>`;
+  try {
+    const rows = await sb(`grammar_rules?student_id=eq.${currentStudent.id}&order=created_at.asc`) || [];
+    count.textContent = rows.length ? `· ${rows.length}` : '';
+    if (!rows.length) { list.innerHTML = `<div class="empty-state">No rules added yet.</div>`; return; }
+    list.innerHTML = rows.map(r => `
+      <div class="item-card" id="grammar-${r.id}">
+        <div class="item-card-body">
+          <div class="item-card-main">${esc(r.title)}</div>
+          <div class="item-card-example" style="font-style:normal;margin-top:4px;white-space:pre-wrap;line-height:1.6">${esc(r.explanation)}</div>
+        </div>
+        <button class="item-card-del" onclick="deleteGrammar(${r.id})" title="Delete">×</button>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty-state" style="color:#f87171">${e.message}</div>`;
+  }
+}
+
+async function addGrammar() {
+  const title  = document.getElementById('g-title').value.trim();
+  const expl   = document.getElementById('g-explanation').value.trim();
+  const fb     = document.getElementById('grammar-fb');
+  if (!title || !expl) { fb.style.color = 'var(--sent-text)'; fb.textContent = 'Title and explanation are required.'; return; }
+  fb.style.color = 'var(--muted)'; fb.textContent = 'Saving…';
+  try {
+    await sb('grammar_rules', 'POST', {
+      student_id: currentStudent.id,
+      title, explanation: expl
+    });
+    document.getElementById('g-title').value       = '';
+    document.getElementById('g-explanation').value = '';
+    fb.style.color = 'var(--checked-text)'; fb.textContent = `"${title}" added.`;
+    await loadGrammar();
+    toast(`Rule added for ${currentStudent.name}`);
+  } catch(e) { fb.style.color = '#f87171'; fb.textContent = e.message; }
+}
+
+async function deleteGrammar(id) {
+  if (!confirm('Remove this rule?')) return;
+  try {
+    await sb(`grammar_rules?id=eq.${id}`, 'DELETE');
+    document.getElementById(`grammar-${id}`)?.remove();
+    toast('Rule removed');
+    await loadGrammar();
+  } catch(e) { toast('Error: ' + e.message); }
+}
+
+// ── UTILS ──
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let _toastTimer;
+function toast(msg) {
+  document.querySelector('.toast')?.remove();
+  clearTimeout(_toastTimer);
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  _toastTimer = setTimeout(() => el.remove(), 2600);
+}
+
+// ── INIT ──
+async function init() {
+  const dot = document.getElementById('conn-dot');
+  const txt = document.getElementById('conn-text');
+  try {
+    students = await sb('students?order=added_at.asc') || [];
+    dot.className = 'ok'; txt.textContent = 'Connected';
+    renderHome();
+  } catch(e) {
+    dot.className = 'err'; txt.textContent = 'Offline';
+    renderHome();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
