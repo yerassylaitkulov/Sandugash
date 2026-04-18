@@ -581,7 +581,7 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
 <body>
 
 <header>
-  <div class="logo">English <span class="logo-sub">· Aiganym's portal</span></div>
+  <div class="logo">English <span class="logo-sub">· <span id="portal-owner"></span>'s portal</span></div>
   <div class="ref-pills">
     <button class="ref-pill" data-ref="grammar">
       <span class="pill-dot"></span>Grammar
@@ -674,118 +674,11 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
     <div class="ref-panel active" id="rp-grammar">
       <div id="gram-empty" class="empty-result" style="display:none">No rules found.</div>
 
-      <div class="grule" data-keys="comparative superlative adjective as as bigger best more">
-        <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Comparison</span>
-        <h3>Comparative &amp; superlative</h3>
-        <p>Use <strong>comparative</strong> for two things; <strong>superlative</strong> for the most/least. <strong>As…as</strong> = equal.</p>
-        <table class="gtable"><tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
-          <tr><td>tall</td><td>taller than</td><td>the tallest</td></tr>
-          <tr><td>beautiful</td><td>more beautiful than</td><td>the most beautiful</td></tr>
-          <tr><td>good</td><td>better than</td><td>the best</td></tr>
-          <tr><td>bad</td><td>worse than</td><td>the worst</td></tr>
-        </table>
-        <div class="gex">She is <strong>taller than</strong> her sister. / She is <strong>as tall as</strong> her friend.</div>
+      
+      <div id="gram-list">
+        <div class="empty-result" id="gram-loading">Loading grammar rules…</div>
       </div>
 
-      <div class="grule" data-keys="must have to should obligation advice dont have to mustn't modal">
-        <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Modals</span>
-        <h3>Must / have to / should</h3>
-        <p><strong>Must</strong> = strong obligation. <strong>Have to</strong> = external rule. <strong>Should</strong> = advice. <strong>Don't have to</strong> = optional.</p>
-        <div class="gex">You <strong>must</strong> study. / You <strong>should</strong> take notes. / You <strong>don't have to</strong> come.</div>
-      </div>
-
-      <div class="grule" data-keys="have got haven't got possession don't have">
-        <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Have got</span>
-        <h3>Have got / haven't got</h3>
-        <p><strong>Have got</strong> = possession (British English). Same as "have / don't have".</p>
-        <div class="gex">I <strong>haven't got</strong> a pen. = I <strong>don't have</strong> a pen.</div>
-      </div>
-
-      <div class="grule" data-keys="past simple past continuous while when was were ing interrupted">
-        <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Past tenses</span>
-        <h3>Past Simple vs Past Continuous</h3>
-        <p><strong>Past Continuous</strong>: was/were + -ing → background action.<br><strong>Past Simple</strong> → interrupts it.</p>
-        <div class="gex">I <strong>was reading</strong> when she <strong>arrived</strong>.</div>
-      </div>
-
-      <div class="grule" data-keys="past perfect had already before by the time first earlier">
-        <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Past tenses</span>
-        <h3>Past Perfect</h3>
-        <p>The action that happened <em>first</em>. Form: <strong>had + past participle</strong>.</p>
-        <div class="gex">She <strong>had already left</strong> when I arrived.</div>
-      </div>
-
-      <div class="grule" data-keys="passive voice is are was were past participle by action subject">
-        <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Passive</span>
-        <h3>Passive voice</h3>
-        <p>Focus on the action, not who does it. Form: <strong>is/are/was/were + past participle</strong>.</p>
-        <div class="gex"><em>Active:</em> People consider this valuable.<br><strong>Passive:</strong> This <strong>is considered</strong> valuable.</div>
-      </div>
-
-      <div class="grule" data-keys="present perfect for since ever never always have has just already yet">
-        <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Present Perfect</span>
-        <h3>Present Perfect — for / since / ever / never</h3>
-        <p>Form: <strong>have/has + past participle</strong>. Past action connected to now.</p>
-        <div class="gex">I <strong>have lived</strong> here <strong>for</strong> 5 years. / Have you <strong>ever</strong> visited London?</div>
-      </div>
-
-      <div class="grule" data-keys="present perfect past simple difference when yesterday last year specific time finished">
-        <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Present Perfect</span>
-        <h3>Present Perfect vs Past Simple</h3>
-        <p><strong>Past Simple</strong>: finished time (yesterday, last year). <strong>Present Perfect</strong>: no specific time, result matters now.</p>
-        <table class="gtable"><tr><th>Past Simple ✓</th><th>Present Perfect ✓</th></tr>
-          <tr><td>I went to Paris last year.</td><td>I have been to Paris.</td></tr>
-          <tr><td>She lost her keys yesterday.</td><td>She has lost her keys!</td></tr>
-        </table>
-      </div>
-
-      <div class="grule" data-keys="future going to will present continuous plans arrangements spontaneous prediction">
-        <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Future</span>
-        <h3>Going to / will / Present Continuous</h3>
-        <table class="gtable"><tr><th>Form</th><th>Use</th><th>Example</th></tr>
-          <tr><td><strong>going to</strong></td><td>plans &amp; evidence</td><td>It's going to rain!</td></tr>
-          <tr><td><strong>will</strong></td><td>spontaneous, promises</td><td>I'll help you!</td></tr>
-          <tr><td><strong>Pres. Cont.</strong></td><td>fixed arrangements</td><td>I'm meeting her at 6.</td></tr>
-        </table>
-      </div>
-
-      <div class="grule" data-keys="articles a an the zero no article general specific first mention">
-        <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Articles</span>
-        <h3>Articles — a / an / the / Ø</h3>
-        <table class="gtable"><tr><th>Article</th><th>When</th><th>Example</th></tr>
-          <tr><td><strong>a / an</strong></td><td>First mention; one of many</td><td>I saw a dog.</td></tr>
-          <tr><td><strong>the</strong></td><td>Both know which one</td><td>The dog barked.</td></tr>
-          <tr><td><strong>Ø</strong></td><td>General / uncountable</td><td>I love dogs.</td></tr>
-        </table>
-      </div>
-
-      <div class="grule" data-keys="so such so much so many intensifier adjective noun uncountable countable">
-        <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Intensifiers</span>
-        <h3>So / such / so much / so many</h3>
-        <p><strong>So</strong> + adj/adv. <strong>Such (a)</strong> + noun. <strong>So much</strong> + uncountable. <strong>So many</strong> + plural.</p>
-        <div class="gex">It was <strong>so</strong> cold. / She is <strong>such</strong> a kind person.<br>There was <strong>so much</strong> snow. / <strong>So many</strong> people.</div>
-      </div>
-
-      <div class="grule" data-keys="irregular verbs send sent sell sold bring brought bite bit find found take took">
-        <span class="gtag" style="background:var(--danger-bg);color:var(--danger)">Irregular verbs</span>
-        <h3>Key irregular verb forms</h3>
-        <table class="gtable"><tr><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th></tr>
-          <tr><td>send</td><td>sent</td><td>sent</td></tr>
-          <tr><td>sell</td><td>sold</td><td>sold</td></tr>
-          <tr><td>bring</td><td>brought</td><td>brought</td></tr>
-          <tr><td>find</td><td>found</td><td>found</td></tr>
-          <tr><td>bite</td><td>bit</td><td>bitten</td></tr>
-          <tr><td>take</td><td>took</td><td>taken</td></tr>
-          <tr><td>carry</td><td>carried</td><td>carried</td></tr>
-        </table>
-      </div>
-
-      <div class="grule" data-keys="well badly prefix hyphen compound adjective well-known badly-managed">
-        <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Prefixes</span>
-        <h3>Well- and Badly- compound adjectives</h3>
-        <p>Use a <strong>hyphen before a noun</strong>. No hyphen after a verb.</p>
-        <div class="gex">A <strong>well-known</strong> author. / The author is <strong>well known</strong>.</div>
-      </div>
     </div>
 
     <!-- DICTIONARY -->
@@ -1196,38 +1089,50 @@ function speak(w) {
 // ── HOMEWORK LOADER ──
 // ══════════════════════════════════════════════════════════════
 async function loadHWFromSupabase() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  if (!SUPABASE_URL || !SUPABASE_KEY) { renderHWGrid(); return; }
+
+  // Default: everything locked, empty questions
+  for (let hw = 1; hw <= 6; hw++) {
+    hwQuestions[hw] = [];
+    lessonState['hw' + hw] = { status: 'locked' };
+  }
+  lessonState['midterm'] = { status: 'locked' };
+  renderHWGrid();
+
+  // Need student id to fetch their specific homework
+  const id = await resolveStudentId();
+  if (!id) return;   // no student found → stay empty
+
   try {
     const [qs, statuses] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/hw_questions?order=hw_number.asc,ex_number.asc`, {
+      fetch(`${SUPABASE_URL}/rest/v1/hw_questions?student_id=eq.${id}&order=hw_number.asc,ex_number.asc`, {
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      }).then(r => r.json()),
-      fetch(`${SUPABASE_URL}/rest/v1/hw_status?order=hw_number.asc`, {
+      }).then(r => r.json()).catch(() => []),
+      fetch(`${SUPABASE_URL}/rest/v1/hw_status?student_id=eq.${id}&order=hw_number.asc`, {
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      }).then(r => r.json())
+      }).then(r => r.json()).catch(() => [])
     ]);
+
     const statusMap = {};
-    statuses.forEach(s => statusMap[s.hw_number] = s);
+    if (Array.isArray(statuses)) statuses.forEach(s => statusMap[s.hw_number] = s);
 
     for (let hw = 1; hw <= 6; hw++) {
-      const st = statusMap[hw];
-      const locked = st ? st.is_locked : hw > 1;
-      const hwQs = qs.filter(q => q.hw_number === hw);
+      const hwQs = Array.isArray(qs) ? qs.filter(q => q.hw_number === hw) : [];
       hwQuestions[hw] = hwQs;
-      lessonState['hw' + hw] = { status: locked ? 'locked' : 'open' };
+
+      const st = statusMap[hw];
+      // Locked by default. Only open if teacher explicitly set is_locked=false
+      // AND there are questions available for this HW
+      let status = 'locked';
+      if (st && st.is_locked === false && hwQs.length > 0) status = 'open';
+      if (st && st.is_done === true) status = 'done';
+      lessonState['hw' + hw] = { status };
     }
-    // Midterm always locked until all 6 done
-    lessonState['midterm'] = { status: 'locked' };
 
     renderHWGrid();
   } catch (e) {
     console.warn('HW load failed:', e);
-    // fallback: HW1 open, rest locked
-    for (let hw = 1; hw <= 6; hw++) {
-      lessonState['hw' + hw] = { status: hw === 1 ? 'open' : 'locked' };
-    }
-    lessonState['midterm'] = { status: 'locked' };
-    renderHWGrid();
+    // Keep the default locked state
   }
 }
 
@@ -1322,13 +1227,102 @@ async function saveToSupabase(hwNum, pct, correct, total) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// ── LOAD GRAMMAR & VOCAB FROM SUPABASE (teacher-managed) ──
+// ══════════════════════════════════════════════════════════════
+let MY_STUDENT_ID = null;
+
+async function resolveStudentId() {
+  if (MY_STUDENT_ID) return MY_STUDENT_ID;
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/students?name=eq.${encodeURIComponent(STUDENT_NAME)}&select=id`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    const rows = await r.json();
+    if (rows && rows[0]) MY_STUDENT_ID = rows[0].id;
+  } catch (e) { console.warn('student lookup failed:', e); }
+  return MY_STUDENT_ID;
+}
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+async function loadGrammarFromSupabase() {
+  const list = document.getElementById('gram-list');
+  if (!list) return;
+  const id = await resolveStudentId();
+  if (!id) {
+    list.innerHTML = '<div class="empty-result">No grammar rules yet. Your teacher will add them soon.</div>';
+    return;
+  }
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/grammar_rules?student_id=eq.${id}&order=created_at.asc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    const rows = await r.json();
+    if (!Array.isArray(rows) || !rows.length) {
+      list.innerHTML = '<div class="empty-result">No grammar rules yet. Your teacher will add them soon.</div>';
+      return;
+    }
+    list.innerHTML = rows.map(row => {
+      // Build searchable data-keys from title
+      const keys = (row.title || '').toLowerCase();
+      // Convert line breaks in explanation to <br>
+      const explHtml = esc(row.explanation || '').replace(/\n/g, '<br>');
+      return `
+        <div class="grule" data-keys="${esc(keys)}">
+          <h3>${esc(row.title)}</h3>
+          <p style="white-space:pre-wrap">${explHtml}</p>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    console.warn('grammar load failed:', e);
+    list.innerHTML = '<div class="empty-result" style="color:var(--danger)">Couldn\'t load grammar rules.</div>';
+  }
+}
+
+async function loadVocabFromSupabase() {
+  const id = await resolveStudentId();
+  if (!id) { renderDict(); return; }
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/vocab_words?student_id=eq.${id}&order=created_at.asc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+    });
+    const rows = await r.json();
+    if (Array.isArray(rows)) {
+      // Clear and push
+      words.length = 0;
+      rows.forEach(row => {
+        words.push({
+          w: row.word || '',
+          t: row.translation || '',
+          pos: row.pos || 'noun',
+          s: row.stars || 3,
+          ipa: row.ipa || null,
+        });
+      });
+    }
+  } catch (e) { console.warn('vocab load failed:', e); }
+  renderDict();
+}
+
+// ══════════════════════════════════════════════════════════════
 // ── INIT ──
 // ══════════════════════════════════════════════════════════════
+
+// Set header and document title from STUDENT_NAME
+document.getElementById('portal-owner').textContent = STUDENT_NAME;
+document.title = 'English with ' + STUDENT_NAME;
+
 renderDict();
 renderPron();
 updateBars();
 renderHWGrid();
 loadHWFromSupabase();
+loadGrammarFromSupabase();
+loadVocabFromSupabase();
 </script>
 </body>
 </html>
