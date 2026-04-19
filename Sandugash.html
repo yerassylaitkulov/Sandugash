@@ -551,6 +551,108 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
   pointer-events: auto;
 }
 
+/* ── TEST CARD (home) ── */
+.test-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 36px;
+  max-width: 520px;
+}
+.test-card-title { font-size: 22px; font-weight: 600; letter-spacing: -.3px; margin-bottom: 6px; }
+.test-card-sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+.test-stats {
+  display: flex; gap: 20px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.test-stat {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  text-align: center;
+  min-width: 80px;
+}
+.test-stat-val { font-size: 20px; font-weight: 600; }
+.test-stat-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px; }
+.test-last { font-size: 12px; color: var(--muted); margin-bottom: 20px; min-height: 16px; }
+.test-start-btn { font-size: 14px; padding: 10px 28px; }
+
+/* ── EXAM ── */
+.exam-hdr {
+  position: sticky; top: 73px;
+  background: var(--bg); padding: 12px 0 10px;
+  z-index: 5; border-bottom: 1px solid var(--border); margin-bottom: 22px;
+}
+.exam-prog-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.exam-prog-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.exam-prog-fill { height: 100%; background: var(--sent-text); border-radius: 2px; transition: width .4s ease; width: 0; }
+.exam-timer { font-size: 15px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; min-width: 48px; text-align: right; letter-spacing: .04em; }
+.exam-timer.timer-red { color: var(--danger); }
+.exam-meta-row { display: flex; align-items: center; justify-content: space-between; }
+.exam-q-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+.exam-back { margin: 0; }
+
+.exam-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 24px; margin-bottom: 14px;
+}
+.exam-card-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--sent-text); margin-bottom: 10px; }
+.exam-prompt { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+.exam-sentence {
+  background: var(--bg); border: 1px solid var(--warn-border);
+  border-left: 3px solid var(--warn-text);
+  border-radius: 0 6px 6px 0; padding: 10px 14px;
+  font-size: 14px; font-weight: 500; margin-bottom: 16px; color: var(--warn-text);
+}
+.exam-audio { width: 100%; margin-bottom: 16px; opacity: .85; }
+.exam-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border); }
+
+.exam-fields { display: flex; flex-direction: column; gap: 12px; }
+.exam-field { display: flex; flex-direction: column; gap: 5px; }
+.exam-field-lbl { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.exam-input {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px;
+  font-family: inherit; font-size: 13px; color: var(--text);
+  outline: none; transition: border-color .15s;
+}
+.exam-input:focus { border-color: var(--border-hover); }
+.exam-textarea { resize: vertical; min-height: 110px; }
+
+.exam-q-text { font-size: 14px; font-weight: 500; line-height: 1.6; margin-bottom: 14px; }
+.exam-blank { color: var(--sent-text); font-weight: 700; }
+.exam-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.exam-opt {
+  padding: 8px 18px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 20px;
+  font-family: inherit; font-size: 13px; color: var(--text);
+  cursor: pointer; transition: all .15s;
+}
+.exam-opt:hover { border-color: var(--border-hover); }
+.exam-opt.selected { background: var(--sent-bg); border-color: var(--sent-border); color: var(--sent-text); }
+.exam-hint { font-size: 11.5px; color: var(--muted2); margin-bottom: 10px; font-style: italic; }
+.exam-prev-ans {
+  font-size: 12px; color: var(--muted); padding: 8px 12px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; margin-bottom: 14px;
+}
+.exam-nav { margin-top: 6px; }
+
+/* ── EXAM SUMMARY ── */
+.sum-header { padding: 0 0 18px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.sum-title { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+.sum-sub { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.sum-list { display: flex; flex-direction: column; gap: 8px; }
+.sum-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; }
+.sum-ql { font-size: 10px; font-weight: 600; color: var(--sent-text); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.sum-q { font-size: 12px; color: var(--muted); margin-bottom: 6px; font-style: italic; line-height: 1.5; }
+.sum-a { font-size: 13px; line-height: 1.7; }
+.sum-time { font-size: 11px; color: var(--muted2); margin-top: 6px; }
+.sum-ok { color: var(--checked-text); }
+.sum-err { color: var(--danger); }
+.sum-hint { font-size: 11px; color: var(--warn-text); margin-left: 6px; }
+.sum-auto { font-size: 9px; font-weight: 600; letter-spacing: .06em; color: var(--muted2); background: var(--surface-2); padding: 1px 5px; border-radius: 3px; vertical-align: middle; }
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -597,39 +699,19 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
 
 <!-- ══ HOME VIEW ══ -->
 <div class="view view-section active" id="view-home">
-
-  <div class="section-label">Homework</div>
-  <div class="half-label">First half · HW 1–6 + Midterm</div>
-  <div class="lessons-grid" id="grid-hw"></div>
-
-</div><!-- /view-home -->
-
-<!-- ══ HOMEWORK DETAIL VIEW ══ -->
-<div class="view view-section" id="view-hw">
-  <button class="back-btn" onclick="showHome()">← All homework</button>
-  <div id="hw-detail-body"></div>
+  <div class="section-label">Final Revision</div>
+  <div class="test-card" id="test-card">
+    <div class="test-card-title">Final Revision Test</div>
+    <div class="test-card-sub">Vocabulary · Grammar · Pronunciation — all topics in one test</div>
+    <div class="test-stats" id="test-stats"></div>
+    <div class="test-last" id="test-last"></div>
+    <button class="btn primary test-start-btn" onclick="startExam()">Start Exam</button>
+  </div>
 </div>
 
-<!-- ══ MIDTERM VIEW ══ -->
-<div class="view view-section" id="view-midterm">
-  <button class="back-btn" onclick="showHome()">← All homework</button>
-  <div class="hw-title">Midterm</div>
-  <div class="hw-sub">Complete all 6 homeworks to unlock</div>
-  <div class="hw-panel">
-    <div class="mtlock">
-      <div class="mtlock-ico">🔒</div>
-      <h3>Midterm is locked</h3>
-      <p>Finish all 6 homeworks to unlock your midterm exam.</p>
-      <div class="mt-dots">
-        <div class="mtd" id="mtd1">1</div>
-        <div class="mtd" id="mtd2">2</div>
-        <div class="mtd" id="mtd3">3</div>
-        <div class="mtd" id="mtd4">4</div>
-        <div class="mtd" id="mtd5">5</div>
-        <div class="mtd" id="mtd6">6</div>
-      </div>
-    </div>
-  </div>
+<!-- ══ TEST VIEW ══ -->
+<div class="view view-section" id="view-test">
+  <div id="test-body"></div>
 </div>
 
 <!-- ══ BACKDROP ══ -->
@@ -676,7 +758,216 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
 
       
       <div id="gram-list">
-        <div class="empty-result" id="gram-loading">Loading grammar rules…</div>
+
+        <div class="grule" data-keys="comparative superlative than bigger biggest more most">
+          <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Comparison</span>
+          <h3>Comparative & Superlative</h3>
+          <p><strong>Comparative</strong> compares two things. <strong>Superlative</strong> picks one out of many.</p>
+          <div class="gex">
+            <em>Short adj:</em> fast → <strong>faster</strong> → <strong>the fastest</strong><br>
+            <em>Long adj:</em> beautiful → <strong>more beautiful</strong> → <strong>the most beautiful</strong><br>
+            <em>Irregular:</em> good → <strong>better</strong> → <strong>the best</strong>; bad → <strong>worse</strong> → <strong>the worst</strong>
+          </div>
+        </div>
+
+        <div class="grule" data-keys="as as equality same not">
+          <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Comparison</span>
+          <h3>as … as (equality)</h3>
+          <p>Use <strong>as + adj/adv + as</strong> to say two things are equal. Use <strong>not as … as</strong> for inequality.</p>
+          <div class="gex">
+            She is <strong>as tall as</strong> her brother.<br>
+            This test wasn't <strong>as difficult as</strong> the last one.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="have to must should modal obligation advice">
+          <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Modals</span>
+          <h3>have to / must / should</h3>
+          <p><strong>must / have to</strong> = obligation (necessary). <strong>should</strong> = advice (a good idea).</p>
+          <div class="gex">
+            You <strong>must</strong> wear a seatbelt. <em>(rule)</em><br>
+            I <strong>have to</strong> study tonight. <em>(external obligation)</em><br>
+            You <strong>should</strong> drink more water. <em>(advice)</em>
+          </div>
+        </div>
+
+        <div class="grule" data-keys="don't have haven't got possession negative modals">
+          <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Modals</span>
+          <h3>don't have to vs haven't got</h3>
+          <p><strong>don't have to</strong> = no obligation (you can if you want). <strong>haven't got / don't have</strong> = do not possess.</p>
+          <div class="gex">
+            You <strong>don't have to</strong> come — it's optional.<br>
+            I <strong>haven't got</strong> a pen. = I <strong>don't have</strong> a pen.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="past perfect had done before v3">
+          <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Past tense</span>
+          <h3>Past Perfect</h3>
+          <p>Use <strong>had + V3</strong> for something that happened <em>before</em> another past action.</p>
+          <div class="gex">
+            When I arrived, the film <strong>had already started</strong>.<br>
+            She <strong>had finished</strong> her homework before dinner.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="past continuous was were ing progressive">
+          <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Past tense</span>
+          <h3>Past Continuous</h3>
+          <p>Use <strong>was / were + V-ing</strong> for an action in progress in the past.</p>
+          <div class="gex">
+            I <strong>was reading</strong> when the phone rang.<br>
+            They <strong>were playing</strong> football at 5 o'clock.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="passive be past participle voice by">
+          <span class="gtag" style="background:var(--sent-bg);color:var(--sent-text)">Voice</span>
+          <h3>Passive voice</h3>
+          <p>The subject <strong>receives</strong> the action: <strong>be + V3</strong>. Use when the action matters more than the doer.</p>
+          <div class="gex">
+            The letter <strong>was written</strong> yesterday.<br>
+            English <strong>is spoken</strong> all over the world.<br>
+            The thief <strong>was captured</strong> by the police.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="so such much many intensifier quantifier">
+          <span class="gtag" style="background:var(--warn-bg);color:var(--warn-text)">Intensifiers</span>
+          <h3>so / such / so much / so many</h3>
+          <p><strong>so</strong> + adj/adv. <strong>such</strong> + (adj) + noun. <strong>so much</strong> + uncountable. <strong>so many</strong> + countable plural.</p>
+          <div class="gex">
+            It's <strong>so</strong> cold today.<br>
+            She's <strong>such</strong> a kind person.<br>
+            I have <strong>so much</strong> work today.<br>
+            There were <strong>so many</strong> people at the party.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="irregular verbs send sent find found sell sold bring brought bite">
+          <span class="gtag" style="background:var(--danger-bg);color:var(--danger)">Irregular verbs</span>
+          <h3>Tricky irregular verbs</h3>
+          <p>Memorise base → past → past participle. Watch out for <strong>find</strong> (to discover) vs <strong>found</strong> (to establish).</p>
+          <table class="gtable">
+            <tr><th>Base</th><th>Past</th><th>Past Participle</th></tr>
+            <tr><td>send</td><td>sent</td><td>sent</td></tr>
+            <tr><td>find</td><td>found</td><td>found</td></tr>
+            <tr><td>found <em>(establish)</em></td><td>founded</td><td>founded</td></tr>
+            <tr><td>sell</td><td>sold</td><td>sold</td></tr>
+            <tr><td>bring</td><td>brought</td><td>brought</td></tr>
+            <tr><td>bite</td><td>bit</td><td>bitten</td></tr>
+          </table>
+        </div>
+
+        <div class="grule" data-keys="first conditional if will real future type 1">
+          <span class="gtag" style="background:var(--sent-bg);color:var(--sent-text)">Conditional</span>
+          <h3>First Conditional (real future)</h3>
+          <p><strong>If + Present Simple, will + V</strong>. Used for real / possible situations in the future.</p>
+          <div class="gex">
+            <strong>If it rains</strong>, we <strong>will stay</strong> at home.<br>
+            <strong>If you study</strong>, you <strong>will pass</strong> the exam.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="second conditional if would past imaginary unreal type 2">
+          <span class="gtag" style="background:var(--sent-bg);color:var(--sent-text)">Conditional</span>
+          <h3>Second Conditional (imaginary)</h3>
+          <p><strong>If + Past Simple, would + V</strong>. Used for unreal or imaginary situations.</p>
+          <div class="gex">
+            <strong>If I were</strong> rich, I <strong>would travel</strong> the world.<br>
+            <strong>If she knew</strong> the answer, she <strong>would tell</strong> us.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="going to will present simple future plan prediction timetable">
+          <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Future</span>
+          <h3>going to / will / Present Simple (future)</h3>
+          <p>Three ways to talk about the future — each with a different flavour:</p>
+          <div class="gex">
+            <strong>going to</strong> — plan or evidence: I'<strong>m going to</strong> study tonight. Look at those clouds — it'<strong>s going to</strong> rain.<br>
+            <strong>will</strong> — decision made now / prediction: I<strong>'ll help</strong> you. She<strong>'ll probably win</strong>.<br>
+            <strong>Present Simple</strong> — timetable / schedule: The train <strong>leaves</strong> at 6pm.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="for since present perfect duration time ago">
+          <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Present Perfect</span>
+          <h3>for & since</h3>
+          <p>Both used with Present Perfect for duration. <strong>for</strong> + a period of time. <strong>since</strong> + a specific starting point.</p>
+          <div class="gex">
+            I've lived here <strong>for</strong> five years. <em>(period)</em><br>
+            I've lived here <strong>since</strong> 2020. <em>(start point)</em><br>
+            She's known him <strong>for</strong> ages / <strong>since</strong> childhood.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="always ever never frequency adverbs present perfect">
+          <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Present Perfect</span>
+          <h3>always, ever, never</h3>
+          <p>Frequency adverbs go between <strong>have / has</strong> and the main verb. <strong>ever</strong> = at any time (questions). <strong>never</strong> = not at any time.</p>
+          <div class="gex">
+            I've <strong>always</strong> wanted to visit Paris.<br>
+            Have you <strong>ever</strong> been to Japan?<br>
+            She has <strong>never</strong> tried sushi.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="present perfect past simple comparison yesterday ago just already yet">
+          <span class="gtag" style="background:var(--checked-bg);color:var(--checked-text)">Present Perfect</span>
+          <h3>Present Perfect vs Past Simple</h3>
+          <p><strong>Present Perfect</strong> = experience / unfinished time (ever, never, just, already, yet, for, since). <strong>Past Simple</strong> = finished time (yesterday, last week, in 2020, ago).</p>
+          <div class="gex">
+            I <strong>have visited</strong> London. <em>(at some point in my life)</em><br>
+            I <strong>visited</strong> London <strong>last year</strong>. <em>(finished time)</em><br>
+            She <strong>has lived</strong> here <strong>since</strong> 2020. / She <strong>lived</strong> there <strong>from</strong> 2015 <strong>to</strong> 2020.
+          </div>
+        </div>
+
+        <div class="grule" data-keys="word formation suffix er or ist ian ant tion sion ful ous al ive ent noun adjective profession">
+          <span class="gtag" style="background:var(--purple-bg);color:var(--purple-text)">Word formation</span>
+          <h3>Word Formation & Suffixes</h3>
+          <p>English builds new words by adding <strong>suffixes</strong> to a root. The suffix signals the word's <strong>part of speech</strong> (noun, adjective, etc.).</p>
+
+          <p style="margin-top:10px"><strong>Suffixes that make nouns — jobs / people:</strong></p>
+          <table class="gtable">
+            <tr><th>Suffix</th><th>Examples</th></tr>
+            <tr><td><strong>-er / -or</strong></td><td>photograph → photographer, build → builder, translate → translator, invent → inventor, farm → farmer, interpret → interpreter</td></tr>
+            <tr><td><strong>-ist</strong></td><td>art → artist, economy → economist, piano → pianist</td></tr>
+            <tr><td><strong>-ian</strong></td><td>music → musician, politics → politician, electric → electrician</td></tr>
+            <tr><td><strong>-ant</strong></td><td>assist → assistant, account → accountant, reception → receptionist <em>(-ist overlap)</em></td></tr>
+          </table>
+
+          <p style="margin-top:12px"><strong>Suffixes that make abstract nouns — <em>-tion / -sion</em>:</strong></p>
+          <div class="gex">
+            invite → <strong>invitation</strong><br>
+            explain → <strong>explanation</strong><br>
+            compete → <strong>competition</strong>; ambition<br>
+            discuss → <strong>discussion</strong><br>
+            decide → <strong>decision</strong>
+          </div>
+
+          <p style="margin-top:12px"><strong>Adjective suffixes — <em>-ful, -y, -al, -ous, -ive, -ent</em>:</strong></p>
+          <div class="gex">
+            fame → <strong>famous</strong><br>
+            danger → <strong>dangerous</strong><br>
+            health → <strong>healthy</strong><br>
+            differ → <strong>different</strong><br>
+            kind → <strong>kindness</strong> <em>(noun: -ness)</em>
+          </div>
+
+        </div>
+
+        <div class="grule" data-keys="word stress noun verb pronunciation syllable record present">
+          <span class="gtag" style="background:var(--danger-bg);color:var(--danger)">Pronunciation</span>
+          <h3>Word stress patterns</h3>
+          <p>In many two-syllable words, the <strong>noun</strong> is stressed on the <strong>first</strong> syllable and the <strong>verb</strong> on the <strong>second</strong>.</p>
+          <div class="gex">
+            <strong>RE</strong>cord (noun) vs re<strong>CORD</strong> (verb)<br>
+            <strong>PRE</strong>sent (noun) vs pre<strong>SENT</strong> (verb)
+          </div>
+          <p style="margin-top:8px">Practice stress in: <em>danger, kindness, critic, artist, difference / healthy, friendly, famous, different / invite, explain, discuss, employ, decide, compete / invitation, explanation, competition, ambition, decision</em>.</p>
+        </div>
+
       </div>
 
     </div>
@@ -696,6 +987,9 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
             <option value="clothes">Clothes</option><option value="prep">Prep</option>
           </select>
         </div>
+        <div class="add-form-row">
+          <input id="add-ex" placeholder="Example sentence (optional)" style="flex:1">
+        </div>
         <div style="display:flex;gap:6px">
           <button class="btn primary" onclick="addWord()">Save</button>
           <button class="btn" onclick="toggleAddForm()">Cancel</button>
@@ -703,10 +997,10 @@ body.panel-open .lessons-grid { grid-template-columns: repeat(4, 1fr); }
       </div>
       <table class="dtable">
         <thead><tr>
-          <th style="width:34%">Word</th>
-          <th style="width:16%">Type</th>
-          <th style="width:28%">Translation</th>
-          <th style="width:14%">Level</th>
+          <th style="width:22%">Word</th>
+          <th style="width:12%">Type</th>
+          <th style="width:22%">Translation</th>
+          <th style="width:36%">Example</th>
           <th style="width:8%"></th>
         </tr></thead>
         <tbody id="dtbody"></tbody>
@@ -728,7 +1022,162 @@ const STUDENT_NAME = 'Sandugash';
 const SUPABASE_URL = 'https://jjlzimjfnwywsmodobct.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqbHppbWpmbnd5d3Ntb2RvYmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzOTU3NjMsImV4cCI6MjA5MTk3MTc2M30.2xCycqOSvPgxNNGaxPRpMbL_eTdRaah4Rgo83MTlpIs';
 
-const words = [];
+const words = [
+  // ── Verbs ──
+  { w: 'capture', t: 'захватить, пленить', pos: 'verb', ex: 'The soldiers captured the castle.' },
+  { w: 'execute', t: 'казнить / выполнять', pos: 'verb', ex: 'Execute the plan carefully.' },
+  { w: 'avoid', t: 'избегать', pos: 'verb', ex: 'Avoid eating too much sugar.' },
+  { w: 'afford', t: 'позволить себе', pos: 'verb', ex: 'I can\'t afford a new phone.' },
+  { w: 'invade', t: 'вторгаться', pos: 'verb', ex: 'The army invaded the country.' },
+  { w: 'associated', t: 'связанный (с)', pos: 'verb', ex: 'Stress is associated with illness.' },
+  { w: 'shout', t: 'кричать', pos: 'verb', ex: 'Don\'t shout — I can hear you!' },
+  { w: 'carry', t: 'нести', pos: 'verb', ex: 'Can you carry this bag for me?' },
+  { w: 'swap', t: 'менять(ся)', pos: 'verb', ex: 'Let\'s swap seats.' },
+  { w: 'bring', t: 'приносить', pos: 'verb', ex: 'Bring your notebook tomorrow.' },
+  { w: 'bite', t: 'кусать', pos: 'verb', ex: 'My dog doesn\'t bite.' },
+  { w: 'fit', t: 'подходить (по размеру)', pos: 'verb', ex: 'These shoes don\'t fit me.' },
+  { w: 'differentiate', t: 'различать', pos: 'verb', ex: 'Can you differentiate the two styles?' },
+  { w: 'reserve', t: 'бронировать', pos: 'verb', ex: 'I reserved a table for two.' },
+  { w: 'explain', t: 'объяснять', pos: 'verb', ex: 'Please explain this grammar rule.' },
+  { w: 'argue', t: 'спорить', pos: 'verb', ex: 'They always argue about money.' },
+  { w: 'collect', t: 'собирать', pos: 'verb', ex: 'She collects vintage stamps.' },
+  { w: 'employ', t: 'нанимать', pos: 'verb', ex: 'The company employs 500 people.' },
+  { w: 'discuss', t: 'обсуждать', pos: 'verb', ex: 'Let\'s discuss the homework.' },
+  { w: 'decide', t: 'решать', pos: 'verb', ex: 'She decided to stay home.' },
+  { w: 'compete', t: 'соревноваться', pos: 'verb', ex: 'He competes in swimming.' },
+  { w: 'offer', t: 'предлагать', pos: 'verb', ex: 'He offered to help me.' },
+  { w: 'advertise oneself', t: 'рекламировать себя', pos: 'verb', ex: 'You need to advertise yourself online.' },
+
+  // ── Nouns ──
+  { w: 'refugee', t: 'беженец', pos: 'noun', ex: 'Many refugees need food and shelter.' },
+  { w: 'tax', t: 'налог', pos: 'noun', ex: 'We pay tax on our income.' },
+  { w: 'experience', t: 'опыт', pos: 'noun', ex: 'She has a lot of teaching experience.' },
+  { w: 'stunt', t: 'трюк', pos: 'noun', ex: 'The stuntman did a dangerous stunt.' },
+  { w: 'credits', t: 'титры', pos: 'noun', ex: 'Stay until the end credits finish.' },
+  { w: 'wheels', t: 'колёса', pos: 'noun', ex: 'The wheels fell off the cart.' },
+  { w: 'sword', t: 'меч', pos: 'noun', ex: 'The knight pulled out his sword.' },
+  { w: 'piece', t: 'кусок, часть', pos: 'noun', ex: 'Can I have a piece of cake?' },
+  { w: 'possession', t: 'владение, имущество', pos: 'noun', ex: 'Is this laptop in your possession?' },
+  { w: 'deal', t: 'сделка', pos: 'noun', ex: 'We made a great deal.' },
+  { w: 'discovery', t: 'открытие', pos: 'noun', ex: 'It was an important scientific discovery.' },
+  { w: 'survey', t: 'опрос', pos: 'noun', ex: 'We did a class survey about habits.' },
+  { w: 'fairy tale', t: 'сказка', pos: 'noun', ex: 'Cinderella is a famous fairy tale.' },
+  { w: 'glory', t: 'слава', pos: 'noun', ex: 'She won glory for her country.' },
+  { w: 'business deal', t: 'деловая сделка', pos: 'noun', ex: 'They signed a big business deal.' },
+  { w: 'warning', t: 'предупреждение', pos: 'noun', ex: 'This is your final warning.' },
+  { w: 'threat', t: 'угроза', pos: 'noun', ex: 'He received a serious threat.' },
+  { w: 'celebrity', t: 'знаменитость', pos: 'noun', ex: 'She became a celebrity overnight.', ipa: '/səˈlebrəti/' },
+  { w: 'clubs', t: 'клубы', pos: 'noun', ex: 'She goes to two after-school clubs.', ipa: '/klʌbz/' },
+  { w: 'theater', t: 'театр', pos: 'noun', ex: 'We went to the theater last night.', ipa: '/ˈθɪətər/' },
+  { w: 'archaeologist', t: 'археолог', pos: 'noun', ex: 'The archaeologist found an ancient coin.' },
+  { w: 'writer', t: 'писатель', pos: 'noun', ex: 'She is a famous writer.' },
+  { w: 'historian', t: 'историк', pos: 'noun', ex: 'He is a historian at a museum.' },
+  { w: 'reservation', t: 'бронь', pos: 'noun', ex: 'I have a reservation for 7pm.' },
+  { w: 'behaviour', t: 'поведение', pos: 'noun', ex: 'His behaviour in class was rude.' },
+  { w: 'decision', t: 'решение', pos: 'noun', ex: 'It was a very difficult decision.' },
+  { w: 'student', t: 'ученик, студент', pos: 'noun', ex: 'She is the top student in class.' },
+  { w: 'discussion', t: 'обсуждение', pos: 'noun', ex: 'We had a long discussion about the film.' },
+  { w: 'invitation', t: 'приглашение', pos: 'noun', ex: 'Did you receive the wedding invitation?' },
+  { w: 'explanation', t: 'объяснение', pos: 'noun', ex: 'He gave a clear explanation.' },
+  { w: 'competition', t: 'соревнование', pos: 'noun', ex: 'She won the singing competition.' },
+  { w: 'ambition', t: 'амбиция', pos: 'noun', ex: 'His ambition is to become a doctor.' },
+  { w: 'fame', t: 'слава', pos: 'noun', ex: 'Fame came quickly to the young singer.' },
+  { w: 'expense', t: 'расход', pos: 'noun', ex: 'Travel is a big expense.' },
+  { w: 'success', t: 'успех', pos: 'noun', ex: 'Hard work leads to success.' },
+  { w: 'music', t: 'музыка', pos: 'noun', ex: 'I love listening to music.' },
+  { w: 'health', t: 'здоровье', pos: 'noun', ex: 'Health is more important than money.' },
+  { w: 'danger', t: 'опасность', pos: 'noun', ex: 'You are in serious danger!' },
+  { w: 'kindness', t: 'доброта', pos: 'noun', ex: 'Thank you for your kindness.' },
+  { w: 'critic', t: 'критик', pos: 'noun', ex: 'The critic loved the new film.' },
+  { w: 'artist', t: 'художник', pos: 'noun', ex: 'She is a very talented artist.' },
+  { w: 'difference', t: 'разница', pos: 'noun', ex: 'What\'s the difference between these two?' },
+
+  // ── Adjectives ──
+  { w: 'ancient', t: 'древний', pos: 'adj', ex: 'Rome has many ancient ruins.' },
+  { w: 'unusual', t: 'необычный', pos: 'adj', ex: 'That\'s an unusual idea!' },
+  { w: 'cosmopolitan', t: 'многонациональный', pos: 'adj', ex: 'London is a very cosmopolitan city.' },
+  { w: 'sensitive', t: 'чувствительный', pos: 'adj', ex: 'She is very sensitive to criticism.' },
+  { w: 'brave', t: 'смелый', pos: 'adj', ex: 'The brave firefighter saved the child.' },
+  { w: 'competitive', t: 'конкурентный', pos: 'adj', ex: 'He is very competitive in sports.' },
+  { w: 'slim', t: 'стройный', pos: 'adj', ex: 'She has a slim figure.' },
+  { w: 'injured', t: 'раненый', pos: 'adj', ex: 'The injured player left the field.' },
+  { w: 'easy-going', t: 'лёгкий в общении', pos: 'adj', ex: 'He\'s very easy-going and relaxed.' },
+  { w: 'feminine', t: 'женственный', pos: 'adj', ex: 'She prefers a feminine style.' },
+  { w: 'slippery', t: 'скользкий', pos: 'adj', ex: 'Be careful — the floor is slippery.' },
+  { w: 'retired', t: 'на пенсии', pos: 'adj', ex: 'My father is retired now.' },
+  { w: 'naughty', t: 'озорной', pos: 'adj', ex: 'The naughty child hid the teacher\'s pen.' },
+  { w: 'desired', t: 'желаемый', pos: 'adj', ex: 'This is the desired result.' },
+  { w: 'disappointed', t: 'разочарованный', pos: 'adj', ex: 'She was disappointed with her grade.' },
+  { w: 'upset', t: 'расстроенный', pos: 'adj', ex: 'He was upset after the argument.' },
+  { w: 'amazed', t: 'изумлённый', pos: 'adj', ex: 'I was amazed by the view.' },
+  { w: 'delighted', t: 'в восторге', pos: 'adj', ex: 'She was delighted to hear the news.' },
+  { w: 'valuable', t: 'ценный', pos: 'adj', ex: 'This ring is very valuable.' },
+  { w: 'typical', t: 'типичный', pos: 'adj', ex: 'That\'s so typical of him!' },
+  { w: 'healthy', t: 'здоровый', pos: 'adj', ex: 'Eat healthy food every day.' },
+  { w: 'friendly', t: 'дружелюбный', pos: 'adj', ex: 'The new teacher is very friendly.' },
+  { w: 'famous', t: 'знаменитый', pos: 'adj', ex: 'She is famous all over the world.', ipa: '/ˈfeɪməs/' },
+  { w: 'different', t: 'другой, разный', pos: 'adj', ex: 'We have very different opinions.' },
+
+  // ── Adverbs ──
+  { w: 'recently', t: 'недавно', pos: 'adverb', ex: 'I recently moved to a new city.', ipa: '/ˈriːsntli/' },
+  { w: 'obviously', t: 'очевидно', pos: 'adverb', ex: 'Obviously, she was right.', ipa: '/ˈɒbviəsli/' },
+  { w: 'meanwhile', t: 'тем временем', pos: 'adverb', ex: 'Meanwhile, the kids were sleeping.' },
+  { w: 'particularly', t: 'особенно', pos: 'adverb', ex: 'I\'m particularly good at English.' },
+  { w: 'throughout', t: 'на протяжении', pos: 'adverb', ex: 'She smiled throughout the speech.' },
+  { w: 'eventually', t: 'в конце концов', pos: 'adverb', ex: 'Eventually, he found the answer.' },
+
+  // ── Phrases ──
+  { w: 'let people in', t: 'впускать людей', pos: 'phrase', ex: 'Don\'t let strangers in.' },
+  { w: 'get used to', t: 'привыкать к', pos: 'phrase', ex: 'I\'m getting used to the cold weather.' },
+  { w: 'little by little', t: 'понемногу', pos: 'phrase', ex: 'Little by little, she improved.' },
+  { w: 'keep track of', t: 'отслеживать', pos: 'phrase', ex: 'Keep track of your expenses.' },
+  { w: 'as long as', t: 'пока; при условии что', pos: 'phrase', ex: 'You can go, as long as you\'re back by 10.' },
+  { w: 'alongside', t: 'рядом с', pos: 'phrase', ex: 'She worked alongside her team.' },
+  { w: 'once upon a time', t: 'однажды (давным-давно)', pos: 'phrase', ex: 'Once upon a time, there was a princess.' },
+  { w: 'take care', t: 'заботиться', pos: 'phrase', ex: 'Take care of yourself!' },
+  { w: 'look for', t: 'искать', pos: 'phrase', ex: 'I\'m looking for my keys.' },
+  { w: 'look at', t: 'смотреть на', pos: 'phrase', ex: 'Look at this photo!' },
+  { w: 'take a pill', t: 'принять таблетку', pos: 'phrase', ex: 'Take a pill if you have a headache.' },
+  { w: 'take notes', t: 'делать заметки', pos: 'phrase', ex: 'Always take notes in class.' },
+  { w: 'come up with', t: 'придумать', pos: 'phrase', ex: 'She came up with a brilliant idea.' },
+  { w: 'well- / badly-', t: 'хорошо- / плохо- (префикс)', pos: 'phrase', ex: 'well-known, well-dressed, badly-behaved' },
+  { w: 'for myself', t: 'для себя', pos: 'phrase', ex: 'I bought this book for myself.' },
+  { w: 'is considered', t: 'считается', pos: 'phrase', ex: 'Gold is considered very valuable.' },
+  { w: 'meet for coffee', t: 'встретиться на кофе', pos: 'phrase', ex: 'Let\'s meet for coffee on Friday.' },
+  { w: 'judging by', t: 'судя по', pos: 'phrase', ex: 'Judging by her smile, she\'s happy.' },
+
+  // ── Partitives (a __ of) ──
+  { w: 'a bag of', t: 'пакет (чего-л.)', pos: 'phrase', ex: 'a bag of crisps / a bag of sweets' },
+  { w: 'a bottle of', t: 'бутылка (чего-л.)', pos: 'phrase', ex: 'a bottle of wine / a bottle of milk' },
+  { w: 'a box of', t: 'коробка (чего-л.)', pos: 'phrase', ex: 'a box of matches / a box of tissues' },
+  { w: 'a bunch of', t: 'букет / связка (чего-л.)', pos: 'phrase', ex: 'a bunch of flowers / a bunch of bananas' },
+  { w: 'a can of', t: 'банка (чего-л.)', pos: 'phrase', ex: 'a can of Coke / a can of tuna' },
+  { w: 'a loaf of', t: 'буханка (хлеба)', pos: 'phrase', ex: 'a loaf of bread' },
+  { w: 'a packet of', t: 'пачка (чего-л.)', pos: 'phrase', ex: 'a packet of crisps / a packet of chewing gum' },
+  { w: 'a pair of', t: 'пара (чего-л.)', pos: 'phrase', ex: 'a pair of socks / a pair of jeans' },
+  { w: 'a piece of', t: 'кусок (чего-л.)', pos: 'phrase', ex: 'a piece of cake / a piece of paper' },
+  { w: 'a slice of', t: 'ломтик (чего-л.)', pos: 'phrase', ex: 'a slice of bread / a slice of ham' },
+
+  // ── Prepositions ──
+  { w: 'except', t: 'кроме', pos: 'prep', ex: 'Everyone came except Tom.' },
+  { w: 'towards', t: 'по направлению к', pos: 'prep', ex: 'She walked towards the door.' },
+
+  // ── Body ──
+  { w: 'wrist', t: 'запястье', pos: 'body', ex: 'She broke her wrist playing tennis.' },
+  { w: 'waist', t: 'талия', pos: 'body', ex: 'He tied the belt around his waist.' },
+
+  // ── Clothes ──
+  { w: 'hoodie', t: 'худи, толстовка', pos: 'clothes', ex: 'She wore a grey hoodie.' },
+  { w: 'shirt', t: 'рубашка', pos: 'clothes', ex: 'He ironed his white shirt.' },
+
+  // ── Irregular verbs ──
+  { w: 'send — sent — sent', t: 'отправлять', pos: 'irreg.', ex: 'I sent her a message yesterday.' },
+  { w: 'find — found — found', t: 'находить', pos: 'irreg.', ex: 'She found her keys under the sofa.' },
+  { w: 'found — founded — founded', t: 'основывать', pos: 'irreg.', ex: 'He founded the company in 2010.' },
+  { w: 'sell — sold — sold', t: 'продавать', pos: 'irreg.', ex: 'They sold the house last year.' },
+  { w: 'bring — brought — brought', t: 'приносить', pos: 'irreg.', ex: 'She brought me flowers.' },
+  { w: 'bite — bit — bitten', t: 'кусать', pos: 'irreg.', ex: 'The dog bit the postman.' },
+];
 const posColors = {
   noun: 'var(--purple-bg)|var(--purple-text)',
   verb: 'var(--checked-bg)|var(--checked-text)',
@@ -743,33 +1192,330 @@ const posColors = {
 };
 
 // ══════════════════════════════════════════════════════════════
-// ── LESSON CONFIG ──
+// ── EXAM ENGINE ──
 // ══════════════════════════════════════════════════════════════
-const LESSONS = [
-  { key: 'hw1', label: 'HW 1', exam: false },
-  { key: 'hw2', label: 'HW 2', exam: false },
-  { key: 'hw3', label: 'HW 3', exam: false },
-  { key: 'hw4', label: 'HW 4', exam: false },
-  { key: 'hw5', label: 'HW 5', exam: false },
-  { key: 'hw6', label: 'HW 6', exam: false },
-  { key: 'midterm', label: 'Midterm', exam: true },
+const AUDIO_PLACEHOLDER = '#';
+const IMAGE_PLACEHOLDER = 'https://placehold.co/520x300/1c1c1c/404040?text=Picture+Prompt+(replace+with+real+image)';
+
+const EC_SENTENCES = [
+  { s: "She don't know the answer to the question.",   topic: 'Subject-verb agreement' },
+  { s: 'I have seen him yesterday at the park.',        topic: 'Past Simple vs Present Perfect' },
+  { s: 'If I would have more time, I would help you.',  topic: 'Second Conditional' },
+  { s: 'She told me that she is very tired.',           topic: 'Reported Speech' },
+  { s: 'He was born in the 15th of May.',               topic: 'Prepositions of time' },
+  { s: "I've been waiting here since three hours.",     topic: 'for & since' },
+  { s: 'The news are very shocking today.',             topic: 'Uncountable nouns' },
+  { s: 'She is more smarter than her brother.',         topic: 'Comparative adjectives' },
 ];
 
-// status: 'locked' | 'open' | 'done'
-const lessonState = {};        // { hw1: {status, score}, ... }
-const hwQuestions = {};        // { 1: [qs], ... }
-const hwScores = {};           // { 1: 85, ... } — from submission
-let currentHW = null;
+const QUIZ_QS = [
+  { topic: 'Past Perfect',                  qtype: 'mc',   q: 'When she arrived, the train ___ already left.',               opts: ['had','has','was','did'],                                       correct: 'had' },
+  { topic: 'Passive voice',                 qtype: 'fill', q: 'The cake ___ baked by her grandmother. (past passive)',        hint: 'was / were + V3',                                               correct: 'was' },
+  { topic: '1st Conditional',               qtype: 'mc',   q: 'If it rains tomorrow, we ___ stay at home.',                   opts: ['will','would','should','might'],                               correct: 'will' },
+  { topic: 'as … as',                       qtype: 'fill', q: 'This film is not ___ interesting ___ the last one.',           hint: 'as + adj + as',                                                 correct: 'as / as' },
+  { topic: '2nd Conditional',               qtype: 'mc',   q: 'If I were president, I ___ change the schools.',               opts: ['would','will','should','could have'],                          correct: 'would' },
+  { topic: 'so / such',                     qtype: 'mc',   q: "It was ___ a long journey! I'm exhausted.",                    opts: ['such','so','very','too'],                                      correct: 'such' },
+  { topic: 'going to / will',               qtype: 'mc',   q: "Look at those dark clouds — it ___ rain!",                     opts: ["'s going to","'ll",'is going','will going to'],                correct: "'s going to" },
+  { topic: 'for & since',                   qtype: 'fill', q: 'She has been learning English ___ she was a child.',           hint: 'for / since',                                                   correct: 'since' },
+  { topic: 'ever / never',                  qtype: 'mc',   q: 'Have you ___ tried Japanese food?',                            opts: ['ever','never','just','already'],                               correct: 'ever' },
+  { topic: 'Present Perfect vs Past Simple',qtype: 'mc',   q: 'I ___ in New York in 2019. (finished, specific time)',         opts: ['lived','have lived','was living','had lived'],                 correct: 'lived' },
+];
 
-const hwTitles = {
-  1:'Vocabulary & Grammar',
-  2:'Grammar & Vocabulary',
-  3:'Past Tenses',
-  4:'Present Perfect',
-  5:'Modals & Passive',
-  6:'Future & Articles'
-};
-const STATUS_LABEL = { locked: 'Locked', open: 'Open', done: 'Done ✓' };
+// EC indices (0-based) to revisit in self-correction round
+const SELF_CORR_EC = [1, 2, 4, 5, 7];
+
+function buildExam() {
+  const qs = [];
+  // Q0 — audio
+  qs.push({ type:'audio', timer:180, label:'Listening Task', section:'Listening' });
+  // Q1–8 — error correction
+  EC_SENTENCES.forEach((ec, i) => qs.push({ type:'error_correction', timer:150, label:'Error Correction', section:'Error Correction', sentence:ec.s, topic:ec.topic, ecIdx:i }));
+  // Q9 — picture
+  qs.push({ type:'picture', timer:300, label:'Picture Writing', section:'Writing' });
+  // Q10–19 — grammar quiz
+  QUIZ_QS.forEach(qq => qs.push({ type:'quiz', timer:90, label:'Grammar Quiz', section:'Grammar Quiz', ...qq }));
+  // Q20–24 — self-correction
+  SELF_CORR_EC.forEach(ecIdx => qs.push({ type:'self_correction', timer:48, label:'Self-Correction', section:'Self-Correction', ecIdx, sentence:EC_SENTENCES[ecIdx].s }));
+  return qs;
+}
+
+let _exam = [], _examAnswers = [], _examIdx = 0;
+let _timerInterval = null, _timeLeft = 0;
+
+function startExam() {
+  _exam = buildExam();
+  _examAnswers = _exam.map(() => ({ fields:{}, timeSpent:0, autoSub:false }));
+  _examIdx = 0;
+  showView('view-test');
+  document.getElementById('test-body').innerHTML = `
+    <div class="exam-hdr" id="exam-hdr">
+      <div class="exam-prog-row">
+        <div class="exam-prog-track"><div class="exam-prog-fill" id="exam-prog-fill"></div></div>
+        <span class="exam-timer" id="exam-timer">--:--</span>
+      </div>
+      <div class="exam-meta-row">
+        <button class="back-btn exam-back" id="exam-back-btn" onclick="examBack()" style="display:none">← Previous</button>
+        <span class="exam-q-label" id="exam-q-label"></span>
+      </div>
+    </div>
+    <div id="exam-q-body"></div>`;
+  goToQ(0);
+}
+
+function goToQ(idx) {
+  clearInterval(_timerInterval);
+  _examIdx = idx;
+  updateExamHeader(idx);
+  renderQuestion(idx);
+  startTimer(_exam[idx].timer);
+}
+
+function examNext() {
+  saveCurrentAnswers(false);
+  clearInterval(_timerInterval);
+  if (_examIdx < _exam.length - 1) { goToQ(_examIdx + 1); }
+  else { finishExam(); }
+}
+
+function examBack() {
+  saveCurrentAnswers(false);
+  clearInterval(_timerInterval);
+  if (_examIdx > 0) { goToQ(_examIdx - 1); }
+}
+
+function updateExamHeader(idx) {
+  const pct = (idx / _exam.length) * 100;
+  document.getElementById('exam-prog-fill').style.width = pct + '%';
+  document.getElementById('exam-q-label').textContent = `Question ${idx + 1} of ${_exam.length} · ${_exam[idx].label}`;
+  document.getElementById('exam-back-btn').style.display = idx > 0 ? 'inline-flex' : 'none';
+}
+
+function startTimer(seconds) {
+  _timeLeft = seconds;
+  renderTimer();
+  _timerInterval = setInterval(() => {
+    _timeLeft--;
+    renderTimer();
+    if (_timeLeft <= 0) { clearInterval(_timerInterval); autoAdvance(); }
+  }, 1000);
+}
+
+function renderTimer() {
+  const el = document.getElementById('exam-timer');
+  if (!el) return;
+  const m = String(Math.floor(_timeLeft / 60)).padStart(2,'0');
+  const s = String(_timeLeft % 60).padStart(2,'0');
+  el.textContent = m + ':' + s;
+  el.classList.toggle('timer-red', _timeLeft <= 20 && _timeLeft > 0);
+}
+
+function autoAdvance() {
+  saveCurrentAnswers(true);
+  if (_examIdx < _exam.length - 1) { goToQ(_examIdx + 1); }
+  else { finishExam(); }
+}
+
+function saveCurrentAnswers(auto) {
+  const q = _exam[_examIdx];
+  if (!q) return;
+  const ans = _examAnswers[_examIdx];
+  ans.autoSub = auto;
+  ans.timeSpent = q.timer - _timeLeft;
+  if (q.type === 'quiz' && q.qtype === 'mc') {
+    const sel = document.querySelector('#exam-q-body .exam-opt.selected');
+    ans.fields.answer = sel ? sel.textContent.trim() : (ans.fields.answer || '');
+  } else {
+    document.querySelectorAll('#exam-q-body [data-field]').forEach(inp => {
+      if (inp.tagName !== 'INPUT' || inp.type !== 'hidden') ans.fields[inp.dataset.field] = inp.value.trim();
+    });
+  }
+}
+
+function eField(key, label, ph, val, multi) {
+  if (multi) return `<div class="exam-field"><label class="exam-field-lbl">${label}</label><textarea class="exam-input exam-textarea" data-field="${key}" placeholder="${ph}">${val}</textarea></div>`;
+  return `<div class="exam-field"><label class="exam-field-lbl">${label}</label><input class="exam-input" data-field="${key}" placeholder="${ph}" value="${String(val).replace(/"/g,'&quot;')}"></div>`;
+}
+
+function renderQuestion(idx) {
+  const q = _exam[idx];
+  const sv = _examAnswers[idx].fields;
+  let html = '';
+
+  if (q.type === 'audio') {
+    html = `<div class="exam-card">
+      <div class="exam-card-label">Listening Task</div>
+      <p class="exam-prompt">Listen to the audio. You will hear a sentence with a <strong>grammar mistake</strong>.</p>
+      <audio controls class="exam-audio"><source src="${AUDIO_PLACEHOLDER}">Audio not supported.</audio>
+      <div class="exam-fields">
+        ${eField('error',      'What grammar error did you hear?',      'Describe the error…',          sv.error||'',      false)}
+        ${eField('rule',       'Name the grammar rule',                 'e.g. Past Simple, Passive…',   sv.rule||'',       false)}
+        ${eField('correction', 'Write the corrected sentence in full',  '',                              sv.correction||'', false)}
+      </div></div>`;
+
+  } else if (q.type === 'error_correction') {
+    html = `<div class="exam-card">
+      <div class="exam-card-label">Error Correction · <span style="color:var(--muted)">${q.topic}</span></div>
+      <p class="exam-prompt">This sentence contains <strong>one grammar error</strong>. Find and correct it.</p>
+      <div class="exam-sentence">${q.sentence}</div>
+      <div class="exam-fields">
+        ${eField('corrected', '(a) Write the corrected sentence',       'Full corrected sentence…',     sv.corrected||'', false)}
+        ${eField('rule',      '(b) Name the grammar rule you applied',  'e.g. Past Simple',             sv.rule||'',      false)}
+      </div></div>`;
+
+  } else if (q.type === 'picture') {
+    html = `<div class="exam-card">
+      <div class="exam-card-label">Picture Writing Task</div>
+      <p class="exam-prompt">Look at the picture. Write <strong>5 sentences</strong> using <strong>Passive voice (was / were + V3)</strong>.</p>
+      <img src="${IMAGE_PLACEHOLDER}" class="exam-img" alt="Picture prompt">
+      <div class="exam-fields">
+        ${eField('writing', 'Your 5 sentences (one per line)', 'Write each sentence on a new line…', sv.writing||'', true)}
+      </div></div>`;
+
+  } else if (q.type === 'quiz') {
+    const qText = q.q.replace(/___/g, '<span class="exam-blank">___</span>');
+    if (q.qtype === 'mc') {
+      const savedAns = sv.answer || '';
+      html = `<div class="exam-card">
+        <div class="exam-card-label">Grammar Quiz · <span style="color:var(--muted)">${q.topic}</span></div>
+        <p class="exam-q-text">${qText}</p>
+        <div class="exam-opts">
+          ${q.opts.map(o => `<button class="exam-opt${o===savedAns?' selected':''}" onclick="selectOpt(this)">${o}</button>`).join('')}
+        </div></div>`;
+    } else {
+      html = `<div class="exam-card">
+        <div class="exam-card-label">Grammar Quiz · <span style="color:var(--muted)">${q.topic}</span></div>
+        <p class="exam-q-text">${qText}</p>
+        ${q.hint ? `<p class="exam-hint">Hint: ${q.hint}</p>` : ''}
+        <div class="exam-fields">
+          ${eField('answer', 'Your answer', 'Type the missing word(s)…', sv.answer||'', false)}
+        </div></div>`;
+    }
+
+  } else if (q.type === 'self_correction') {
+    const ecExamIdx = 1 + q.ecIdx;
+    const prev = (_examAnswers[ecExamIdx] && _examAnswers[ecExamIdx].fields.corrected) || '(no answer recorded)';
+    html = `<div class="exam-card">
+      <div class="exam-card-label">Self-Correction</div>
+      <p class="exam-prompt">Look at your earlier answer. <strong>No hints.</strong> Rewrite the sentence if you think it needs improvement.</p>
+      <div class="exam-sentence">${q.sentence}</div>
+      <div class="exam-prev-ans">Your earlier answer: <em>${prev}</em></div>
+      <div class="exam-fields">
+        ${eField('rewrite', 'Rewrite the sentence (or copy it if you think it\'s already correct)', '', sv.rewrite||'', false)}
+      </div></div>`;
+  }
+
+  html += `<div class="exam-nav">
+    <button class="btn primary" onclick="examNext()">${idx < _exam.length - 1 ? 'Submit &amp; Continue →' : 'Submit &amp; Finish'}</button>
+  </div>`;
+
+  document.getElementById('exam-q-body').innerHTML = html;
+  // restore MC selection highlight after re-render on back-nav
+  if (q.type === 'quiz' && q.qtype === 'mc' && sv.answer) {
+    document.querySelectorAll('#exam-q-body .exam-opt').forEach(b => {
+      if (b.textContent.trim() === sv.answer) b.classList.add('selected');
+    });
+  }
+}
+
+function selectOpt(btn) {
+  btn.closest('.exam-opts').querySelectorAll('.exam-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _examAnswers[_examIdx].fields.answer = btn.textContent.trim();
+}
+
+function finishExam() {
+  clearInterval(_timerInterval);
+  saveCurrentAnswers(false);
+  renderSummary();
+}
+
+function renderSummary() {
+  const ts = new Date().toLocaleString();
+  let rows = '';
+  _exam.forEach((q, i) => {
+    const ans = _examAnswers[i];
+    let qText = q.sentence || q.q || q.label;
+    let aHtml = '';
+    if (q.type === 'quiz' && q.qtype === 'mc') {
+      const ok = (ans.fields.answer||'').toLowerCase().trim() === q.correct.toLowerCase().trim();
+      aHtml = `<span class="${ok?'sum-ok':'sum-err'}">${ans.fields.answer||'(no answer)'}</span>`;
+      if (!ok) aHtml += ` <span class="sum-hint">✓ ${q.correct}</span>`;
+    } else if (q.type === 'quiz' && q.qtype === 'fill') {
+      const ok = (ans.fields.answer||'').toLowerCase().trim() === q.correct.toLowerCase().trim();
+      aHtml = `<span class="${ok?'sum-ok':'sum-err'}">${ans.fields.answer||'(blank)'}</span>`;
+      if (!ok) aHtml += ` <span class="sum-hint">✓ ${q.correct}</span>`;
+    } else {
+      const parts = Object.entries(ans.fields||{}).filter(([,v])=>v).map(([k,v])=>`<strong>${k}:</strong> ${v}`);
+      aHtml = parts.length ? parts.join('<br>') : '<span style="color:var(--muted2)">(no answer)</span>';
+    }
+    const timeTxt = ans.timeSpent > 0 ? fmtSecs(ans.timeSpent) : '—';
+    rows += `<div class="sum-row">
+      <div class="sum-ql">Q${i+1} · ${q.label}${ans.autoSub?' <span class="sum-auto">auto-submitted</span>':''}</div>
+      <div class="sum-q">${qText}</div>
+      <div class="sum-a">${aHtml}</div>
+      <div class="sum-time">Time: ${timeTxt}</div>
+    </div>`;
+  });
+
+  document.getElementById('test-body').innerHTML = `
+    <div class="sum-header">
+      <div class="sum-title">Exam Submitted</div>
+      <div class="sum-sub">Submitted ${ts} · ${_exam.length} questions</div>
+      <button class="btn primary" onclick="copyAnswers()" id="copy-btn">Copy All Answers</button>
+    </div>
+    <div class="sum-list">${rows}</div>
+    <textarea id="sum-copy-ta" style="position:absolute;left:-9999px;opacity:0" readonly>${buildCopyText(ts)}</textarea>`;
+}
+
+function buildCopyText(ts) {
+  const lines = [`FINAL EXAM — ${STUDENT_NAME} — ${ts}`, ''];
+  _exam.forEach((q, i) => {
+    const ans = _examAnswers[i];
+    lines.push(`Q${i+1} [${q.label}]${ans.autoSub?' [AUTO-SUBMITTED]':''}`);
+    if (q.sentence) lines.push(`  Sentence: ${q.sentence}`);
+    if (q.q) lines.push(`  Question: ${q.q}`);
+    Object.entries(ans.fields||{}).forEach(([k,v]) => lines.push(`  ${k}: ${v||'(blank)'}`));
+    lines.push(`  Time taken: ${ans.timeSpent > 0 ? fmtSecs(ans.timeSpent) : '—'}`);
+    lines.push('');
+  });
+  return lines.join('\n');
+}
+
+function copyAnswers() {
+  const ta = document.getElementById('sum-copy-ta');
+  if (!ta) return;
+  ta.select();
+  document.execCommand('copy');
+  const btn = document.getElementById('copy-btn');
+  if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy All Answers', 2500); }
+}
+
+function fmtSecs(s) {
+  const m = Math.floor(s/60), sec = s%60;
+  return m > 0 ? `${m}m ${sec}s` : `${sec}s`;
+}
+
+// ── kept for renderTestCard ──
+const GRAMMAR_QUESTIONS = [
+  { q: 'Mount Everest is ___ mountain in the world.', opts: ['the tallest', 'tallest', 'more tall', 'taller'], correct: 'the tallest', tag: 'Superlative' },
+  { q: 'This test is ___ difficult ___ the last one.', opts: ['as / as', 'so / as', 'as / like', 'more / than'], correct: 'as / as', tag: 'as … as' },
+  { q: 'You ___ wear a seatbelt. It\'s the law.', opts: ['must', 'should', 'could', 'might'], correct: 'must', tag: 'Modals' },
+  { q: 'You ___ come — it\'s optional, your choice.', opts: ['don\'t have to', 'mustn\'t', 'can\'t', 'shouldn\'t'], correct: 'don\'t have to', tag: 'don\'t have to' },
+  { q: 'When I arrived at the cinema, the film ___ already ___.', opts: ['had / started', 'has / started', 'was / starting', 'did / start'], correct: 'had / started', tag: 'Past Perfect' },
+  { q: 'I ___ when the phone rang.', opts: ['was reading', 'read', 'have read', 'had read'], correct: 'was reading', tag: 'Past Continuous' },
+  { q: 'English ___ all over the world.', opts: ['is spoken', 'speaks', 'is speaking', 'has spoken'], correct: 'is spoken', tag: 'Passive' },
+  { q: 'She\'s ___ a kind person! / It\'s ___ cold today.', opts: ['such / so', 'so / such', 'so / so', 'such / such'], correct: 'such / so', tag: 'so / such' },
+  { q: 'There is ___ traffic in the city. I hate it.', opts: ['so much', 'so many', 'such much', 'such many'], correct: 'so much', tag: 'so much / so many' },
+  { q: 'If it rains tomorrow, we ___ stay at home.', opts: ['will', 'would', 'should', 'might'], correct: 'will', tag: '1st Conditional' },
+  { q: 'If I ___ a million dollars, I would buy a house.', opts: ['had', 'have', 'will have', 'would have'], correct: 'had', tag: '2nd Conditional' },
+  { q: 'Look at those dark clouds — it ___ rain soon!', opts: ['\'s going to', '\'ll', 'is', 'was going to'], correct: '\'s going to', tag: 'going to' },
+  { q: 'I\'ll help you. (You decided this just now — which form is this?)', opts: ['will', 'going to', 'Present Simple', 'Present Continuous'], correct: 'will', tag: 'will' },
+  { q: 'I\'ve lived here ___ 2020. (specific start point)', opts: ['since', 'for', 'during', 'ago'], correct: 'since', tag: 'for & since' },
+  { q: 'She has studied English ___ three years. (period of time)', opts: ['for', 'since', 'during', 'ago'], correct: 'for', tag: 'for & since' },
+  { q: 'Have you ___ visited London?', opts: ['ever', 'already', 'just', 'yet'], correct: 'ever', tag: 'ever / never' },
+  { q: 'I ___ in London last year. (finished time)', opts: ['visited', 'have visited', 'was visiting', 'had visited'], correct: 'visited', tag: 'Past Simple vs PP' },
+  { q: 'I ___ London but I\'m not sure when. (life experience)', opts: ['have visited', 'visited', 'was visiting', 'had visited'], correct: 'have visited', tag: 'Present Perfect vs PS' },
+];
 
 // ══════════════════════════════════════════════════════════════
 // ── VIEW NAVIGATION ──
@@ -779,115 +1525,89 @@ function showView(id) {
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
-function showHome() { showView('view-home'); renderHWGrid(); }
-function showHW(hw) {
-  if (hw === 'midterm') { showView('view-midterm'); return; }
-  const n = parseInt(hw.replace('hw', ''));
-  const st = lessonState[hw];
-  if (st && st.status === 'locked') return;
-  currentHW = n;
-  renderHWDetail(n);
-  showView('view-hw');
+function showHome() {
+  showView('view-home');
+  renderTestCard();
 }
 
 // ══════════════════════════════════════════════════════════════
-// ── HOMEWORK GRID (teacher-style boxes) ──
+// ── TEST CARD (home screen) ──
 // ══════════════════════════════════════════════════════════════
-function renderHWGrid() {
-  const grid = document.getElementById('grid-hw');
-  grid.innerHTML = '';
-  LESSONS.forEach(l => {
-    const st = lessonState[l.key] || { status: 'locked' };
-    const box = document.createElement('div');
-    let cls = 'lesson-box';
-    if (l.exam) cls += ' midterm' + (st.status !== 'locked' ? ' unlocked' : '');
-    else cls += ' ' + st.status;
-    if (st.status === 'locked') cls += ' locked';
-    box.className = cls;
-
-    let statusText = STATUS_LABEL[st.status] || 'Locked';
-    if (st.status === 'done' && st.score != null) statusText = st.score + '%';
-
-    box.innerHTML = `
-      <div class="lesson-box-label">${l.label}</div>
-      <div class="lesson-box-status">${statusText}</div>`;
-
-    box.onclick = () => {
-      if (st.status === 'locked') return;
-      showHW(l.key);
-    };
-    grid.appendChild(box);
-  });
-}
-
-// ══════════════════════════════════════════════════════════════
-// ── HOMEWORK DETAIL (renders from loaded questions) ──
-// ══════════════════════════════════════════════════════════════
-function renderHWDetail(hw) {
-  const body = document.getElementById('hw-detail-body');
-  const qs = hwQuestions[hw];
-
-  if (!qs || !qs.length) {
-    body.innerHTML = `
-      <div class="hw-title">Homework ${hw}</div>
-      <div class="hw-sub">${hwTitles[hw] || ''}</div>
-      <div class="hw-panel" style="color:var(--muted);font-size:13px">
-        No questions yet — your teacher will add them soon.
-      </div>`;
-    return;
+function renderTestCard() {
+  const statsEl = document.getElementById('test-stats');
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <div class="test-stat"><div class="test-stat-val">1</div><div class="test-stat-lbl">Listening</div></div>
+      <div class="test-stat"><div class="test-stat-val">8</div><div class="test-stat-lbl">Error correction</div></div>
+      <div class="test-stat"><div class="test-stat-val">1</div><div class="test-stat-lbl">Writing</div></div>
+      <div class="test-stat"><div class="test-stat-val">10</div><div class="test-stat-lbl">Grammar quiz</div></div>
+      <div class="test-stat"><div class="test-stat-val">5</div><div class="test-stat-lbl">Self-correction</div></div>`;
   }
-
-  // Group by section
-  const sections = [];
-  let curSec = null;
-  qs.forEach(q => {
-    const sec = q.section || '';
-    if (sec !== curSec) { sections.push({ label: sec, qs: [] }); curSec = sec; }
-    sections[sections.length - 1].qs.push(q);
-  });
-
-  let html = `
-    <div class="hw-title">Homework ${hw}<span class="hw-result" id="hw${hw}-result"></span></div>
-    <div class="hw-sub">${hwTitles[hw] || ''} — ${qs.length} exercises</div>
-    <div class="hw-panel">`;
-
-  sections.forEach(sec => {
-    if (sec.label) html += `<div class="section-header">${sec.label}</div>`;
-    sec.qs.forEach(q => {
-      const exId = `hw${hw}q${q.id}`, fbId = `fb${hw}q${q.id}`;
-      html += `<div class="ex"><div class="exnum">Ex ${q.ex_number}</div><div class="exq">${q.question}</div>`;
-      if (q.tip) html += `<div class="extip">${q.tip}</div>`;
-      if (q.type === 'multiple') {
-        const opts = Array.isArray(q.options) ? q.options : JSON.parse(q.options || '[]');
-        html += `<div class="mcopts">`;
-        opts.forEach(opt => {
-          const isCorrect = opt.toLowerCase().trim() === (q.answer || '').toLowerCase().trim();
-          html += `<button class="mcbtn" onclick="mc(this,'${isCorrect ? 'ok' : 'err'}','${fbId}')">${opt}</button>`;
-        });
-        html += `</div>`;
-      } else if (q.type === 'sentence') {
-        html += `<div class="exrow">
-          <input class="exinput" id="${exId}" placeholder="Write your answer…">
-          <button class="btn" onclick="chkLen('${exId}','${fbId}',${q.min_words || 5})">Check</button>
-        </div>`;
-      } else {
-        html += `<div class="exrow">
-          <input class="exinput" id="${exId}" placeholder="Your answer…">
-          <button class="btn" onclick="chk('${exId}','${(q.answer || '').replace(/'/g, "\\'")}','${fbId}')">Check</button>
-        </div>`;
-      }
-      html += `<div class="fb" id="${fbId}"></div></div>`;
-    });
-  });
-
-  html += `
-      <div class="submit-row">
-        <button class="btn primary" onclick="submitHW(${hw},${qs.length})">Submit HW ${hw}</button>
-        <div class="hw-score-bar"><div class="hw-score-fill" id="hw${hw}-bar"></div></div>
-      </div>
-    </div>`;
-  body.innerHTML = html;
+  const lastEl = document.getElementById('test-last');
+  const saved = localStorage.getItem('examSubmitted');
+  if (lastEl) lastEl.textContent = saved ? 'Last submitted: ' + saved : '';
 }
+
+// ══════════════════════════════════════════════════════════════
+// ── TEST ENGINE ──
+// ══════════════════════════════════════════════════════════════
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function pickDistractors(correct, pool, n) {
+  const others = pool.filter(x => x.toLowerCase() !== correct.toLowerCase());
+  shuffle(others);
+  return others.slice(0, n);
+}
+
+function _buildTestOld_UNUSED() {
+  const questions = [];
+
+  // ── VOCABULARY: 20 questions ──
+  // Half: English → pick translation; Half: translation → pick English
+  const vocabPool = words.filter(w => w.pos !== 'irreg.'); // skip irreg for MC
+  const selected = shuffle([...vocabPool]).slice(0, 20);
+  selected.forEach((w, i) => {
+    if (i % 2 === 0) {
+      // English → pick translation
+      const distractors = pickDistractors(w.t, vocabPool.map(x => x.t), 3);
+      const opts = shuffle([w.t, ...distractors]);
+      questions.push({ section: 'vocabulary', tag: w.pos, q: `What does "<strong>${w.w}</strong>" mean?`, opts, correct: w.t });
+    } else {
+      // Translation → pick English
+      const distractors = pickDistractors(w.w, vocabPool.map(x => x.w), 3);
+      const opts = shuffle([w.w, ...distractors]);
+      questions.push({ section: 'vocabulary', tag: w.pos, q: `Which word means "<strong>${w.t}</strong>"?`, opts, correct: w.w });
+    }
+  });
+
+  // ── GRAMMAR: all hardcoded questions, shuffled opts ──
+  shuffle([...GRAMMAR_QUESTIONS]).forEach(gq => {
+    const opts = shuffle([...gq.opts]);
+    questions.push({ section: 'grammar', tag: gq.tag, q: gq.q, opts, correct: gq.correct });
+  });
+
+  // ── PRONUNCIATION: all IPA words ──
+  const pronWords = words.filter(w => w.ipa);
+  pronWords.forEach(pw => {
+    const distractors = pickDistractors(pw.w, pronWords.map(x => x.w), 3);
+    // pad with non-IPA words if needed
+    if (distractors.length < 3) {
+      const extra = pickDistractors(pw.w, words.map(x => x.w), 3 - distractors.length);
+      distractors.push(...extra);
+    }
+    const opts = shuffle([pw.w, ...distractors.slice(0, 3)]);
+    questions.push({ section: 'pronunciation', tag: 'IPA', q: `Which word has this pronunciation? <span style="font-family:Georgia,serif;color:var(--sent-text)">${pw.ipa}</span>`, opts, correct: pw.w });
+  });
+
+  return questions;
+}
+
 
 // ══════════════════════════════════════════════════════════════
 // ── REFERENCE SIDEBAR (slide-in) ──
@@ -972,20 +1692,16 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRef(); 
 // ══════════════════════════════════════════════════════════════
 // ── DICTIONARY ──
 // ══════════════════════════════════════════════════════════════
-function starStr(s) { return '★'.repeat(s) + '☆'.repeat(5 - s); }
-function starCls(s) { return s >= 4 ? 'stars s' + s : s === 3 ? 'stars s3' : 'stars s' + s; }
-
 function renderDict(q = '', cat = '') {
   const qL = q.toLowerCase(), tbody = document.getElementById('dtbody');
   tbody.innerHTML = '';
   let shown = 0;
   if (!words.length) {
     tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:14px 0;font-size:12px;text-align:center">No words yet — click "+ Add" to start.</td></tr>';
-    updateBars();
     return;
   }
   words.forEach((w, i) => {
-    if (qL && !w.w.toLowerCase().includes(qL) && !w.t.toLowerCase().includes(qL)) return;
+    if (qL && !w.w.toLowerCase().includes(qL) && !w.t.toLowerCase().includes(qL) && !(w.ex||'').toLowerCase().includes(qL)) return;
     if (cat && w.pos !== cat) return;
     shown++;
     const [bg, col] = (posColors[w.pos] || '#303030|#a0a0a0').split('|');
@@ -994,25 +1710,18 @@ function renderDict(q = '', cat = '') {
       <td class="dword">${w.w}</td>
       <td><span class="dpos" style="background:${bg};color:${col}">${w.pos}</span></td>
       <td style="color:var(--muted);font-size:12px">${w.t}</td>
-      <td><span class="${starCls(w.s)}" onclick="cycleStar(${i},this)">${starStr(w.s)}</span></td>
+      <td style="color:var(--muted2);font-size:11.5px;font-style:italic">${w.ex || ''}</td>
       <td><button class="del-btn" onclick="deleteWord(${i})">✕</button></td>`;
     tbody.appendChild(tr);
   });
   if (!shown) {
     tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);padding:14px 0;font-size:12px;text-align:center">No matches.</td></tr>';
   }
-  updateBars();
 }
 function filterDict() {
   const q = document.getElementById('ref-search').value;
   const f = document.getElementById('ref-filter').value;
   renderDict(q, f);
-}
-function cycleStar(i, el) {
-  words[i].s = words[i].s % 5 + 1;
-  el.className = starCls(words[i].s);
-  el.textContent = starStr(words[i].s);
-  updateBars();
 }
 function deleteWord(i) {
   if (!confirm('Delete "' + words[i].w + '"?')) return;
@@ -1028,14 +1737,16 @@ function addWord() {
   const w = document.getElementById('add-word').value.trim();
   const t = document.getElementById('add-trans').value.trim();
   const pos = document.getElementById('add-pos').value;
+  const ex = document.getElementById('add-ex').value.trim();
   if (!w || !t) { alert('Please fill in both the word and translation.'); return; }
-  words.push({ w, t, pos, s: 3 });
+  words.push({ w, t, pos, ex });
   document.getElementById('add-word').value = '';
   document.getElementById('add-trans').value = '';
+  document.getElementById('add-ex').value = '';
   document.getElementById('add-form').classList.remove('open');
   filterDict();
 }
-function updateBars() { /* progress section removed — stars still work, no visible bars to update */ }
+function updateBars() {}
 
 // ══════════════════════════════════════════════════════════════
 // ── GRAMMAR SEARCH ──
@@ -1079,152 +1790,35 @@ function renderPron() {
 function speak(w) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(w);
-  u.lang = 'en-GB';
-  u.rate = 0.82;
-  window.speechSynthesis.speak(u);
-}
-
-// ══════════════════════════════════════════════════════════════
-// ── HOMEWORK LOADER ──
-// ══════════════════════════════════════════════════════════════
-async function loadHWFromSupabase() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) { renderHWGrid(); return; }
-
-  // Default: everything locked, empty questions
-  for (let hw = 1; hw <= 6; hw++) {
-    hwQuestions[hw] = [];
-    lessonState['hw' + hw] = { status: 'locked' };
-  }
-  lessonState['midterm'] = { status: 'locked' };
-  renderHWGrid();
-
-  // Need student id to fetch their specific homework
-  const id = await resolveStudentId();
-  if (!id) return;   // no student found → stay empty
-
-  try {
-    const [qs, statuses] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/hw_questions?student_id=eq.${id}&order=hw_number.asc,ex_number.asc`, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      }).then(r => r.json()).catch(() => []),
-      fetch(`${SUPABASE_URL}/rest/v1/hw_status?student_id=eq.${id}&order=hw_number.asc`, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
-      }).then(r => r.json()).catch(() => [])
-    ]);
-
-    const statusMap = {};
-    if (Array.isArray(statuses)) statuses.forEach(s => statusMap[s.hw_number] = s);
-
-    for (let hw = 1; hw <= 6; hw++) {
-      const hwQs = Array.isArray(qs) ? qs.filter(q => q.hw_number === hw) : [];
-      hwQuestions[hw] = hwQs;
-
-      const st = statusMap[hw];
-      // Locked by default. Only open if teacher explicitly set is_locked=false
-      // AND there are questions available for this HW
-      let status = 'locked';
-      if (st && st.is_locked === false && hwQs.length > 0) status = 'open';
-      if (st && st.is_done === true) status = 'done';
-      lessonState['hw' + hw] = { status };
+  function doSpeak() {
+    const u = new SpeechSynthesisUtterance(w);
+    u.lang = 'en-GB';
+    u.rate = 0.78;
+    u.pitch = 1.0;
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = [
+      'Google UK English Female',
+      'Google UK English Male',
+      'Microsoft Libby Online (Natural) - English (United Kingdom)',
+      'Microsoft Mia Online (Natural) - English (United Kingdom)',
+      'Microsoft Sonia Online (Natural) - English (United Kingdom)',
+      'Google US English',
+      'Microsoft Aria Online (Natural) - English (United States)',
+      'Microsoft Jenny Online (Natural) - English (United States)',
+      'Microsoft Zira - English (United States)',
+    ];
+    for (const name of preferred) {
+      const v = voices.find(v => v.name === name);
+      if (v) { u.voice = v; break; }
     }
-
-    renderHWGrid();
-  } catch (e) {
-    console.warn('HW load failed:', e);
-    // Keep the default locked state
+    window.speechSynthesis.speak(u);
   }
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length) { doSpeak(); }
+  else { window.speechSynthesis.onvoiceschanged = () => { doSpeak(); window.speechSynthesis.onvoiceschanged = null; }; }
 }
 
-// ══════════════════════════════════════════════════════════════
-// ── EXERCISE CHECKING ──
-// ══════════════════════════════════════════════════════════════
-function chk(inpId, correct, fbId) {
-  const inp = document.getElementById(inpId), fb = document.getElementById(fbId);
-  const val = inp.value.trim().toLowerCase();
-  if (!val) return;
-  const clean = s => s.toLowerCase().replace(/[^a-zа-яё ,]/g, '').trim();
-  const ok = clean(val) === clean(correct);
-  inp.classList.toggle('ok', ok);
-  inp.classList.toggle('err', !ok);
-  fb.className = 'fb ' + (ok ? 'ok' : 'err');
-  fb.textContent = ok ? '✓ Correct!' : '✗ Correct answer: ' + correct;
-}
-function chkLen(inpId, fbId, minWords) {
-  const inp = document.getElementById(inpId), fb = document.getElementById(fbId);
-  const wc = inp.value.trim().split(/\s+/).filter(Boolean).length;
-  if (wc >= minWords) {
-    inp.classList.add('ok'); inp.classList.remove('err');
-    fb.className = 'fb ok';
-    fb.textContent = '✓ Good! Your teacher will review this.';
-  } else {
-    inp.classList.add('err'); inp.classList.remove('ok');
-    fb.className = 'fb err';
-    fb.textContent = '✗ Too short — write at least ' + minWords + ' words.';
-  }
-}
-function mc(btn, res, fbId) {
-  btn.parentElement.querySelectorAll('.mcbtn').forEach(b => {
-    b.classList.remove('mc-ok', 'mc-err');
-    b.disabled = true;
-  });
-  btn.classList.add(res === 'ok' ? 'mc-ok' : 'mc-err');
-  const fb = document.getElementById(fbId);
-  fb.className = 'fb ' + (res === 'ok' ? 'ok' : 'err');
-  fb.textContent = res === 'ok' ? '✓ Correct!' : '✗ Not quite — check the grammar rules!';
-}
 
-// ══════════════════════════════════════════════════════════════
-// ── SUBMIT HOMEWORK ──
-// ══════════════════════════════════════════════════════════════
-function submitHW(num, total) {
-  let correct = 0;
-  document.querySelectorAll('#view-hw .exinput.ok').forEach(() => correct++);
-  document.querySelectorAll('#view-hw .mcbtn.mc-ok').forEach(() => correct++);
-  const pct = Math.round(correct / total * 100);
-  hwScores[num] = pct;
-
-  // Update HW state
-  lessonState['hw' + num] = { status: 'done', score: pct };
-
-  const res = document.getElementById('hw' + num + '-result');
-  if (res) { res.textContent = ' — ' + pct + '%'; res.style.color = pct >= 70 ? 'var(--checked-text)' : 'var(--danger)'; }
-  const bar = document.getElementById('hw' + num + '-bar');
-  if (bar) bar.style.width = pct + '%';
-
-  const mtd = document.getElementById('mtd' + num);
-  if (mtd) mtd.className = 'mtd done';
-
-  saveToSupabase(num, pct, correct, total);
-  alert('HW ' + num + ' submitted! Score: ' + pct + '% (' + correct + '/' + total + ')\n\nYour teacher can see this result.');
-}
-async function saveToSupabase(hwNum, pct, correct, total) {
-  if (!SUPABASE_URL || !SUPABASE_KEY) return;
-  const mastered = words.filter(w => w.s >= 4).length;
-  const practicing = words.filter(w => w.s === 3).length;
-  const review = words.filter(w => w.s <= 2).length;
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/hw_results`, {
-      method: 'POST',
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify({
-        student: STUDENT_NAME,
-        hw_number: hwNum,
-        score_pct: pct,
-        correct,
-        total,
-        vocab_mastered: mastered,
-        vocab_practicing: practicing,
-        vocab_review: review
-      })
-    });
-  } catch (e) { console.warn('Save failed:', e); }
-}
 
 // ══════════════════════════════════════════════════════════════
 // ── LOAD GRAMMAR & VOCAB FROM SUPABASE (teacher-managed) ──
@@ -1253,33 +1847,27 @@ async function loadGrammarFromSupabase() {
   const list = document.getElementById('gram-list');
   if (!list) return;
   const id = await resolveStudentId();
-  if (!id) {
-    list.innerHTML = '<div class="empty-result">No grammar rules yet. Your teacher will add them soon.</div>';
-    return;
-  }
+  if (!id) return;
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/grammar_rules?student_id=eq.${id}&order=created_at.asc`, {
       headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
     });
     const rows = await r.json();
-    if (!Array.isArray(rows) || !rows.length) {
-      list.innerHTML = '<div class="empty-result">No grammar rules yet. Your teacher will add them soon.</div>';
-      return;
-    }
-    list.innerHTML = rows.map(row => {
-      // Build searchable data-keys from title
+    if (!Array.isArray(rows) || !rows.length) return;
+    // Append teacher-added rules on top of the hardcoded baseline
+    const appended = rows.map(row => {
       const keys = (row.title || '').toLowerCase();
-      // Convert line breaks in explanation to <br>
       const explHtml = esc(row.explanation || '').replace(/\n/g, '<br>');
       return `
         <div class="grule" data-keys="${esc(keys)}">
+          <span class="gtag" style="background:var(--sent-bg);color:var(--sent-text)">Teacher</span>
           <h3>${esc(row.title)}</h3>
           <p style="white-space:pre-wrap">${explHtml}</p>
         </div>`;
     }).join('');
+    list.insertAdjacentHTML('beforeend', appended);
   } catch (e) {
     console.warn('grammar load failed:', e);
-    list.innerHTML = '<div class="empty-result" style="color:var(--danger)">Couldn\'t load grammar rules.</div>';
   }
 }
 
@@ -1292,20 +1880,25 @@ async function loadVocabFromSupabase() {
     });
     const rows = await r.json();
     if (Array.isArray(rows)) {
-      // Clear and push
-      words.length = 0;
+      // Append teacher-added words on top of the hardcoded baseline.
+      // De-dupe by lowercase word so re-loads don't pile up.
+      const existing = new Set(words.map(w => w.w.toLowerCase()));
       rows.forEach(row => {
+        const w = (row.word || '').trim();
+        if (!w || existing.has(w.toLowerCase())) return;
+        existing.add(w.toLowerCase());
         words.push({
-          w: row.word || '',
+          w,
           t: row.translation || '',
           pos: row.pos || 'noun',
-          s: row.stars || 3,
+          ex: row.example || '',
           ipa: row.ipa || null,
         });
       });
     }
   } catch (e) { console.warn('vocab load failed:', e); }
   renderDict();
+  if (document.querySelector('.ref-panel.active')?.id === 'rp-pronunciation') renderPron();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1318,9 +1911,7 @@ document.title = 'English with ' + STUDENT_NAME;
 
 renderDict();
 renderPron();
-updateBars();
-renderHWGrid();
-loadHWFromSupabase();
+renderTestCard();
 loadGrammarFromSupabase();
 loadVocabFromSupabase();
 </script>
